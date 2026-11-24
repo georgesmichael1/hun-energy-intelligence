@@ -55,8 +55,9 @@ jobs:
             git push origin HEAD:main
           fi
 
-      # Gate: any dataset not OK fails the run, except STATIC_REFERENCE and SKIPPED
-      # (SKIPPED = ENTSO-E secret not configured yet, or daily batch already done).
+      # Gate: any dataset not OK fails the run, except STATIC_REFERENCE, SKIPPED (batch already done)
+      # and SOURCE_PARTIAL (upstream publishes no data for that day/direction: warned, never counted OK).
+      # PARTIAL/FAILED (transport, validation, auth, unexplained gaps) turn the run red.
       - name: Dataset quality gate
         run: |
           python3 - <<'PY'
@@ -72,7 +73,7 @@ jobs:
               state = item.get("state", "")
               if state == "OK":
                   continue
-              if state in ("STATIC_REFERENCE", "SKIPPED", "PARTIAL"):
+              if state in ("STATIC_REFERENCE", "SKIPPED", "SOURCE_PARTIAL"):
                   print(f"::warning::{name}: {state}: {item.get('detail','')}")
                   continue
               issues.append(f"{name}: {state}: {item.get('detail','')}")
