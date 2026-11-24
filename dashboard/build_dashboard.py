@@ -65,7 +65,7 @@ elf = read("entsoe_load_forecast.csv")
 tar = read("eurostat_tariffs.csv"); hicp = read("eurostat_hicp.csv"); fx = read("mnb_fx.csv")
 brp = read("balance_responsible_parties.csv"); master = read("hun_data.csv")
 try:
-    agg = read("mekh_aggregators.csv"); sto = read("mekh_storage_licences.csv")
+    agg = read("mekh_aggregators.csv"); sto = read("mekh_storage_licences.csv"); subs = read("hun_substation_capacity.csv"); inst = read("mavir_installed_capacity.csv"); creq = read("hun_connection_requests.csv")
 except Exception:
     agg, sto = [], []   # feed not yet committed: pages show 'no data', never zero
 status = json.loads(urllib.request.urlopen(SRC + "status.json").read() if SRC.startswith("http")
@@ -132,6 +132,8 @@ D["tar"] = data_sheet("D_Tariffs", ["Period", "Group", "Band", "EUR_per_kWh_all_
 D["hicp"] = data_sheet("D_HICP", ["Period", "HICP_annual_pct"], [(r["Period"], num(r["HICP_Annual_Rate_Pct"])) for r in hicp])
 D["fx"] = data_sheet("D_FX", ["Rate_Date", "Currency", "HUF_per_unit"], [(r["Rate_Date"], r["Currency"], num(r["HUF_Per_Unit"])) for r in fx])
 D["agg"] = data_sheet("D_Aggregators", ["Aggregator (MEKH register)", "Decision_No", "City"], [(r["Aggregator"], r["Registration_Decision_No"], r["City"]) for r in agg])
+D["subs"] = data_sheet("D_Substations", ["Table_Label", "Substation", "Voltage_kV", "Releasable_Offtake_MVA", "Probable_5y_Offtake_MVA"],
+                        [(r["Table_Label"], r["Substation"], int(r["Voltage_kV"]), int(r["Releasable_Offtake_MVA"]), int(r["Probable_5y_Offtake_MVA"])) for r in subs])
 D["sto"] = data_sheet("D_Storage", ["Licensee", "Site", "Power_MW", "Capacity_MWh", "Revoked"],
                       [(r["Licensee"], r["Site"], num(r["Nominal_Power_MW"]), num(r["Storage_Capacity_MWh"]), r["Revoked_Date"]) for r in sto])
 D["brp"] = data_sheet("D_BRP", ["Balance responsible party (MAVIR)", "EIC", "Valid_From"], [(r["Balance_Responsible_Party"], r["EIC_Code"], r["Valid_From"]) for r in brp])
@@ -302,5 +304,33 @@ for i, r in enumerate(top):
     rr = base + 2 + i
     ws.write(rr, 1, r["Licensee"][:34], f_cell); ws.write(rr, 2, num(r["Nominal_Power_MW"]), f_num); ws.write(rr, 3, num(r["Storage_Capacity_MWh"]), f_num)
     ws.merge_range(rr, 4, rr, 8, r["Site"][:60], F(border=1, indent=1))
+sb = base + 14
+ws.write(sb, 1, "Substation offtake capacity (E.ON Hungary publication, MVA not MW, quarterly; E.ON areas only)", f_sec)
+ws.set_row(sb + 1, 30)
+for j, h in enumerate(["Substation", "kV", "Releasable now (MVA)", "Probable in 5 years (MVA)"]):
+    ws.write(sb + 1, 1 + j, h, f_h)
+for i, r in enumerate(sorted(subs, key=lambda r: -int(r["Releasable_Offtake_MVA"]))[:12]):
+    ws.write(sb + 2 + i, 1, r["Substation"], f_cell); ws.write(sb + 2 + i, 2, int(r["Voltage_kV"]), f_num)
+    ws.write(sb + 2 + i, 3, int(r["Releasable_Offtake_MVA"]), f_num); ws.write(sb + 2 + i, 4, int(r["Probable_5y_Offtake_MVA"]), f_num)
+ws.write(sb + 15, 1, "Total of %d published substation rows: %d MVA releasable now. MVM Halozat, MVM Emasz and MAVIR substation data are not parsed." % (len(subs), sum(int(r["Releasable_Offtake_MVA"]) for r in subs)) if subs else "Substation capacity: no data", F(font_size=9))
+ic = sb + 18
+ws.write(ic, 1, "Installed capacity by primary source (MAVIR, gross MW, excl. household-size and own-use plants; system level, not per plant)", f_sec)
+ws.set_row(ic + 1, 30)
+for j, h in enumerate(["Fuel group", "2025 (MW)", "Latest (MW)"]):
+    ws.write(ic + 1, 1 + j, h, f_h)
+_per = sorted({r["Period"] for r in inst})
+_last = _per[-1] if _per else ""
+_fg = []
+for r in inst:
+    if r["Fuel_Group"] not in _fg:
+        _fg.append(r["Fuel_Group"])
+for i, g in enumerate(_fg):
+    v = {r["Period"]: r["Gross_Installed_MW"] for r in inst if r["Fuel_Group"] == g}
+    ws.write(ic + 2 + i, 1, g.replace("_", " "), f_cell)
+    ws.write(ic + 2 + i, 2, num(v.get("2025")), f_num); ws.write(ic + 2 + i, 3, num(v.get(_last)), f_num)
+ws.write(ic + 3 + len(_fg), 1, ("Latest period " + _last + ". " if _last else "No data. ") + "Battery storage here is market plus MAVIR units. Per-plant MW is not published in the MEKH plant sheets.", F(font_size=9))
+_acc = [r for r in creq if r["Rejected"] == "nem"]
+_cm = ["Solar_MVA", "Wind_MVA", "Storage_MVA", "Gas_CCGT_MVA", "Gas_Other_MVA", "Hydro_MVA", "Other_RES_MVA", "Oil_MVA"]
+ws.write(ic + 5 + len(_fg), 1, ("MAVIR connection requests (closed procedure, Sept 2024, MVA not MW): %d requests, %d not rejected; not-rejected MVA: solar %.0f, wind %.0f, storage %.0f." % (len(creq), len(_acc), sum(num(r["Solar_MVA"]) or 0 for r in _acc), sum(num(r["Wind_MVA"]) or 0 for r in _acc), sum(num(r["Storage_MVA"]) or 0 for r in _acc))) if creq else "Connection requests: no data", F(font_size=9))
 wb.close()
 print("wrote", OUT)
