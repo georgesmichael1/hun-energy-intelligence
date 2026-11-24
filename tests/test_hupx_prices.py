@@ -52,5 +52,83 @@ class HupxPriceTest(unittest.TestCase):
         self.assertEqual(rows[10]["Price_EUR_MWh"], -12.5)
 
 
+
+
+def hupx_rows_for(day, count=None, status="final"):
+    n = count if count is not None else hupx_prices.expected_count(day)
+    return [{"BaseloadPrice": 150.0, "DeliveryDay": day.isoformat() + "T00:00:00Z",
+             "Price": 100.0 + (i % 5), "ProductQH": str(i + 1), "Region": "HU",
+             "Status": status, "Volume": 1000.0} for i in range(n)]
+
+
+class _FakeResp:
+    def __init__(self, payload, status_code=200):
+        self._payload = payload
+        self.status_code = status_code
+
+    def json(self):
+        return self._payload
+
+
+class _FakeSession:
+    def __init__(self, payload):
+        self.payload = payload
+        self.calls = []
+
+    def get(self, url, **kwargs):
+        self.calls.append(url)
+        return _FakeResp(self.payload)
+
+
+class HupxLabsTest(unittest.TestCase):
+    def test_complete_day(self):
+        day = dt.date(2026, 11, 21)
+        rows = hupx_prices.parse_hupx_day(hupx_rows_for(day), day)
+        self.assertEqual(len(rows), 96)
+        self.assertEqual(rows[0]["Source"], hupx_prices.HUPX_SOURCE)
+        self.assertEqual(rows[0]["Attribution"], hupx_prices.HUPX_ATTRIBUTION)
+        self.assertEqual(rows[0]["License"], hupx_prices.HUPX_LICENSE_URL)
+        self.assertEqual(rows[0]["Interval_End_UTC"], rows[1]["Interval_Start_UTC"])
+        start = dt.datetime.combine(day, dt.time(), TZ).astimezone(dt.timezone.utc)
+        self.assertEqual(rows[0]["Interval_Start_UTC"], start.isoformat())
+
+    def test_dst_fall_back_day(self):
+        day = dt.date(2026, 10, 25)  # 25-hour Budapest day = 100 quarter-hours
+        rows = hupx_prices.parse_hupx_day(hupx_rows_for(day), day)
+        self.assertEqual(len(rows), 100)
+
+    def test_dst_spring_forward_day(self):
+        day = dt.date(2026, 3, 29)  # 23-hour Budapest day = 92 quarter-hours
+        rows = hupx_prices.parse_hupx_day(hupx_rows_for(day), day)
+        self.assertEqual(len(rows), 92)
+
+    def test_non_final_rejected(self):
+        day = dt.date(2026, 11, 21)
+        with self.assertRaises(ValueError):
+            hupx_prices.parse_hupx_day(hupx_rows_for(day, status="preliminary"), day)
+
+    def test_incomplete_day_rejected(self):
+        day = dt.date(2026, 11, 21)
+        with self.assertRaises(ValueError):
+            hupx_prices.parse_hupx_day(hupx_rows_for(day, count=95), day)
+
+    def test_wrong_region_rejected(self):
+        day = dt.date(2026, 11, 21)
+        rows = hupx_rows_for(day)
+        rows[3] = dict(rows[3], Region="RS")
+        with self.assertRaises(ValueError):
+            hupx_prices.parse_hupx_day(rows, day)
+
+    def test_fetch_groups_valid_days_and_drops_gapped_ones(self):
+        good = dt.date(2026, 11, 20)
+        gapped = dt.date(2026, 11, 21)
+        payload = {"data": hupx_rows_for(good) + hupx_rows_for(gapped, count=90)}
+        session = _FakeSession(payload)
+        fresh = hupx_prices.fetch_hupx_days(session, good, gapped)
+        self.assertIn(good, fresh)
+        self.assertNotIn(gapped, fresh)
+        self.assertEqual(len(fresh[good]), 96)
+
+
 if __name__ == "__main__":
     unittest.main()
