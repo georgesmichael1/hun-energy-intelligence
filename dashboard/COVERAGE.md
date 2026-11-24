@@ -36,3 +36,15 @@ Dashboard files: build_dashboard.py (builds Hungary_Energy_Dashboard.xlsx with 7
 Install: open the workbook in Excel, Alt+F11, File > Import File > Hungary_Module.bas, save as .xlsm, run RefreshHungary.
 Limitation: the VBA was written and reviewed without desktop Excel and has not been executed. The workbook was rendered
 and inspected through LibreOffice only.
+
+
+## Solar_BESS page (2023 backtest)
+
+| Item | Value |
+| --- | --- |
+| Weather | PVGIS v5_3 seriescalc, PVGIS-SARAH3 (5 km satellite) + ERA5 meteo; slope 35 deg south, 14% system loss; 2022-2023 fetched, sliced to the local-2023 UTC window |
+| Timestamp convention | SARAH3 stamps are instantaneous satellite sample times (~HH:10 for Hungary); each record is assigned to the UTC hour containing the sample (JRC user manual 9.3). Instantaneous-vs-hourly-average approximation is a documented limitation; alignment sensitivity covered in tests |
+| Prices | Energy-Charts API HU day-ahead, hourly UTC, EUR/MWh, licence CC BY 4.0 (source Bundesnetzagentur / SMARD.de); full local year 2023, 8760 h, zero gaps/nulls, DST-safe |
+| Model | Daily MILP (scipy/HiGHS): binary charge/discharge exclusivity, net grid position, free PV curtailment, daily SOC neutrality, grid limit = PV MWp; degradation 10 EUR/MWh discharged in-objective; O&M/capex/WACC/lifetime are editable REPORTING-only assumptions, clearly flagged as unverified placeholders |
+| Scope | Ex-post price-taker upper bound; not implementable as-is (DAM results known after gate closure); no intraday/imbalance/fees/taxes; interday flexibility not modelled; representative coordinates, not verified plots; 5 km substation filter separate |
+| Verification | tests/test_solar_bess.py (13 tests incl. brute-force oracle); solar_bess_verification.json: 54 scenarios x 8760 h, max abs constraint violation 5e-14; workbook selectors switch among precomputed scenarios only |
