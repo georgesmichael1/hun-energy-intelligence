@@ -32,6 +32,9 @@ import imf_gdp
 import eurostat_feeds
 import brp_feed
 import mekh_register_feed
+import substation_capacity_feed
+import mavir_connection_requests_feed
+import mavir_installed_capacity_feed
 
 TZ = ZoneInfo("Europe/Budapest")
 UTC = dt.timezone.utc
@@ -241,6 +244,9 @@ def main():
     call("eurostat", lambda: eurostat_feeds.update_eurostat(session=session))
     call("brp_register", lambda: brp_feed.update_brp_register(session=session))
     call("mekh_register", lambda: mekh_register_feed.update_mekh_register(session=session))
+    call("substation_capacity", lambda: substation_capacity_feed.update_substation_capacity())
+    call("mavir_connection_requests", lambda: mavir_connection_requests_feed.update())
+    call("mavir_installed_capacity", lambda: mavir_installed_capacity_feed.update_installed_capacity())
     call("population", lambda: fetch_eurostat_population(session))
     call("worldbank", lambda: fetch_worldbank_hun_macro(session))
 
