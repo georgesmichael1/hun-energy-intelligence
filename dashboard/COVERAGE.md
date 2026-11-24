@@ -17,6 +17,8 @@ Actual / forecast labels are in the CSV column names (Plan, Forecast, Actual). N
 | Substations: free offtake MVA (5-year probable) | E.ON Hungary hosting-capacity PDF, 51 rows (EEL/EDE labels as published), parsed by substation_capacity_feed.py to hun_substation_capacity.csv | PARTIAL: E.ON areas only, MVA offtake side, quarterly. MVM Halozat, MVM Emasz (PDF has no extractable pages) and per-substation generation capacity NOT parsed | eon.hu szabad_kapacitas_ELMU.pdf |
 | Connection queue (MW by technology, per substation) | MAVIR 2nd publication procedure closing publication, 653 requests, MVA per technology, rejected flag, parsed by mavir_connection_requests_feed.py to hun_connection_requests.csv | STATIC_REFERENCE: closed procedure, September 2024 file, not a live queue; MVA not MW | mavir.hu/web/mavir/masodik-kozzeteteli-eljaras |
 | Installed capacity MW by technology (system level) | MAVIR Energia MIX gross installed capacity PDF, discovered from the MAVIR page at run time; 12 fuel groups x 12 periods, sum-checked against the published total | BUILT (OK): mavir_installed_capacity.csv | mavir.hu energia-mix-eromuvi-beepitett-teljesitokepesseg-adatok |
+| Solar capture ratio (daily) | Derived: HUPX DAM 15-min prices weighted by MAVIR 15-min measured solar; complete Budapest days only; blank when day average <= 0 | BUILT (OK): solar_capture_daily.csv, page 3 | derived from LIVE sources |
+| BESS best chronological spread (daily, 1/2/4h) | Derived: HUPX DAM 15-min prices; cheapest then most expensive non-overlapping window, charge ends before discharge starts; raw spread before efficiency, losses, fees | BUILT (OK): bess_spread_daily.csv, page 3; raw spread, NOT a revenue or hybrid uplift metric | derived from LIVE sources |
 | Per-plant MW | MEKH large/small plant sheets list licensees only (no MW or technology) | NOT BUILT, source gap: per-plant MW not found in a machine-readable public feed | mekh.hu Villamosenergia_engedelyesek |
 | PV yield / GHI per substation | No Hungarian public per-substation series found | NONE | |
 | End-user tariffs, household / non-household | Eurostat nrg_pc_204/205 semi-annual, all taxes | LIVE (separate from wholesale) | Eurostat |
@@ -30,7 +32,7 @@ Unit and aggregation notes
 - Load and generation are MW at the interval, not MWh.
 - Wholesale spot (HUPX) and customer tariffs (Eurostat) are never mixed in a KPI.
 
-Dashboard files: build_dashboard.py (builds Hungary_Energy_Dashboard.xlsx with 6 pages), Hungary_Module.bas (VBA refresh).
+Dashboard files: build_dashboard.py (builds Hungary_Energy_Dashboard.xlsx with 7 pages), Hungary_Module.bas (VBA refresh).
 Install: open the workbook in Excel, Alt+F11, File > Import File > Hungary_Module.bas, save as .xlsm, run RefreshHungary.
 Limitation: the VBA was written and reviewed without desktop Excel and has not been executed. The workbook was rendered
 and inspected through LibreOffice only.
