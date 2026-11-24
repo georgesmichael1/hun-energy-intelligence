@@ -1,12 +1,12 @@
 {
-  "state": "PARTIAL",
-  "checked_at": "2026-11-24T17:23:42+00:00",
+  "state": "SOURCE_PARTIAL",
+  "checked_at": "2026-11-24T17:29:46+00:00",
   "timezone": "Europe/Budapest",
   "requested_first_day": "2026-10-25",
   "requested_last_day": "2026-11-24",
   "requested_delivery_days": 31,
   "unit": "MW",
-  "row_count": 31038,
+  "row_count": 31044,
   "historical_incomplete_pairs": [
     {
       "day": "2026-10-25",
@@ -432,17 +432,17 @@
   "request_failures": [
     {
       "direction": "HU>UA",
-      "category": "VALIDATION",
-      "reason": "No data document returned; saved intervals retained"
+      "category": "SOURCE_NO_DATA",
+      "reason": "API acknowledgement, code 999: No matching data found for Data item NETCROSSBORDERPHYSICALFLOWSR3 12.1.G (10YUA-WEPS-----0, 10YHU-MAVIR----U) and interval 2026-10-24T22:00:00Z2026-1 (ENTSO-E publishes no data for this direction/window; saved intervals retained)"
     },
     {
       "direction": "UA>HU",
-      "category": "VALIDATION",
-      "reason": "No data document returned; saved intervals retained"
+      "category": "SOURCE_NO_DATA",
+      "reason": "API acknowledgement, code 999: No matching data found for Data item NETCROSSBORDERPHYSICALFLOWSR3 12.1.G (10YHU-MAVIR----U, 10YUA-WEPS-----0) and interval 2026-10-24T22:00:00Z2026-1 (ENTSO-E publishes no data for this direction/window; saved intervals retained)"
     }
   ],
   "failure_categories": {
-    "VALIDATION": 2
+    "SOURCE_NO_DATA": 2
   },
   "coverage": [
     {
@@ -3416,44 +3416,44 @@
     {
       "day": "2026-11-24",
       "direction": "HU>SI",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "SI>HU",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>RO",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "RO>HU",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>HR",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HR>HU",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
