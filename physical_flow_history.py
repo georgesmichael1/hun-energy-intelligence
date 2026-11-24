@@ -22,7 +22,9 @@ def parse_range(body, source, target, first_day, last_day, now):
         raise e.DataError('XML declarations not supported')
     root = ET.fromstring(body)
     if root.tag.split('}')[-1] == 'Acknowledgement_MarketDocument':
-        raise e.DataError('No data document returned')
+        codes = [n.text or '' for n in root.findall('.//{*}Reason/{*}code')]
+        reasons = [n.text or '' for n in root.findall('.//{*}Reason/{*}text')]
+        raise e.DataError('API acknowledgement, code ' + ','.join(codes) + ': ' + e._safe_text(' '.join(reasons)))
     series = root.findall('{*}TimeSeries')
     if not series:
         raise e.DataError('No directional series')
