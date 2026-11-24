@@ -382,13 +382,24 @@ alt = f'MATCH($C$4&"|"&$F$4&"|"&$I$4&"|"&IF($L$4="grid_pv","pv_only","grid_pv"),
 alt_scen = scen_by_key.get(f"{sb_site}|{sb_pv}|{sb_bess}|{'pv_only' if sb_strat == 'grid_pv' else 'grid_pv'}", {})
 ws.write_formula(14, 5, f'=IFERROR(INDEX(D_SBScenarios!$L:$L,{sm})-INDEX(D_SBScenarios!$L:$L,{alt}),"no data")', F(font_size=12, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="#,##0"), (num(sel_scen.get("Net_EUR", "")) or 0) - (num(alt_scen.get("Net_EUR", "")) or 0))
 ws.write(0, 18, "dispatch helpers", f_ks)
+# Cached values for the default selection: without them the formula cells (and the
+# chart numCache xlsxwriter derives from them) are 0 until a recalculating viewer
+# opens the file, so the dispatch chart renders flat/empty in plain viewers.
+disp_sel = {}
+for r_ in sbdisp:
+    if r_["Scenario_Key"] == f"{sb_site}|{sb_pv}|{sb_bess}|{sb_strat}" and r_["Day_Type"] == sb_day:
+        try:
+            disp_sel[int(r_["Row_Key"].rsplit("|", 1)[1])] = r_
+        except (ValueError, IndexError):
+            pass
 for j in range(24):
     r = j + 1
     rk = f'{skey}&"|"&$O$4&"|"&{j}'
     mk = f'MATCH({rk},D_SBDispatch!$L:$L,0)'
-    ws.write_formula(r, 18, f'=IFERROR(INDEX(D_SBDispatch!$D:$D,{mk}),NA())', None)
-    for cidx, col in ((19, "E"), (20, "F"), (21, "G"), (22, "H"), (23, "I"), (24, "K")):
-        ws.write_formula(r, cidx, f'=IFERROR(INDEX(D_SBDispatch!${col}:${col},{mk}),NA())', None)
+    drow = disp_sel.get(j, {})
+    ws.write_formula(r, 18, f'=IFERROR(INDEX(D_SBDispatch!$D:$D,{mk}),NA())', None, drow.get("Hour_Local", ""))
+    for cidx, col, fld in ((19, "E", "PV_MW"), (20, "F", "Charge_MW"), (21, "G", "Discharge_MW"), (22, "H", "SOC_MWh"), (23, "I", "Net_MW"), (24, "K", "Price_EUR_MWh")):
+        ws.write_formula(r, cidx, f'=IFERROR(INDEX(D_SBDispatch!${col}:${col},{mk}),NA())', None, num(drow.get(fld, "")) or 0)
 chD = wb.add_chart({"type": "line"})
 for nm, colL, color, y2 in (("PV MW", "T", GOLD, False), ("Net export MW", "X", NAVY, False), ("Charge MW", "U", TEAL, False), ("Discharge MW", "V", RED, False), ("Price EUR/MWh", "Y", GREY, True)):
     s = {"name": nm, "categories": "=Solar_BESS!$S$2:$S$25", "values": f"=Solar_BESS!${colL}$2:${colL}$25", "line": {"color": color, "width": 1.25}}
@@ -418,7 +429,7 @@ ws.write_formula(50, 8, "=$F$4*1000*$D$52+$I$4*0.5*$F$4*1000*$D$53", f_inv, sb_p
 ws.merge_range(51, 6, 51, 7, "Net cash flow (EUR/yr)", f_invl)
 ws.write_formula(51, 8, f"=INDEX(D_SBScenarios!$L:$L,{sm})-$I$51", f_inv, (num(sel_scen.get("Net_EUR", "")) or 0) - (sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5))
 ws.merge_range(52, 6, 52, 7, "Simple NPV (EUR)", f_invl)
-ws.merge_range(52, 9, 53, 14, "=IF(TRUE,\"repeats 2023 flat; not a forecast\",\"\")", f_note)
+ws.merge_range(52, 9, 53, 14, "repeats 2023 flat; not a forecast", f_note)
 npv0 = -(sb_pv * 1000 * 600 + sb_bess * 0.5 * sb_pv * 1000 * 300) + ((num(sel_scen.get("Net_EUR", "")) or 0) - (sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5)) * (1 - (1.08) ** (-25)) / 0.08
 ws.write_formula(52, 8, "=-$I$50+$I$52*(1-(1+$D$54/100)^(-$D$55))/($D$54/100)", f_inv, npv0)
 ws.write(55, 1, "Flat 2023 net revenue, no escalation, taxes, fees or financing; indicative structure only. Omitted: intraday/imbalance, network charges, capex financing.", f_basis)
