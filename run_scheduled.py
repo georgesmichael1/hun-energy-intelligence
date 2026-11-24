@@ -35,6 +35,8 @@ def entsoe_due(now_budapest, status_path="status.json"):
     # on the next scheduled run. SOURCE_PARTIAL (upstream publishes nothing) is not retried daily.
     if (details.get("entsoe_physical_flows_31d", {}) or {}).get("state") in ("PARTIAL", "FAILED"):
         return True
+    if omitted_price_days() and not details.get("entsoe_a44_gapfill"):
+        return True   # first sight of a HUPX-omitted day: read A44 once, in the separate dataset
     last = (details.get("entsoe_load_forecast", {}) or {}).get("last_success_at")
     if not last:
         return True
@@ -43,6 +45,35 @@ def entsoe_due(now_budapest, status_path="status.json"):
     except ValueError:
         return True
     return last_dt < scheduled_today.astimezone(dt.timezone.utc)
+
+
+def omitted_price_days():
+    """Delivery days the HUPX/energy-charts feed omitted (read from this run's price_hu record)."""
+    import re
+    detail = DATASETS.get("price_hu", {}).get("detail", "")
+    if DATASETS.get("price_hu", {}).get("state") != "SOURCE_PARTIAL":
+        return []
+    return sorted(set(re.findall(r"\d{4}-\d{2}-\d{2}", detail.split(" - ")[0])))
+
+
+def fill_omitted_price_days(entsoe_adapter):
+    """Read the official ENTSO-E A44 curve for days the HUPX feed omitted.
+
+    Stored ONLY in entsoe_day_ahead_prices.csv, a separate labelled dataset. The
+    HUPX series (hupx_day_ahead_prices.csv) is never filled from it.
+    """
+    days = omitted_price_days()
+    if not days:
+        return
+    ok, missing = [], []
+    for day in days:
+        rows = entsoe_adapter.update_day_ahead_prices(day=dt.date.fromisoformat(day))
+        (ok if rows else missing).append(day)
+    state = "OK" if not missing else ("SOURCE_PARTIAL" if ok else "SOURCE_PARTIAL")
+    record("entsoe_a44_gapfill", state,
+           detail="ENTSO-E A44 read for HUPX-omitted days. Filled in the separate ENTSO-E dataset: "
+                  + (",".join(ok) or "none") + ". Not available from ENTSO-E: " + (",".join(missing) or "none")
+                  + ". HUPX series left unfilled.")
 
 
 def main():
@@ -65,6 +96,7 @@ def main():
                                            "03:30 Europe/Budapest boundary; next run tomorrow.")
     else:
         entsoe_adapter.update_entsoe(include_physical=False)
+        fill_omitted_price_days(entsoe_adapter)
         entsoe_adapter.update_day_ahead_prices()
         status = physical_flow_history.update()
         record("entsoe_physical_flows_31d", status["state"],
