@@ -10,6 +10,7 @@ import csv
 import datetime as dt
 import io
 import re
+import time
 import warnings
 from pathlib import Path
 from urllib.parse import urljoin, urlparse
@@ -28,8 +29,25 @@ EXPECTED_HEADERS = ("Mérlegkör-felelős/Balance Responsible Party",
                     "Érvényesség kezdete/ Valid from")
 
 
+TRANSPORT_ERRORS = (requests.ConnectTimeout, requests.ReadTimeout, requests.ConnectionError)
+
+
+def _get(session, url, read_timeout, attempts=4):
+    """GET with bounded retries for connect/read timeouts and connection errors.
+
+    Failure after the bounded attempts is preserved, never hidden."""
+    last = None
+    for i in range(attempts):
+        try:
+            return session.get(url, headers=HEADERS, timeout=(10, read_timeout))
+        except TRANSPORT_ERRORS as exc:
+            last = exc
+            time.sleep(3 * (i + 1))
+    raise last
+
+
 def find_register_url(session):
-    response = session.get(PAGE, headers=HEADERS, timeout=(10, 30))
+    response = _get(session, PAGE, 30)
     if response.status_code != 200:
         raise ValueError("HTTP_" + str(response.status_code))
     links = re.findall(r'href="(/documents/[^"]*EIC_\d{6}\.xlsx/[^"]*)"', response.text)
@@ -90,7 +108,7 @@ def update_brp_register(path="balance_responsible_parties.csv", session=None, no
     session = session or requests.Session()
     try:
         url = find_register_url(session)
-        response = session.get(url, headers=HEADERS, timeout=(10, 60))
+        response = _get(session, url, 60)
         if response.status_code != 200 or not response.content[:2] == b"PK":
             raise ValueError("Register download failed or not XLSX")
         rows = parse_register(response.content, stamp, url)
