@@ -1,8 +1,16 @@
 """Tests for solar_bess_model: physical correctness, solver correctness vs a
-brute-force oracle, accounting decomposition, and data alignment."""
+brute-force oracle, accounting decomposition, and data alignment.
+
+unittest-style so the module is collectible by BOTH `python -m unittest
+discover` (what CI runs) and pytest; an earlier pytest-only version silently
+ran zero tests in CI and then broke the import there."""
+import csv
 import datetime as dt
+import tempfile
+import unittest
+from pathlib import Path
+
 import numpy as np
-import pytest
 from scipy.optimize import linprog
 
 from solar_bess_model import (
@@ -16,82 +24,6 @@ UTC = dt.timezone.utc
 
 def run(pv, price, E=4.0, B=2.0, G=100.0, strategy="grid_pv"):
     return dispatch_day(np.array(pv, float), np.array(price, float), E, B, G, strategy)
-
-
-# ------------------------------------------------------- physical correctness
-def test_same_interval_negative_price_no_simultaneous_flow():
-    """At a negative price, simultaneous charge+discharge nets |p|(1-eta)>0 of
-    pure dissipation profit; the binary exclusivity must forbid it."""
-    price = [-50.0] * 8
-    pv = [0.0] * 8
-    r = run(pv, price, E=4.0, B=2.0)
-    for t in range(8):
-        assert min(r["ch_pv"][t] + r["ch_grid"][t], r["dis"][t]) < 1e-6
-    # with all prices negative and daily SOC neutrality, discharging can only
-    # lose money: no discharge at all
-    assert r["dis"].sum() < 1e-6
-
-
-def test_negative_price_arbitrage_intertemporal_allowed():
-    """Charge at -50, discharge at +100: legitimate and must be found."""
-    price = [-50.0, -50.0, 100.0, 100.0, 10.0, 10.0, 10.0, 10.0]
-    pv = [0.0] * 8
-    r = run(pv, price, E=2.0, B=2.0)
-    assert r["ch_grid"][:2].sum() > 1.0
-    assert r["dis"][2:4].sum() > 0.5
-    assert r["gross_eur"] > 0
-
-
-def test_exclusivity_holds_on_random_days():
-    rng = np.random.default_rng(7)
-    for _ in range(10):
-        pv = rng.uniform(0, 3, 12)
-        price = rng.uniform(-80, 150, 12)
-        r = run(pv, price, E=4.0, B=2.0)
-        for t in range(12):
-            assert min(r["ch_pv"][t] + r["ch_grid"][t], r["dis"][t]) < 1e-6
-
-
-def test_daily_soc_neutrality_and_bounds():
-    rng = np.random.default_rng(3)
-    pv = rng.uniform(0, 5, 24)
-    price = rng.uniform(-20, 200, 24)
-    r = run(pv, price, E=6.0, B=3.0)
-    assert abs(r["soc"][-1]) < 1e-6                     # soc_n = soc_0 = 0
-    assert r["soc"].min() > -1e-6 and r["soc"].max() < 6.0 + 1e-6
-    # energy conservation through the day
-    gain = ETA_CHARGE * (r["ch_pv"] + r["ch_grid"]).sum() - r["dis"].sum() / ETA_DISCHARGE
-    assert abs(gain - (r["soc"][-1] - 0.0)) < 1e-6
-
-
-def test_free_curtailment_no_export_at_negative_price():
-    """PV available but price negative, pv_only: export must stop (net >= 0)."""
-    pv = [5.0] * 8
-    price = [-30.0] * 4 + [80.0] * 4
-    r = run(pv, price, E=0.0, B=0.0, strategy="pv_only")
-    for t in range(4):
-        assert r["net"][t] >= -TOL
-    assert r["curt"][:4].sum() > 10.0   # most PV curtailed in negative hours
-
-
-def test_grid_limit_respected_both_directions():
-    pv = [50.0] * 8
-    price = [120.0] * 4 + [-60.0] * 4
-    r = run(pv, price, E=8.0, B=4.0, G=10.0)
-    assert r["net"].max() <= 10.0 + TOL
-    assert r["net"].min() >= -10.0 - TOL
-
-
-def test_no_phantom_import():
-    """Import must enter the battery: net < 0 requires grid charging that hour.
-    Under pv_only there is no grid import at all, even at negative prices."""
-    pv = [0.5, 1.0, 2.0, 0.3, 0.0, 0.0, 0.0, 0.0]
-    price = [-100.0] * 8
-    r = run(pv, price, E=1.0, B=1.0, G=50.0)
-    for t in range(8):
-        assert r["net"][t] >= -(r["ch_grid"][t] + TOL)
-    r2 = run(pv, price, E=1.0, B=1.0, G=50.0, strategy="pv_only")
-    assert r2["net"].min() >= -TOL
 
 
 # ------------------------------------------------------------- oracle (LP x z)
@@ -146,67 +78,143 @@ def brute_force(pv, price, E, B, G, strategy, c_deg=DEGRADATION_EUR_PER_MWH,
     return best
 
 
-@pytest.mark.parametrize("seed", [11, 23, 42])
-def test_milp_matches_bruteforce_oracle(seed):
-    rng = np.random.default_rng(seed)
-    n = 8
-    pv = rng.uniform(0, 4, n)
-    price = rng.uniform(-60, 180, n)
-    for strategy in ("pv_only", "grid_pv"):
-        r = run(pv, price, E=3.0, B=1.5, G=6.0, strategy=strategy)
-        oracle = brute_force(pv, price, 3.0, 1.5, 6.0, strategy)
-        assert abs(r["net_eur"] - oracle) < 1e-3, (strategy, r["net_eur"], oracle)
+class SolarBessTest(unittest.TestCase):
+
+    # ------------------------------------------------------- physical correctness
+    def test_same_interval_negative_price_no_simultaneous_flow(self):
+        """At a negative price, simultaneous charge+discharge nets |p|(1-eta)>0 of
+        pure dissipation profit; the binary exclusivity must forbid it."""
+        price = [-50.0] * 8
+        pv = [0.0] * 8
+        r = run(pv, price, E=4.0, B=2.0)
+        for t in range(8):
+            self.assertLess(min(r["ch_pv"][t] + r["ch_grid"][t], r["dis"][t]), 1e-6)
+        # with all prices negative and daily SOC neutrality, discharging can only
+        # lose money: no discharge at all
+        self.assertLess(r["dis"].sum(), 1e-6)
+
+    def test_negative_price_arbitrage_intertemporal_allowed(self):
+        """Charge at -50, discharge at +100: legitimate and must be found."""
+        price = [-50.0, -50.0, 100.0, 100.0, 10.0, 10.0, 10.0, 10.0]
+        pv = [0.0] * 8
+        r = run(pv, price, E=2.0, B=2.0)
+        self.assertGreater(r["ch_grid"][:2].sum(), 1.0)
+        self.assertGreater(r["dis"][2:4].sum(), 0.5)
+        self.assertGreater(r["gross_eur"], 0)
+
+    def test_exclusivity_holds_on_random_days(self):
+        rng = np.random.default_rng(7)
+        for _ in range(10):
+            pv = rng.uniform(0, 3, 12)
+            price = rng.uniform(-80, 150, 12)
+            r = run(pv, price, E=4.0, B=2.0)
+            for t in range(12):
+                self.assertLess(min(r["ch_pv"][t] + r["ch_grid"][t], r["dis"][t]), 1e-6)
+
+    def test_daily_soc_neutrality_and_bounds(self):
+        rng = np.random.default_rng(3)
+        pv = rng.uniform(0, 5, 24)
+        price = rng.uniform(-20, 200, 24)
+        r = run(pv, price, E=6.0, B=3.0)
+        self.assertLess(abs(r["soc"][-1]), 1e-6)                     # soc_n = soc_0 = 0
+        self.assertGreater(r["soc"].min(), -1e-6)
+        self.assertLess(r["soc"].max(), 6.0 + 1e-6)
+        # energy conservation through the day
+        gain = ETA_CHARGE * (r["ch_pv"] + r["ch_grid"]).sum() - r["dis"].sum() / ETA_DISCHARGE
+        self.assertLess(abs(gain - (r["soc"][-1] - 0.0)), 1e-6)
+
+    def test_free_curtailment_no_export_at_negative_price(self):
+        """PV available but price negative, pv_only: export must stop (net >= 0)."""
+        pv = [5.0] * 8
+        price = [-30.0] * 4 + [80.0] * 4
+        r = run(pv, price, E=0.0, B=0.0, strategy="pv_only")
+        for t in range(4):
+            self.assertGreaterEqual(r["net"][t], -TOL)
+        self.assertGreater(r["curt"][:4].sum(), 10.0)   # most PV curtailed in negative hours
+
+    def test_grid_limit_respected_both_directions(self):
+        pv = [50.0] * 8
+        price = [120.0] * 4 + [-60.0] * 4
+        r = run(pv, price, E=8.0, B=4.0, G=10.0)
+        self.assertLessEqual(r["net"].max(), 10.0 + TOL)
+        self.assertGreaterEqual(r["net"].min(), -10.0 - TOL)
+
+    def test_no_phantom_import(self):
+        """Import must enter the battery: net < 0 requires grid charging that hour.
+        Under pv_only there is no grid import at all, even at negative prices."""
+        pv = [0.5, 1.0, 2.0, 0.3, 0.0, 0.0, 0.0, 0.0]
+        price = [-100.0] * 8
+        r = run(pv, price, E=1.0, B=1.0, G=50.0)
+        for t in range(8):
+            self.assertGreaterEqual(r["net"][t], -(r["ch_grid"][t] + TOL))
+        r2 = run(pv, price, E=1.0, B=1.0, G=50.0, strategy="pv_only")
+        self.assertGreaterEqual(r2["net"].min(), -TOL)
+
+    # ------------------------------------------------------------- oracle check
+    def test_milp_matches_bruteforce_oracle(self):
+        for seed in (11, 23, 42):
+            with self.subTest(seed=seed):
+                rng = np.random.default_rng(seed)
+                n = 8
+                pv = rng.uniform(0, 4, n)
+                price = rng.uniform(-60, 180, n)
+                for strategy in ("pv_only", "grid_pv"):
+                    r = run(pv, price, E=3.0, B=1.5, G=6.0, strategy=strategy)
+                    oracle = brute_force(pv, price, 3.0, 1.5, 6.0, strategy)
+                    self.assertLess(abs(r["net_eur"] - oracle), 1e-3,
+                                    (strategy, r["net_eur"], oracle))
+
+    # --------------------------------------------------------------- accounting
+    def test_accounting_decomposition(self):
+        rng = np.random.default_rng(5)
+        pv = rng.uniform(0, 4, 24)
+        price = rng.uniform(-40, 150, 24)
+        r = run(pv, price, E=4.0, B=2.0)
+        self.assertLess(abs(r["gross_eur"] - float(np.dot(r["price"], r["net"]))), 1e-6)
+        self.assertLess(abs(r["degradation_eur"] - DEGRADATION_EUR_PER_MWH * r["dis"].sum()), 1e-6)
+        self.assertLess(abs(r["net_eur"] - (r["gross_eur"] - r["degradation_eur"])), 1e-9)
+
+    # ---------------------------------------------------------------- alignment
+    def test_stamp_truncation_maps_to_containing_hour(self):
+        self.assertEqual(stamp_to_utc_hour("20230615:1110"), dt.datetime(2023, 6, 15, 11, tzinfo=UTC))
+        self.assertEqual(stamp_to_utc_hour("20230101:0010"), dt.datetime(2023, 1, 1, 0, tzinfo=UTC))
+
+    def test_aligned_year_cache_completeness(self):
+        """Synthetic cache: 8760 fully matched hours required, gaps rejected."""
+        start = dt.datetime(2023, 1, 1, tzinfo=UTC) - dt.timedelta(hours=1)
+        hours = [start + dt.timedelta(hours=i) for i in range(8760)]
+        with tempfile.TemporaryDirectory() as td:
+            tmp_path = Path(td)
+            for name, col, val in (("pv_szeged_2023_hourly.csv", "pv_w_per_kwp", "0.0"),
+                                   ("prices_hu_2023_hourly.csv", "price_eur_mwh", "50.0")):
+                with (tmp_path / name).open("w", newline="") as f:
+                    w = csv.writer(f)
+                    w.writerow(["utc_hour_start", col])
+                    for h in hours:
+                        w.writerow([h.isoformat(), val])
+            h, pv, pr = aligned_year("Szeged", tmp_path, fetch=False)
+            self.assertEqual(len(h), 8760)
+            self.assertEqual(len(set(h)), 8760)
+            # local-year window in UTC: 2022-12-31 23:00 .. 2023-12-31 22:00
+            self.assertEqual(h[0], dt.datetime(2022, 12, 31, 23, tzinfo=UTC))
+            self.assertEqual(h[-1], dt.datetime(2023, 12, 31, 22, tzinfo=UTC))
+            # drop one hour -> must raise
+            rows = list(csv.DictReader((tmp_path / "prices_hu_2023_hourly.csv").open()))
+            with (tmp_path / "prices_hu_2023_hourly.csv").open("w", newline="") as f:
+                w = csv.DictWriter(f, fieldnames=["utc_hour_start", "price_eur_mwh"])
+                w.writeheader()
+                w.writerows(rows[1:])
+            with self.assertRaises(ValueError):
+                aligned_year("Szeged", tmp_path, fetch=False)
+
+    @unittest.skip("live network check; run manually before data refresh")
+    def test_live_alignment_revenue_sensitivity(self):
+        """Bound the impact of the instantaneous-sample convention on revenue:
+        shift the PV series +-1h against prices and compare annual net revenue."""
+        for site in SITES:
+            h, pv, pr = aligned_year(site, ".")
+            self.assertEqual(len(h), 8760)
 
 
-# --------------------------------------------------------------- accounting
-def test_accounting_decomposition():
-    rng = np.random.default_rng(5)
-    pv = rng.uniform(0, 4, 24)
-    price = rng.uniform(-40, 150, 24)
-    r = run(pv, price, E=4.0, B=2.0)
-    assert abs(r["gross_eur"] - float(np.dot(r["price"], r["net"]))) < 1e-6
-    assert abs(r["degradation_eur"] - DEGRADATION_EUR_PER_MWH * r["dis"].sum()) < 1e-6
-    assert abs(r["net_eur"] - (r["gross_eur"] - r["degradation_eur"])) < 1e-9
-
-
-# ---------------------------------------------------------------- alignment
-def test_stamp_truncation_maps_to_containing_hour():
-    assert stamp_to_utc_hour("20230615:1110") == dt.datetime(2023, 6, 15, 11, tzinfo=UTC)
-    assert stamp_to_utc_hour("20230101:0010") == dt.datetime(2023, 1, 1, 0, tzinfo=UTC)
-
-
-def test_aligned_year_cache_completeness(tmp_path):
-    """Synthetic cache: 8760 fully matched hours required, gaps rejected."""
-    import csv
-    start = dt.datetime(2023, 1, 1, tzinfo=UTC) - dt.timedelta(hours=1)
-    hours = [start + dt.timedelta(hours=i) for i in range(8760)]
-    for name, col, val in (("pv_szeged_2023_hourly.csv", "pv_w_per_kwp", "0.0"),
-                           ("prices_hu_2023_hourly.csv", "price_eur_mwh", "50.0")):
-        with (tmp_path / name).open("w", newline="") as f:
-            w = csv.writer(f)
-            w.writerow(["utc_hour_start", col])
-            for h in hours:
-                w.writerow([h.isoformat(), val])
-    h, pv, pr = aligned_year("Szeged", tmp_path, fetch=False)
-    assert len(h) == 8760 and len(set(h)) == 8760
-    # local-year window in UTC: 2022-12-31 23:00 .. 2023-12-31 22:00
-    assert h[0] == dt.datetime(2022, 12, 31, 23, tzinfo=UTC)
-    assert h[-1] == dt.datetime(2023, 12, 31, 22, tzinfo=UTC)
-    # drop one hour -> must raise
-    rows = list(csv.DictReader((tmp_path / "prices_hu_2023_hourly.csv").open()))
-    with (tmp_path / "prices_hu_2023_hourly.csv").open("w", newline="") as f:
-        w = csv.DictWriter(f, fieldnames=["utc_hour_start", "price_eur_mwh"])
-        w.writeheader()
-        w.writerows(rows[1:])
-    with pytest.raises(ValueError):
-        aligned_year("Szeged", tmp_path, fetch=False)
-
-
-@pytest.mark.skip(reason="live network check; run manually before data refresh")
-def test_live_alignment_revenue_sensitivity():
-    """Bound the impact of the instantaneous-sample convention on revenue:
-    shift the PV series +-1h against prices and compare annual net revenue."""
-    for site in SITES:
-        h, pv, pr = aligned_year(site, ".")
-        base = None  # full run left to CI; this test only checks data health
-        assert len(h) == 8760
+if __name__ == "__main__":
+    unittest.main()
