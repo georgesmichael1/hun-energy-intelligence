@@ -187,11 +187,11 @@ PS, PN = sheet_of("price"), D["price"][1]
 # ---------- 1 Overview ----------
 ws = pages["Overview"]
 header(ws, "EXECUTIVE OVERVIEW", "Wholesale market, system and register snapshot. Every figure is a live formula over the data sheets.", 1)
-kpi(ws, 4, 1, "LATEST HUPX DAY-AHEAD (EUR/MWh)", f"=IFERROR(LOOKUP(2,1/({PS}!$C$2:$C${PN+1}<>\"\"),{PS}!$C$2:$C${PN+1}),\"no data\")", f_kv, "wholesale spot, latest published 15-min interval", last(price, "Price_EUR_MWh"))
-kpi(ws, 4, 3, "31-DAY AVERAGE (EUR/MWh)", f"=IFERROR(AVERAGE({PS}!$C$2:$C${PN+1}),\"no data\")", f_kv, "complete saved days only; omitted days are not zero", mean(price, "Price_EUR_MWh"))
-kpi(ws, 4, 5, "LATEST GROSS SYSTEM LOAD (MW)", f"=IFERROR(LOOKUP(2,1/(D_Load!$B$2:$B${D['load'][1]+1}<>\"\"),D_Load!$B$2:$B${D['load'][1]+1}),\"no data\")", f_kv0, "MAVIR actual, 15-min", last(load, "Gross_Actual_System_Load_MW"))
-kpi(ws, 4, 7, "LATEST NET GENERATION (MW)", f"=IFERROR(LOOKUP(2,1/(D_Gen!$B$2:$B${D['gen'][1]+1}<>\"\"),D_Gen!$B$2:$B${D['gen'][1]+1}),\"no data\")", f_kv0, "MAVIR actual domestic", last(gen, "Net_Domestic_Generation_Actual_MW"))
-kpi(ws, 4, 9, "NUCLEAR SHARE, LATEST", f"=IFERROR(LOOKUP(2,1/(D_Gen!$C$2:$C${D['gen'][1]+1}<>\"\"),D_Gen!$C$2:$C${D['gen'][1]+1})/LOOKUP(2,1/(D_Gen!$B$2:$B${D['gen'][1]+1}<>\"\"),D_Gen!$B$2:$B${D['gen'][1]+1}),\"no data\")", F(font_size=22, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="0%"), "Paks, share of net generation", (last(gen, "Nuclear_MW") / last(gen, "Net_Domestic_Generation_Actual_MW")))
+kpi(ws, 4, 1, "LATEST HUPX DAY-AHEAD (EUR/MWh)", f"=IFERROR(LOOKUP(2,1/({PS}!$C$2:$C$5000<>\"\"),{PS}!$C$2:$C$5000),\"no data\")", f_kv, "wholesale spot, latest published 15-min interval", last(price, "Price_EUR_MWh"))
+kpi(ws, 4, 3, "31-DAY AVERAGE (EUR/MWh)", f"=IFERROR(AVERAGE({PS}!$C$2:$C$5000),\"no data\")", f_kv, "complete saved days only; omitted days are not zero", mean(price, "Price_EUR_MWh"))
+kpi(ws, 4, 5, "LATEST GROSS SYSTEM LOAD (MW)", f"=IFERROR(LOOKUP(2,1/(D_Load!$B$2:$B$5000<>\"\"),D_Load!$B$2:$B$5000),\"no data\")", f_kv0, "MAVIR actual, 15-min", last(load, "Gross_Actual_System_Load_MW"))
+kpi(ws, 4, 7, "LATEST NET GENERATION (MW)", f"=IFERROR(LOOKUP(2,1/(D_Gen!$B$2:$B$5000<>\"\"),D_Gen!$B$2:$B$5000),\"no data\")", f_kv0, "MAVIR actual domestic", last(gen, "Net_Domestic_Generation_Actual_MW"))
+kpi(ws, 4, 9, "NUCLEAR SHARE, LATEST", f"=IFERROR(LOOKUP(2,1/(D_Gen!$C$2:$C$5000<>\"\"),D_Gen!$C$2:$C$5000)/LOOKUP(2,1/(D_Gen!$B$2:$B$5000<>\"\"),D_Gen!$B$2:$B$5000),\"no data\")", F(font_size=22, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="0%"), "Paks, share of net generation", (last(gen, "Nuclear_MW") / last(gen, "Net_Domestic_Generation_Actual_MW")))
 kpi(ws, 4, 11, "EUR / HUF (MNB)", "=IFERROR(INDEX(D_FX!$C$2:$C$10,MATCH(\"EUR\",D_FX!$B$2:$B$10,0)),\"no data\")", f_kv, "official daily rate", eur_huf())
 chart(ws, "B9", "HUPX day-ahead price, 15-minute (EUR/MWh)", series=[("HUPX day-ahead", f"={PS}!$B$2:$B${PN+1}", f"={PS}!$C$2:$C${PN+1}", TEAL)], ytitle="EUR/MWh", size=(600, 290))
 chart(ws, "I9", "MAVIR gross system load, actual vs plan (MW)", series=[("Actual", f"=D_Load!$A$2:$A${D['load'][1]+1}", f"=D_Load!$B$2:$B${D['load'][1]+1}", NAVY), ("Plan", f"=D_Load!$A$2:$A${D['load'][1]+1}", f"=D_Load!$C$2:$C${D['load'][1]+1}", GOLD)], ytitle="MW", size=(600, 290))
@@ -212,7 +212,7 @@ for i, d in enumerate(days[-31:]):
     for c, fn in ((13, "AVERAGEIFS"), (14, "MINIFS"), (15, "MAXIFS")):
         vals = [num(x["Price_EUR_MWh"]) for x in price if x["Delivery_Date"] == d and num(x["Price_EUR_MWh"]) is not None]
         cv = (sum(vals) / len(vals) if fn == "AVERAGEIFS" else min(vals) if fn == "MINIFS" else max(vals)) if vals else ""
-        ws.write_formula(r, c, f'={fn}({PS}!$C$2:$C${PN+1},{PS}!$A$2:$A${PN+1},M{r+1})', f_num, cv)
+        ws.write_formula(r, c, f'={fn}({PS}!$C$2:$C$5000,{PS}!$A$2:$A$5000,M{r+1})', f_num, cv)
 ws.write(4, 12, "Daily summary (wholesale, EUR/MWh)", f_sec)
 
 # ---------- 3 System ----------
