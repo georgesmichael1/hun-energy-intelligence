@@ -160,7 +160,7 @@ def update_hupx_prices(csv_path="hupx_day_ahead_prices.csv", session=None, now=N
                    detail="Range fetch failed (" + fetch_error + "); complete saved history retained, "
                           "missing days stay empty, never zero")
         elif missing:
-            record("price_hu", "PARTIAL", **base, last_successful_fetch_at=stamp,
+            record("price_hu", "SOURCE_PARTIAL", **base, last_successful_fetch_at=stamp,
                    detail="Source returned no valid prices for " + ",".join(missing)
                           + " - day omitted whole, no retained history substituted; "
                           "wholesale spot, not a customer tariff")
