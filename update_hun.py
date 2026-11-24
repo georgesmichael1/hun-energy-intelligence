@@ -36,6 +36,7 @@ import mekh_register_feed
 import substation_capacity_feed
 import mavir_connection_requests_feed
 import mavir_installed_capacity_feed
+import investment_indicators
 
 TZ = ZoneInfo("Europe/Budapest")
 UTC = dt.timezone.utc
@@ -270,6 +271,11 @@ def main():
         futures = [pool.submit(run_group, tasks) for tasks in groups]
         for future in futures:
             future.result()
+
+    # Derived investment-screening indicators: pure CSV computation from the freshly
+    # fetched MAVIR generation and HUPX price series; no new external sources.
+    call("solar_capture_daily", lambda: investment_indicators.update_solar_capture())
+    call("bess_spread_daily", lambda: investment_indicators.update_bess_spread())
 
     try:
         sync_master_csv()
