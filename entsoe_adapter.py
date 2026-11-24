@@ -34,7 +34,7 @@ UTC = dt.timezone.utc
 AREAS = {'HU': '10YHU-MAVIR----U', 'AT': '10YAT-APG------L',
          'SK': '10YSK-SEPS-----K', 'SI': '10YSI-ELES-----O',
          'RO': '10YRO-TEL------P', 'HR': '10YHR-HEP------M',
-         'RS': '10YCS-SERBIATSOV', 'UA': '10YUA-WEPS-----0'}
+         'RS': '10YCS-SERBIATSOV', 'UA': '10Y1001C--00003F'}
 NEIGHBORS = ('AT', 'SK', 'SI', 'RO', 'HR', 'RS', 'UA')
 COLUMNS = ['Dataset', 'From_Area', 'To_Area', 'Interval_Start_UTC',
            'Interval_End_UTC', 'Interval_Start_Local', 'Resolution', 'Value_MW',
