@@ -1,0 +1,16 @@
+{
+  "scenarios": 54,
+  "hours_checked": 473040,
+  "max_abs_violations": {
+    "soc_low": 1.7763568394002505e-14,
+    "soc_high": 1.4210854715202004e-14,
+    "exclusivity": 0.0,
+    "grid": 0.0,
+    "phantom_import": 4.8616081920427913e-14,
+    "soc_dynamics": 3.552713678800501e-14,
+    "soc_neutrality": 0.0,
+    "accounting": 0.0,
+    "pv_balance": 3.552713678800501e-15
+  },
+  "note": "all values must be ~0 within solver tolerance; MW/MWh units per row"
+}
