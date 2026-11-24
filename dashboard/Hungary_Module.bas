@@ -398,14 +398,17 @@ Private Sub ResizeCharts()
     For Each ws In ThisWorkbook.Worksheets
         If Left$(ws.Name, 2) <> "D_" Then
             For Each co In ws.ChartObjects
+                co.Chart.DisplayBlanksAs = xlNotPlotted      ' blanks are gaps, never zero, on every chart
                 For Each s In co.Chart.SeriesCollection
                     f = s.Formula
                     out = f
                     For Each m In rx.Execute(f)
                         sh = m.SubMatches(0)
+                        If sh = "D_Tariffs" Then GoTo NextMatch   ' tariff charts use fixed per-group row blocks
                         lastR = ThisWorkbook.Worksheets(sh).Cells(ThisWorkbook.Worksheets(sh).Rows.Count, 1).End(xlUp).Row
                         If lastR < 2 Then lastR = 2
                         out = Replace(out, m.Value, sh & "!$" & m.SubMatches(1) & "$" & m.SubMatches(2) & ":$" & m.SubMatches(3) & "$" & lastR)
+NextMatch:
                     Next m
                     If out <> f Then On Error Resume Next: s.Formula = out: On Error GoTo 0
                 Next s
