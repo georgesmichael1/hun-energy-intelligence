@@ -64,3 +64,22 @@ See dashboard/COVERAGE.md for the metric coverage matrix against the Bosnia fram
 Excel workbook and Hungary_Module.bas for the VBA refresh. SOURCE_PARTIAL means the upstream source published nothing for
 a day or direction; it is shown as a warning, never counted OK, and is refetched by later runs (price_hu on every run,
 ENTSO-E physical flows in the daily batch) until it fills or the day leaves the 31-day window.
+
+
+## Solar + BESS backtest (solar_bess_model.py)
+
+Perfect-foresight (hindsight upper bound, NOT a forecast) MILP co-optimisation
+of a PV plant and battery against the matched 2023 year: PVGIS-SARAH3/ERA5 site
+weather (JRC; instantaneous satellite samples assigned to their containing UTC
+hour, user manual 9.3) x Energy-Charts HU day-ahead prices (CC BY 4.0, source
+Bundesnetzagentur | SMARD.de). 54 fully precomputed scenarios: sites
+Szeged/Budapest/Nyiregyhaza x PV 1/10/50 MWp x BESS 0/2/4 h (0.5 MW per MWp)
+x pv_only/grid_pv charging. Daily MILP with charge/discharge exclusivity
+(binary), single net grid position, free curtailment, daily SOC neutrality,
+degradation 10 EUR/MWh discharged inside the objective (never double-counted).
+Outputs: solar_bess_scenarios.csv, solar_bess_dispatch_hourly.csv (3
+representative days per scenario), solar_bess_verification.json (constraint
+residuals over all 473,040 scenario-hours). Tests: tests/test_solar_bess.py
+(negative-price anti-cycling, brute-force oracle vs MILP, alignment/boundary,
+accounting decomposition). The 2023 dataset is fixed history; the daily
+workflow recomputes the grid from the committed cache without refetching.
