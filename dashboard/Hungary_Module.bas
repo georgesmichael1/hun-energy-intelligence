@@ -30,6 +30,7 @@ Private Function Specs() As Variant
       Array("eurostat_hicp.csv", "D_HICP", "~Period,HICP_Annual_Rate_Pct"), _
       Array("mnb_fx.csv", "D_FX", "~Rate_Date,~Currency,HUF_Per_Unit"), _
       Array("mekh_aggregators.csv", "D_Aggregators", "~Aggregator,~Registration_Decision_No,~City"), _
+      Array("hun_substation_capacity.csv", "D_Substations", "~Table_Label,~Substation,Voltage_kV,Releasable_Offtake_MVA,Probable_5y_Offtake_MVA"), _
       Array("mekh_storage_licences.csv", "D_Storage", "~Licensee,~Site,Nominal_Power_MW,Storage_Capacity_MWh,~Revoked_Date"), _
       Array("balance_responsible_parties.csv", "D_BRP", "~Balance_Responsible_Party,~EIC_Code,~Valid_From"))
 End Function
@@ -211,12 +212,76 @@ Private Function ImportOne(ByVal fileName As String, ByVal sheetName As String, 
             End If
         Next c
     Next r
+    If sheetName = "D_Price" Then outv = WithGapDays(outv): n = UBound(outv, 1)
+    If sheetName = "D_EntsoePrice" Then outv = LatestDayOnly(outv): n = UBound(outv, 1)
     Set ws = ThisWorkbook.Worksheets(sheetName)
     ws.Range(ws.Cells(2, 1), ws.Cells(ws.Rows.Count, UBound(toks) + 1)).ClearContents
     For c = 0 To UBound(toks)
         ws.Range(ws.Cells(2, c + 1), ws.Cells(n + 1, c + 1)).NumberFormat = IIf(isText(c) Or Left$(toks(c), 1) = "#", "@", IIf(toks(c) = "@LOCAL", "yyyy-mm-dd hh:mm", "General"))
     Next c
     ws.Range(ws.Cells(2, 1), ws.Cells(n + 1, UBound(toks) + 1)).Value2 = outv
+End Function
+
+' HUPX price rows only exist for days the source published. Insert 96 blank quarter-hour rows for each
+' omitted whole day (Delivery_Date text in column 1, local time in column 2, price blank) so the chart
+' shows an explicit gap instead of joining the neighbouring days. Blank, never zero, never estimated.
+Private Function WithGapDays(ByVal a As Variant) As Variant
+    Dim n As Long, r As Long, k As Long, q As Long, d0 As Date, d1 As Date, dd As Date
+    Dim missing As Long, outv() As Variant, o As Long, prev As String, cur As String, cols As Long
+    n = UBound(a, 1): cols = UBound(a, 2)
+    If n < 2 Then WithGapDays = a: Exit Function
+    For r = 2 To n
+        prev = CStr(a(r - 1, 1)): cur = CStr(a(r, 1))
+        If prev <> cur Then
+            d0 = DateSerial(CLng(Left$(prev, 4)), CLng(Mid$(prev, 6, 2)), CLng(Mid$(prev, 9, 2)))
+            d1 = DateSerial(CLng(Left$(cur, 4)), CLng(Mid$(cur, 6, 2)), CLng(Mid$(cur, 9, 2)))
+            If d1 - d0 > 1 Then missing = missing + CLng(d1 - d0 - 1)
+        End If
+    Next r
+    If missing = 0 Then WithGapDays = a: Exit Function
+    ReDim outv(1 To n + missing * 96, 1 To cols)
+    o = 0
+    For r = 1 To n
+        If r > 1 Then
+            prev = CStr(a(r - 1, 1)): cur = CStr(a(r, 1))
+            If prev <> cur Then
+                d0 = DateSerial(CLng(Left$(prev, 4)), CLng(Mid$(prev, 6, 2)), CLng(Mid$(prev, 9, 2)))
+                d1 = DateSerial(CLng(Left$(cur, 4)), CLng(Mid$(cur, 6, 2)), CLng(Mid$(cur, 9, 2)))
+                For dd = d0 + 1 To d1 - 1
+                    For q = 0 To 95
+                        o = o + 1
+                        outv(o, 1) = Format$(dd, "yyyy-mm-dd")
+                        outv(o, 2) = dd + TimeSerial(0, 15 * q, 0)
+                    Next q
+                Next dd
+            End If
+        End If
+        o = o + 1
+        For k = 1 To cols: outv(o, k) = a(r, k): Next k
+    Next r
+    WithGapDays = outv
+End Function
+
+' The ENTSO-E chart shows one delivery day only: keep the rows of the latest Delivery_Date (column 1).
+Private Function LatestDayOnly(ByVal a As Variant) As Variant
+    Dim n As Long, r As Long, k As Long, o As Long, mx As String, cols As Long, outv() As Variant
+    n = UBound(a, 1): cols = UBound(a, 2)
+    For r = 1 To n
+        If CStr(a(r, 1)) > mx Then mx = CStr(a(r, 1))
+    Next r
+    For r = 1 To n
+        If CStr(a(r, 1)) = mx Then o = o + 1
+    Next r
+    If o = 0 Then LatestDayOnly = a: Exit Function
+    ReDim outv(1 To o, 1 To cols)
+    o = 0
+    For r = 1 To n
+        If CStr(a(r, 1)) = mx Then
+            o = o + 1
+            For k = 1 To cols: outv(o, k) = a(r, k): Next k
+        End If
+    Next r
+    LatestDayOnly = outv
 End Function
 
 Private Function IsNumber(ByVal s As String) As Boolean
