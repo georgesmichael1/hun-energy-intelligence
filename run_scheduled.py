@@ -30,7 +30,12 @@ def entsoe_due(now_budapest, status_path="status.json"):
         old = json.loads(Path(status_path).read_text(encoding="utf-8"))
     except (OSError, ValueError):
         return True
-    last = (old.get("dataset_details", {}).get("entsoe_load_forecast", {}) or {}).get("last_success_at")
+    details = old.get("dataset_details", {})
+    # Recover: a hard physical-flow failure (transport/validation/auth/unexplained gap) is retried
+    # on the next scheduled run. SOURCE_PARTIAL (upstream publishes nothing) is not retried daily.
+    if (details.get("entsoe_physical_flows_31d", {}) or {}).get("state") in ("PARTIAL", "FAILED"):
+        return True
+    last = (details.get("entsoe_load_forecast", {}) or {}).get("last_success_at")
     if not last:
         return True
     try:
