@@ -6,7 +6,7 @@ Six dashboard pages sit in front of the raw data sheets (D_*). Every number on a
 formula over a data sheet, so the VBA module (Hungary_Module.bas) only has to replace the
 data sheets and recalculate. Nothing is invented: a missing value stays empty, never zero.
 """
-import csv, io, json, sys, datetime as dt, urllib.request
+import csv, io, json, os, sys, datetime as dt, urllib.request
 from pathlib import Path
 from zoneinfo import ZoneInfo
 import xlsxwriter
@@ -55,6 +55,10 @@ f_sec = F(bold=True, font_size=12, font_color=NAVY, bottom=2, bottom_color=TEAL)
 
 # ---------------- data sheets ----------------
 price = [r for r in read("hupx_day_ahead_prices.csv")]
+try:
+    scap = read("solar_capture_daily.csv"); bess = read("bess_spread_daily.csv")
+except Exception:
+    scap, bess = [], []
 eprice_all = read("entsoe_day_ahead_prices.csv")
 _latest = max((r["Delivery_Date"] for r in eprice_all), default="")
 eprice = sorted((r for r in eprice_all if r["Delivery_Date"] == _latest), key=lambda r: r["Interval_Start_UTC"])
@@ -72,7 +76,7 @@ status = json.loads(urllib.request.urlopen(SRC + "status.json").read() if SRC.st
                     else (Path(SRC) / "status.json").read_bytes())
 
 pages = {}
-names = ["Overview", "DayAhead", "System", "Flows_Balancing", "Tariffs_Macro", "Registers_Health"]
+names = ["Overview", "DayAhead", "Investment", "System", "Flows_Balancing", "Tariffs_Macro", "Registers_Health"]
 for n in names:
     pages[n] = wb.add_worksheet(n)
 
@@ -143,6 +147,10 @@ D["subs"] = data_sheet("D_Substations", ["Table_Label", "Substation", "Voltage_k
                         [(r["Table_Label"], r["Substation"], int(r["Voltage_kV"]), int(r["Releasable_Offtake_MVA"]), int(r["Probable_5y_Offtake_MVA"])) for r in subs])
 D["sto"] = data_sheet("D_Storage", ["Licensee", "Site", "Power_MW", "Capacity_MWh", "Revoked"],
                       [(r["Licensee"], r["Site"], num(r["Nominal_Power_MW"]), num(r["Storage_Capacity_MWh"]), r["Revoked_Date"]) for r in sto])
+D["scap"] = data_sheet("D_SolarCapture", ["Delivery_Date", "Day_Avg_EUR_MWh", "Solar_Weighted_EUR_MWh", "Capture_Ratio", "Solar_MWh", "Note"],
+                        [(r["Delivery_Date"], num(r["Day_Avg_Price_EUR_MWh"]), num(r["Solar_Weighted_Avg_Price_EUR_MWh"]), num(r["Solar_Capture_Ratio"]), num(r["Solar_Generation_MWh"]), r["Note"]) for r in scap])
+D["bess"] = data_sheet("D_BessSpread", ["Delivery_Date", "Window_Hours", "Charge_Start", "Charge_End", "Charge_Avg", "Discharge_Start", "Discharge_End", "Discharge_Avg", "Spread_EUR_MWh", "Note", "Day_Window_Key"],
+                        [(r["Delivery_Date"], num(r["Window_Hours"]), r["Charge_Window_Start_Local"], r["Charge_Window_End_Local"], num(r["Charge_Avg_Price_EUR_MWh"]), r["Discharge_Window_Start_Local"], r["Discharge_Window_End_Local"], num(r["Discharge_Avg_Price_EUR_MWh"]), num(r["Spread_EUR_MWh"]), r["Note"], r["Day_Window_Key"]) for r in bess])
 D["brp"] = data_sheet("D_BRP", ["Balance responsible party (MAVIR)", "EIC", "Valid_From"], [(r["Balance_Responsible_Party"], r["EIC_Code"], r["Valid_From"]) for r in brp])
 D["inst"] = data_sheet("D_Installed", ["Fuel_Group", "Period", "Gross_Installed_MW"], [(r["Fuel_Group"], r["Period"], num(r["Gross_Installed_MW"])) for r in inst])
 det = status["dataset_details"]
@@ -226,7 +234,7 @@ kpi(ws, 4, 9, "NUCLEAR SHARE, LATEST", f"=IFERROR(LOOKUP(2,1/(D_Gen!$C$2:$C$5000
 kpi(ws, 4, 11, "EUR / HUF (MNB)", "=IFERROR(INDEX(D_FX!$C$2:$C$10,MATCH(\"EUR\",D_FX!$B$2:$B$10,0)),\"no data\")", f_kv, "official daily rate", eur_huf())
 chart(ws, "B9", "HUPX day-ahead price, 15-minute (EUR/MWh)", series=[("HUPX day-ahead", f"={PS}!$B$2:$B${PN+1}", f"={PS}!$C$2:$C${PN+1}", TEAL)], ytitle="EUR/MWh", size=(600, 290))
 chart(ws, "I9", "MAVIR gross system load, actual vs plan (MW)", series=[("Actual", f"=D_Load!$A$2:$A${D['load'][1]+1}", f"=D_Load!$B$2:$B${D['load'][1]+1}", NAVY), ("Plan", f"=D_Load!$A$2:$A${D['load'][1]+1}", f"=D_Load!$C$2:$C${D['load'][1]+1}", GOLD)], ytitle="MW", size=(600, 290))
-ws.merge_range("B25:O26", "Honesty rules: figures come from the last saved pipeline snapshot, not a live feed. Wholesale spot prices (HUPX) are never mixed with customer tariffs (Eurostat, page 5). A day the source did not publish is left out whole, never zero or estimated. Dataset states are on page 6.", f_note)
+ws.merge_range("B25:O26", "Honesty rules: figures come from the last saved pipeline snapshot, not a live feed. Wholesale spot prices (HUPX) are never mixed with customer tariffs (Eurostat, page 6). A day the source did not publish is left out whole, never zero or estimated. Dataset states are on page 7.", f_note)
 
 # ---------- 2 Day-ahead ----------
 ws = pages["DayAhead"]
@@ -248,9 +256,79 @@ for i, d in enumerate(days[-31:]):
         ws.write_formula(r, c, f'={fn}({PS}!$C$2:$C$5000,{PS}!$A$2:$A$5000,M{r+1})', f_num, cv)
 ws.write(4, 12, "Daily summary (wholesale, EUR/MWh)", f_sec)
 
-# ---------- 3 System ----------
+# ---------- 3 Investment screening ----------
+ws = pages["Investment"]
+header(ws, "INVESTMENT SCREENING", "Solar capture and raw BESS windows from measured data (HUPX DAM 15-min prices, MAVIR 15-min measured solar). The two selectors drive the KPIs, the window table and the selected-day chart; the three history charts always show all complete days.", 3)
+last_day = os.environ.get("INV_SEL_DAY") or (scap[-1]["Delivery_Date"] if scap else "")
+sel_win = int(os.environ.get("INV_SEL_WIN", "2"))
+sel_bess = {r["Day_Window_Key"]: r for r in bess}
+sel_row = sel_bess.get(f"{last_day}|{sel_win}", {})
+wb.define_name("CapDates", "=D_SolarCapture!$A$2:$A$200")
+f_sel = F(border=1, bold=True, bg_color="#FFF2CC", font_size=11)
+ws.write(3, 1, "Delivery day", f_sec)
+ws.merge_range(3, 2, 3, 3, last_day, f_sel)
+ws.data_validation(3, 2, 3, 3, {"validate": "list", "source": "=CapDates"})
+ws.write(3, 4, "BESS window (h)", f_sec)
+ws.write_number(3, 5, sel_win, f_sel)
+ws.data_validation(3, 5, 3, 5, {"validate": "list", "source": [1, 2, 4]})
+keyf = 'MATCH($C$4&"|"&$F$4,D_BessSpread!$K:$K,0)'
+kpi(ws, 4, 1, "CAPTURE RATIO, selected day", '=IFERROR(INDEX(D_SolarCapture!$D:$D,MATCH($C$4,D_SolarCapture!$A:$A,0)),"no data")', F(font_size=22, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="0.000"), "solar-weighted / simple day average; blank when average <= 0 or day incomplete", num(scap[-1]["Solar_Capture_Ratio"]) if scap else 0)
+kpi(ws, 4, 3, "DAY AVERAGE (EUR/MWh)", '=IFERROR(INDEX(D_SolarCapture!$B:$B,MATCH($C$4,D_SolarCapture!$A:$A,0)),"no data")', f_kv, "simple average of 15-min prices, complete days only", num(scap[-1]["Day_Avg_Price_EUR_MWh"]) if scap else 0)
+kpi(ws, 4, 5, "SOLAR-WEIGHTED (EUR/MWh)", '=IFERROR(INDEX(D_SolarCapture!$C:$C,MATCH($C$4,D_SolarCapture!$A:$A,0)),"no data")', f_kv, "price weighted by measured solar output", num(scap[-1]["Solar_Weighted_Avg_Price_EUR_MWh"]) if scap else 0)
+kpi(ws, 4, 7, "BEST SPREAD (EUR/MWh)", f'=IFERROR(INDEX(D_BessSpread!$I:$I,{keyf}),"no data")', f_kv, "best chronological pair (charge before discharge), before losses & fees", num(sel_row.get("Spread_EUR_MWh", "")) or 0)
+ws.write(7, 1, "Selected day, best chronological window pair (local time)", f_sec)
+ws.write(8, 2, "Start", f_h); ws.write(8, 3, "End", f_h); ws.merge_range(8, 4, 8, 5, "Avg price (EUR/MWh)", f_h)
+for i, (lab, cs, ce, ca) in enumerate((("Charge window", "$C:$C", "$D:$D", "$E:$E"), ("Discharge window", "$F:$F", "$G:$G", "$H:$H"))):
+    r = 9 + i
+    ws.write(r, 1, lab, f_cell)
+    ws.write_formula(r, 2, f'=IFERROR(INDEX(D_BessSpread!{cs},{keyf}),"")', f_cell, sel_row.get("Charge_Window_Start_Local" if i == 0 else "Discharge_Window_Start_Local", ""))
+    ws.write_formula(r, 3, f'=IFERROR(INDEX(D_BessSpread!{ce},{keyf}),"")', f_cell, sel_row.get("Charge_Window_End_Local" if i == 0 else "Discharge_Window_End_Local", ""))
+    ws.merge_range(r, 4, r, 5, "", f_num)
+    ws.write_formula(r, 4, f'=IFERROR(INDEX(D_BessSpread!{ca},{keyf}),"")', f_num, num(sel_row.get("Charge_Avg_Price_EUR_MWh" if i == 0 else "Discharge_Avg_Price_EUR_MWh", "")) or "")
+ws.set_column(1, 1, 24); ws.set_column(2, 3, 18); ws.set_column(4, 4, 16); ws.set_column(5, 5, 11)
+# helper Q2:Q201: spread per day for the selected window (formulas recalc on refresh and on window change; chart range covers current days only)
+NSC = len(scap)
+spread_sel = {r["Delivery_Date"]: num(r["Spread_EUR_MWh"]) for r in bess if num(r["Window_Hours"]) == sel_win}
+for i in range(200):
+    r = i + 1
+    cv = spread_sel.get(scap[i]["Delivery_Date"], "#N/A") if i < NSC else "#N/A"
+    ws.write_formula(r, 16, f'=IF(D_SolarCapture!$A{i+2}="",NA(),IF(COUNTIFS(D_BessSpread!$A:$A,D_SolarCapture!$A{i+2},D_BessSpread!$B:$B,$F$4)=0,NA(),SUMIFS(D_BessSpread!$I:$I,D_BessSpread!$A:$A,D_SolarCapture!$A{i+2},D_BessSpread!$B:$B,$F$4)))', None, cv)
+# helpers S,T,U,V rows 2..101: selected-day 15-min price and solar, compacted (CSE array formulas; chart range covers the current day's points)
+day_rows = [p for p in price_rows if p["Delivery_Date"] == last_day]
+gen_by_day = {}
+for g in gen:
+    gen_by_day.setdefault(local(g["Interval_Start_UTC"]).date().isoformat(), []).append(num(g["Solar_PV_Measured_MW"]))
+gen_sel = gen_by_day.get(last_day, [])
+np_ = len(day_rows)
+for i in range(100):
+    r = i + 1
+    k = i + 1
+    lv = (day_rows[i].get("_local") or local(day_rows[i]["Interval_Start_UTC"])) if i < np_ else None
+    pv = num(day_rows[i]["Price_EUR_MWh"]) if i < np_ else "#N/A"
+    lv_ser = ((lv - dt.datetime(1899, 12, 30)).total_seconds() / 86400) if lv else "#N/A"
+    ws.write_array_formula(r, 18, r, 18, f'=IFERROR(INDEX(D_Price!$B$2:$B$5000,SMALL(IF(D_Price!$A$2:$A$5000=$C$4,ROW(D_Price!$A$2:$A$5000)-1),{k})),NA())', f_dt if lv else None, lv_ser)
+    ws.write_array_formula(r, 19, r, 19, f'=IFERROR(INDEX(D_Price!$C$2:$C$5000,SMALL(IF(D_Price!$A$2:$A$5000=$C$4,ROW(D_Price!$A$2:$A$5000)-1),{k})),NA())', None, pv if pv is not None else "#N/A")
+    gv = gen_sel[i] if i < len(gen_sel) else "#N/A"
+    ws.write_array_formula(r, 20, r, 20, f'=IFERROR(INDEX(D_Gen!$H$2:$H$5000,SMALL(IF(TEXT(D_Gen!$A$2:$A$5000,"yyyy-mm-dd")=$C$4,ROW(D_Gen!$A$2:$A$5000)-1),{k})),NA())', None, gv if gv is not None else "#N/A")
+chA = wb.add_chart({"type": "line"})
+chA.add_series({"name": "HUPX day-ahead (EUR/MWh)", "categories": f"=Investment!$S$2:$S${np_+1}", "values": f"=Investment!$T$2:$T${np_+1}", "line": {"color": TEAL, "width": 1.25}})
+chA.add_series({"name": "Measured solar (MW)", "categories": f"=Investment!$S$2:$S${np_+1}", "values": f"=Investment!$U$2:$U${np_+1}", "y2_axis": True, "line": {"color": GOLD, "width": 1.25}})
+chA.set_title({"name": "Selected day: price vs measured solar", "name_font": {"size": 11, "color": NAVY}})
+chA.set_y_axis({"name": "EUR/MWh", "name_font": {"size": 9}, "num_font": {"size": 8}, "major_gridlines": {"visible": True, "line": {"color": "#DDDDDD"}}})
+chA.set_y2_axis({"name": "MW", "name_font": {"size": 9}, "num_font": {"size": 8}})
+chA.set_x_axis({"text_axis": True, "label_position": "low", "num_font": {"size": 8, "rotation": -30}, "interval_unit": 8, "interval_tick": 8, "num_format": "hh:mm"})
+chA.show_blanks_as("gap"); chA.set_legend({"position": "bottom", "font": {"size": 9}}); chA.set_size({"width": 560, "height": 280})
+ws.insert_chart("B13", chA)
+SCS, SCN = sheet_of("scap"), D["scap"][1]
+chart(ws, "I13", "Best spread by day, selected window (EUR/MWh)", kind="column", series=[("Spread", f"={SCS}!$A$2:$A${SCN+1}", f"=Investment!$Q$2:$Q${SCN+1}", TEAL)], ytitle="EUR/MWh", size=(560, 280))
+chart(ws, "B30", "Day average vs solar-weighted price (EUR/MWh)", series=[("Day average", f"={SCS}!$A$2:$A${SCN+1}", f"={SCS}!$B$2:$B${SCN+1}", NAVY), ("Solar-weighted", f"={SCS}!$A$2:$A${SCN+1}", f"={SCS}!$C$2:$C${SCN+1}", GOLD)], ytitle="EUR/MWh", size=(560, 280), xint=2)
+chart(ws, "I30", "Capture ratio by day", series=[("Capture ratio", f"={SCS}!$A$2:$A${SCN+1}", f"={SCS}!$D$2:$D${SCN+1}", TEAL)], ytitle="ratio", size=(560, 280), xint=2)
+ws.merge_range("B47:O49", "Measured data only: HUPX day-ahead 15-min prices, MAVIR 15-min measured solar. Capture ratio = solar-weighted / simple day average; blank when the day average is 0 or negative, or the day is incomplete. Spread = the pair of same-length windows that jointly maximizes discharge minus charge price (charge ends before discharge starts), raw difference before efficiency, losses and fees; not a revenue forecast and not a hybrid uplift.", f_note)
+ws.print_area(0, 0, 48, 15)
+
+# ---------- 4 System ----------
 ws = pages["System"]
-header(ws, "SYSTEM: LOAD & GENERATION", "MAVIR actual load, plan, generation mix by fuel, and ENTSO-E load forecast.", 3)
+header(ws, "SYSTEM: LOAD & GENERATION", "MAVIR actual load, plan, generation mix by fuel, and ENTSO-E load forecast.", 4)
 LN, GN = D["load"][1], D["gen"][1]
 chart(ws, "B5", "Gross system load: actual, plan, settlement (MW)", series=[(h, f"=D_Load!$A$2:$A${LN+1}", f"=D_Load!${chr(66+i)}$2:${chr(66+i)}${LN+1}", pal[i]) for i, h in enumerate(["Actual", "Plan", "Net settlement"])], ytitle="MW", size=(900, 290))
 chart(ws, "B20", "Generation by fuel (MW, stacked)", kind="area", stacked=True, series=[(h.replace("_MW", ""), f"=D_Gen!$A$2:$A${GN+1}", f"=D_Gen!${chr(67+i)}$2:${chr(67+i)}${GN+1}", pal[i]) for i, h in enumerate(GC)], ytitle="MW", size=(900, 320))
@@ -258,15 +336,15 @@ chart(ws, "B38", "ENTSO-E day-ahead load forecast, latest day (MW)", series=[("F
 
 # ---------- 4 Flows & balancing ----------
 ws = pages["Flows_Balancing"]
-header(ws, "CROSS-BORDER FLOWS & BALANCING", "MAVIR actual interconnector flows: positive = import into Hungary, negative = export (cross-checked against ENTSO-E). Balancing-capacity offers.", 4)
+header(ws, "CROSS-BORDER FLOWS & BALANCING", "MAVIR actual interconnector flows: positive = import into Hungary, negative = export (cross-checked against ENTSO-E). Balancing-capacity offers.", 5)
 FN, BN = D["flow"][1], D["bal"][1]
 chart(ws, "B5", "Actual interconnector flows by border (MW, + import to HU / - export)", series=[(h.replace("_Actual_MW", ""), f"=D_Flows!$A$2:$A${FN+1}", f"=D_Flows!${chr(66+i)}$2:${chr(66+i)}${FN+1}", pal[i]) for i, h in enumerate(FC)], ytitle="MW", size=(900, 320))
 chart(ws, "B22", "Balancing offers: aFRR / mFRR up and down (MW)", series=[(h.replace("_Offers_MW", ""), f"=D_Balancing!$A$2:$A${BN+1}", f"=D_Balancing!${chr(66+i)}$2:${chr(66+i)}${BN+1}", pal[i]) for i, h in enumerate(BC)], ytitle="MW", size=(900, 280))
-ws.merge_range("B37:O39", "Sign check: MAVIR actual flow equals ENTSO-E import minus export within about 1 MW for AT, SK, RO, HR and SI over 2,957 shared intervals (RS and UA overlap fewer intervals). ENTSO-E physical flows, 14 directions x 31 days, are in entsoe_physical_flows.csv; current coverage state is on page 6 and in physical_flows_status.json. Gaps are never zero.", f_note)
+ws.merge_range("B37:O39", "Sign check: MAVIR actual flow equals ENTSO-E import minus export within about 1 MW for AT, SK, RO, HR and SI over 2,957 shared intervals (RS and UA overlap fewer intervals). ENTSO-E physical flows, 14 directions x 31 days, are in entsoe_physical_flows.csv; current coverage state is on page 7 and in physical_flows_status.json. Gaps are never zero.", f_note)
 
 # ---------- 5 Tariffs & macro ----------
 ws = pages["Tariffs_Macro"]
-header(ws, "CUSTOMER TARIFFS & MACRO", "Eurostat retail prices (all taxes included) kept separate from wholesale. HICP, FX and master-sheet macro rows.", 5)
+header(ws, "CUSTOMER TARIFFS & MACRO", "Eurostat retail prices (all taxes included) kept separate from wholesale. HICP, FX and master-sheet macro rows.", 6)
 TN = D["tar"][1]
 hh = [(i, r) for i, r in enumerate(tar) if r["Consumer_Group"] == "Household"]
 nh = [(i, r) for i, r in enumerate(tar) if r["Consumer_Group"] != "Household"]
@@ -290,7 +368,7 @@ ws.set_column(8, 14, 13)
 
 # ---------- 6 Registers & health ----------
 ws = pages["Registers_Health"]
-header(ws, "REGISTERS & DATA HEALTH", "Registers, storage, E.ON substations, installed capacity and dataset states. The macro refreshes all but the static 2024 queue note.", 6)
+header(ws, "REGISTERS & DATA HEALTH", "Registers, storage, E.ON substations, installed capacity and dataset states. The macro refreshes all but the static 2024 queue note.", 7)
 kpi(ws, 4, 1, "AGGREGATORS REGISTERED (MEKH)", f"=IF(COUNTA(D_Aggregators!$A$2:$A$500)=0,\"no data\",COUNTA(D_Aggregators!$A$2:$A$500))", f_kv0, "independent aggregator register", len(agg) or "no data")
 kpi(ws, 4, 3, "STORAGE LICENCE POWER (MW)", f"=IF(COUNT(D_Storage!$C$2:$C$500)=0,\"no data\",SUMIFS(D_Storage!$C$2:$C$500,D_Storage!$E$2:$E$500,\"\"))", f_kv0, "licensed, not necessarily operating", round(sum(num(r["Nominal_Power_MW"]) or 0 for r in sto if not r["Revoked_Date"]), 1) if sto else "no data")
 kpi(ws, 4, 5, "BALANCE RESPONSIBLE PARTIES", "=COUNTA(D_BRP!$A$2:$A$500)", f_kv0, "MAVIR imbalance settlement, not aggregators", len(brp))
