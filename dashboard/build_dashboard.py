@@ -95,6 +95,10 @@ def data_sheet(name, header, rows, fmts=None):
 
 
 D = {}
+from zoneinfo import ZoneInfo
+BUD = ZoneInfo("Europe/Budapest")
+
+
 def with_gaps(rows):
     """Insert blank 15-min rows for delivery days the source omitted so charts show a visible gap."""
     have = {r["Delivery_Date"] for r in rows}
@@ -105,8 +109,11 @@ def with_gaps(rows):
     out = list(rows)
     for m in missing:
         day = dt.date.fromisoformat(m)
-        for q in range(96):
-            t = dt.datetime.combine(day, dt.time()) + dt.timedelta(minutes=15 * q)
+        start = dt.datetime.combine(day, dt.time(), tzinfo=BUD)
+        nxt = dt.datetime.combine(day + dt.timedelta(days=1), dt.time(), tzinfo=BUD)
+        n_q = int((nxt.astimezone(dt.timezone.utc) - start.astimezone(dt.timezone.utc)).total_seconds() // 900)  # 92 / 96 / 100
+        for q in range(n_q):
+            t = (start.astimezone(dt.timezone.utc) + dt.timedelta(minutes=15 * q)).astimezone(BUD).replace(tzinfo=None)
             out.append({"Delivery_Date": m, "_local": t, "Price_EUR_MWh": ""})
     out.sort(key=lambda r: r.get("_local") or local(r["Interval_Start_UTC"]))
     return out, missing
@@ -289,7 +296,7 @@ kpi(ws, 4, 7, "DATASETS OK", f"=COUNTIF(D_Status!$B$2:$B$60,\"OK\")", f_kv0, "of
 kpi(ws, 4, 9, "SOURCE_PARTIAL", f"=COUNTIF(D_Status!$B$2:$B$60,\"SOURCE_PARTIAL\")", f_kv0, "upstream published nothing for a day/direction", sum(1 for v in det.values() if v.get("state") == "SOURCE_PARTIAL"))
 kpi(ws, 4, 11, "PARTIAL / FAILED / SKIPPED", f"=COUNTIF(D_Status!$B$2:$B$60,\"PARTIAL\")+COUNTIF(D_Status!$B$2:$B$60,\"FAILED\")+COUNTIF(D_Status!$B$2:$B$60,\"SKIPPED\")", f_kv0, "transport, validation, auth or skipped", sum(1 for v in det.values() if v.get("state") in ("PARTIAL", "FAILED", "SKIPPED")))
 ws.write(9, 1, "Dataset states (status.json, last pipeline run)", f_sec)
-ws.set_column(1, 1, 30); ws.set_column(2, 2, 18); ws.set_column(3, 14, 12)
+ws.set_column(1, 1, 40); ws.set_column(2, 2, 18); ws.set_column(3, 14, 12)
 ws.write(10, 1, "Dataset", f_h); ws.write(10, 2, "State", f_h); ws.merge_range(10, 3, 10, 14, "Detail", f_h)
 for i, (k, v) in enumerate(det.items()):
     r = 11 + i
@@ -305,7 +312,7 @@ for i, r in enumerate(top):
     ws.write(rr, 1, r["Licensee"][:34], f_cell); ws.write(rr, 2, num(r["Nominal_Power_MW"]), f_num); ws.write(rr, 3, num(r["Storage_Capacity_MWh"]), f_num)
     ws.merge_range(rr, 4, rr, 8, r["Site"][:60], F(border=1, indent=1))
 sb = base + 14
-ws.write(sb, 1, "Substation offtake capacity (E.ON Hungary publication, MVA not MW, quarterly; E.ON areas only)", f_sec)
+ws.write(sb, 1, "E.ON offtake (consumption) capacity per substation, MVA. PDF dated 2026-05-14. NOT generation export, NOT storage or RTB capacity. E.ON areas only.", f_sec)
 ws.set_row(sb + 1, 30)
 for j, h in enumerate(["Substation", "kV", "Releasable now (MVA)", "Probable in 5 years (MVA)"]):
     ws.write(sb + 1, 1 + j, h, f_h)
@@ -314,7 +321,7 @@ for i, r in enumerate(sorted(subs, key=lambda r: -int(r["Releasable_Offtake_MVA"
     ws.write(sb + 2 + i, 3, int(r["Releasable_Offtake_MVA"]), f_num); ws.write(sb + 2 + i, 4, int(r["Probable_5y_Offtake_MVA"]), f_num)
 ws.write(sb + 15, 1, "Total of %d published substation rows: %d MVA releasable now. MVM Halozat, MVM Emasz and MAVIR substation data are not parsed." % (len(subs), sum(int(r["Releasable_Offtake_MVA"]) for r in subs)) if subs else "Substation capacity: no data", F(font_size=9))
 ic = sb + 18
-ws.write(ic, 1, "Installed capacity by primary source (MAVIR, gross MW, excl. household-size and own-use plants; system level, not per plant)", f_sec)
+ws.write(ic, 1, "Installed capacity by primary source (MAVIR, gross MW, as of latest period below; system level, not per plant)", f_sec)
 ws.set_row(ic + 1, 30)
 for j, h in enumerate(["Fuel group", "2025 (MW)", "Latest (MW)"]):
     ws.write(ic + 1, 1 + j, h, f_h)
@@ -328,9 +335,9 @@ for i, g in enumerate(_fg):
     v = {r["Period"]: r["Gross_Installed_MW"] for r in inst if r["Fuel_Group"] == g}
     ws.write(ic + 2 + i, 1, g.replace("_", " "), f_cell)
     ws.write(ic + 2 + i, 2, num(v.get("2025")), f_num); ws.write(ic + 2 + i, 3, num(v.get(_last)), f_num)
-ws.write(ic + 3 + len(_fg), 1, ("Latest period " + _last + ". " if _last else "No data. ") + "Battery storage here is market plus MAVIR units. Per-plant MW is not published in the MEKH plant sheets.", F(font_size=9))
+ws.write(ic + 3 + len(_fg), 1, ("Latest period " + _last + ". " if _last else "No data. ") + "Battery storage here = installed market plus MAVIR units at that date. It is a different definition from the MEKH licensed storage above (licence list 2026-11-19, licensed not necessarily built); the two are not reconciled. Per-plant MW is not published in the MEKH plant sheets.", F(font_size=9))
 _acc = [r for r in creq if r["Rejected"] == "nem"]
 _cm = ["Solar_MVA", "Wind_MVA", "Storage_MVA", "Gas_CCGT_MVA", "Gas_Other_MVA", "Hydro_MVA", "Other_RES_MVA", "Oil_MVA"]
-ws.write(ic + 5 + len(_fg), 1, ("MAVIR connection requests (closed procedure, Sept 2024, MVA not MW): %d requests, %d not rejected; not-rejected MVA: solar %.0f, wind %.0f, storage %.0f." % (len(creq), len(_acc), sum(num(r["Solar_MVA"]) or 0 for r in _acc), sum(num(r["Wind_MVA"]) or 0 for r in _acc), sum(num(r["Storage_MVA"]) or 0 for r in _acc))) if creq else "Connection requests: no data", F(font_size=9))
+ws.write(ic + 5 + len(_fg), 1, ("STATIC 2024 queue, not the current pipeline: MAVIR connection requests (closed procedure, file of Sept 2024, MVA not MW): %d requests, %d not rejected; not-rejected MVA: solar %.0f, wind %.0f, storage %.0f." % (len(creq), len(_acc), sum(num(r["Solar_MVA"]) or 0 for r in _acc), sum(num(r["Wind_MVA"]) or 0 for r in _acc), sum(num(r["Storage_MVA"]) or 0 for r in _acc))) if creq else "Connection requests: no data", F(font_size=9))
 wb.close()
 print("wrote", OUT)
