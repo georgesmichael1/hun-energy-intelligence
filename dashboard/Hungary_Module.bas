@@ -420,89 +420,119 @@ NextMatch:
     Next ws
 End Sub
 
-' rewrites the value tables on the Registers page from the refreshed D_* sheets (top storage, E.ON substations, installed capacity)
+' rewrites the value tables on the Registers page from the refreshed D_* sheets (top storage, E.ON substations, installed capacity).
+' All new values are computed first (staging), the old cells are backed up, and any error restores the backup.
 Private Function RefreshRegisterTables() As String
-    Dim ws As Worksheet, c As Range, a As Range, d As Worksheet, r As Long, i As Long, k As Long, best As Long, lastR As Long
-    Dim used() As Boolean, pw As Double, bp As Double, lp As String, g As String, tot As Double, v2025 As Variant, vl As Variant
+    Dim ws As Worksheet, a As Range, aS As Range, aE As Range, aI As Range, d As Worksheet
+    Dim r As Long, i As Long, k As Long, best As Long, lastR As Long, nI As Long
+    Dim used() As Boolean, bp As Double, lp As String, g As String, tot As Double
+    Dim stoOut(1 To 10, 1 To 4) As Variant, subOut(1 To 12, 1 To 4) As Variant
+    Dim bkS As Variant, bkE As Variant, bkT As Variant, bkI As Variant, bkH As Variant
+    Dim insC() As Variant, totTxt As String, wrote As Boolean
     On Error GoTo Fail
     For Each ws In ThisWorkbook.Worksheets
         If Left$(ws.Name, 2) <> "D_" Then
-            Set a = ws.Columns(2).Find("Largest unrevoked storage", LookIn:=xlValues, LookAt:=xlPart)
-            If Not a Is Nothing Then Exit For
+            Set aS = ws.Columns(2).Find("Largest unrevoked storage", LookIn:=xlValues, LookAt:=xlPart)
+            If Not aS Is Nothing Then Exit For
         End If
     Next ws
-    If a Is Nothing Then RefreshRegisterTables = "Registers page not found": Exit Function
-    ' top 10 unrevoked storage licences by MW
+    If aS Is Nothing Then RefreshRegisterTables = "Registers page not found": Exit Function
+    Set aE = ws.Columns(2).Find("E.ON offtake", LookIn:=xlValues, LookAt:=xlPart)
+    Set aI = ws.Columns(2).Find("Installed capacity by primary source", LookIn:=xlValues, LookAt:=xlPart)
+    If aE Is Nothing Or aI Is Nothing Then RefreshRegisterTables = "register table headings not found": Exit Function
+    ' count installed-capacity rows on the page
+    i = aI.Row + 2
+    Do While Len(CStr(ws.Cells(i, 2).Value2)) > 0 And Left$(CStr(ws.Cells(i, 2).Value2), 6) <> "Latest"
+        i = i + 1
+    Loop
+    nI = i - (aI.Row + 2)
+    ' ---- staging: top 10 unrevoked storage licences by MW
     Set d = ThisWorkbook.Worksheets("D_Storage")
     lastR = d.Cells(d.Rows.Count, 1).End(xlUp).Row
-    ReDim used(2 To IIf(lastR < 2, 2, lastR))
-    For k = 0 To 9
+    ReDim used(1 To IIf(lastR < 2, 2, lastR))
+    For k = 1 To 10
         best = 0: bp = -1
         For r = 2 To lastR
-            If Len(CStr(d.Cells(r, 5).Value2)) = 0 And IsNumeric(d.Cells(r, 3).Value2) And Not IsEmpty(d.Cells(r, 3).Value2) And Not used(r) Then
-                pw = CDbl(d.Cells(r, 3).Value2)
-                If pw > bp Then bp = pw: best = r
+            If Len(CStr(d.Cells(r, 5).Value2)) = 0 And Not IsEmpty(d.Cells(r, 3).Value2) And Not used(r) Then
+                If IsNumeric(d.Cells(r, 3).Value2) Then
+                    If CDbl(d.Cells(r, 3).Value2) > bp Then bp = CDbl(d.Cells(r, 3).Value2): best = r
+                End If
             End If
         Next r
         If best > 0 Then
             used(best) = True
-            ws.Cells(a.Row + 2 + k, 2).Value2 = Left$(CStr(d.Cells(best, 1).Value2), 34)
-            ws.Cells(a.Row + 2 + k, 3).Value2 = d.Cells(best, 3).Value2
-            ws.Cells(a.Row + 2 + k, 4).Value2 = d.Cells(best, 4).Value2
-            ws.Cells(a.Row + 2 + k, 5).Value2 = Left$(CStr(d.Cells(best, 2).Value2), 60)
-        End If
+            stoOut(k, 1) = Left$(CStr(d.Cells(best, 1).Value2), 34)
+            stoOut(k, 2) = d.Cells(best, 3).Value2
+            stoOut(k, 3) = d.Cells(best, 4).Value2
+            stoOut(k, 4) = Left$(CStr(d.Cells(best, 2).Value2), 60)
+        End If                                      ' unused slots stay Empty and clear the old row
     Next k
-    ' top 12 E.ON substations by releasable MVA
-    Set a = ws.Columns(2).Find("E.ON offtake", LookIn:=xlValues, LookAt:=xlPart)
-    If a Is Nothing Then RefreshRegisterTables = "substation table not found": Exit Function
+    ' ---- staging: top 12 E.ON substations by releasable MVA
     Set d = ThisWorkbook.Worksheets("D_Substations")
     lastR = d.Cells(d.Rows.Count, 1).End(xlUp).Row
-    ReDim used(2 To IIf(lastR < 2, 2, lastR))
+    ReDim used(1 To IIf(lastR < 2, 2, lastR))
     tot = 0
     For r = 2 To lastR
-        If IsNumeric(d.Cells(r, 4).Value2) Then tot = tot + CDbl(d.Cells(r, 4).Value2)
+        If Not IsEmpty(d.Cells(r, 4).Value2) Then If IsNumeric(d.Cells(r, 4).Value2) Then tot = tot + CDbl(d.Cells(r, 4).Value2)
     Next r
-    For k = 0 To 11
+    For k = 1 To 12
         best = 0: bp = -1
         For r = 2 To lastR
-            If IsNumeric(d.Cells(r, 4).Value2) And Not IsEmpty(d.Cells(r, 4).Value2) And Not used(r) Then
-                If CDbl(d.Cells(r, 4).Value2) > bp Then bp = CDbl(d.Cells(r, 4).Value2): best = r
+            If Not IsEmpty(d.Cells(r, 4).Value2) And Not used(r) Then
+                If IsNumeric(d.Cells(r, 4).Value2) Then
+                    If CDbl(d.Cells(r, 4).Value2) > bp Then bp = CDbl(d.Cells(r, 4).Value2): best = r
+                End If
             End If
         Next r
         If best > 0 Then
             used(best) = True
-            ws.Cells(a.Row + 2 + k, 2).Value2 = d.Cells(best, 2).Value2
-            ws.Cells(a.Row + 2 + k, 3).Value2 = d.Cells(best, 3).Value2
-            ws.Cells(a.Row + 2 + k, 4).Value2 = d.Cells(best, 4).Value2
-            ws.Cells(a.Row + 2 + k, 5).Value2 = d.Cells(best, 5).Value2
+            subOut(k, 1) = d.Cells(best, 2).Value2: subOut(k, 2) = d.Cells(best, 3).Value2
+            subOut(k, 3) = d.Cells(best, 4).Value2: subOut(k, 4) = d.Cells(best, 5).Value2
         End If
     Next k
-    ws.Cells(a.Row + 15, 2).Value2 = "Total of " & (lastR - 1) & " published substation rows: " & Format$(tot, "0") & " MVA releasable now. MVM Halozat, MVM Emasz and MAVIR substation data are not parsed."
-    ' installed capacity: 2025 column and latest column per fuel group
-    Set a = ws.Columns(2).Find("Installed capacity by primary source", LookIn:=xlValues, LookAt:=xlPart)
-    If a Is Nothing Then RefreshRegisterTables = "installed table not found": Exit Function
+    totTxt = "Total of " & Application.WorksheetFunction.Max(lastR - 1, 0) & " published substation rows: " & Format$(tot, "0") & " MVA releasable now. MVM Halozat, MVM Emasz and MAVIR substation data are not parsed."
+    ' ---- staging: installed capacity (2025 and latest period per fuel group)
     Set d = ThisWorkbook.Worksheets("D_Installed")
     lastR = d.Cells(d.Rows.Count, 1).End(xlUp).Row
     lp = ""
     For r = 2 To lastR
         If CStr(d.Cells(r, 2).Value2) > lp Then lp = CStr(d.Cells(r, 2).Value2)
     Next r
-    ws.Cells(a.Row + 1, 4).Value2 = "Latest (MW) " & lp
-    i = a.Row + 2
-    Do While Len(CStr(ws.Cells(i, 2).Value2)) > 0 And Left$(CStr(ws.Cells(i, 2).Value2), 6) <> "Latest"
-        g = CStr(ws.Cells(i, 2).Value2)
-        v2025 = Empty: vl = Empty
+    ReDim insC(1 To IIf(nI < 1, 1, nI), 1 To 2)
+    For i = 1 To nI
+        g = CStr(ws.Cells(aI.Row + 1 + i, 2).Value2)
         For r = 2 To lastR
             If Replace(CStr(d.Cells(r, 1).Value2), "_", " ") = g Then
-                If CStr(d.Cells(r, 2).Value2) = "2025" Then v2025 = d.Cells(r, 3).Value2
-                If CStr(d.Cells(r, 2).Value2) = lp Then vl = d.Cells(r, 3).Value2
+                If CStr(d.Cells(r, 2).Value2) = "2025" Then insC(i, 1) = d.Cells(r, 3).Value2
+                If CStr(d.Cells(r, 2).Value2) = lp Then insC(i, 2) = d.Cells(r, 3).Value2
             End If
         Next r
-        ws.Cells(i, 3).Value2 = v2025
-        ws.Cells(i, 4).Value2 = vl
-        i = i + 1
-    Loop
+    Next i
+    ' ---- backup of every output block
+    bkS = ws.Range(ws.Cells(aS.Row + 2, 2), ws.Cells(aS.Row + 11, 5)).Value2
+    bkE = ws.Range(ws.Cells(aE.Row + 2, 2), ws.Cells(aE.Row + 13, 5)).Value2
+    bkT = ws.Cells(aE.Row + 15, 2).Value2
+    bkH = ws.Cells(aI.Row + 1, 4).Value2
+    If nI > 0 Then bkI = ws.Range(ws.Cells(aI.Row + 2, 3), ws.Cells(aI.Row + 1 + nI, 4)).Value2
+    ' ---- write
+    wrote = True
+    ws.Range(ws.Cells(aS.Row + 2, 2), ws.Cells(aS.Row + 11, 5)).Value2 = stoOut
+    ws.Range(ws.Cells(aE.Row + 2, 2), ws.Cells(aE.Row + 13, 5)).Value2 = subOut
+    ws.Cells(aE.Row + 15, 2).Value2 = totTxt
+    ws.Cells(aI.Row + 1, 4).Value2 = "Latest (MW) " & lp
+    If nI > 0 Then ws.Range(ws.Cells(aI.Row + 2, 3), ws.Cells(aI.Row + 1 + nI, 4)).Value2 = insC
     Exit Function
 Fail:
-    RefreshRegisterTables = "error " & Err.Number & ": " & Err.Description & " (saved tables kept)"
+    RefreshRegisterTables = "error " & Err.Number & ": " & Err.Description
+    If wrote Then
+        On Error Resume Next
+        ws.Range(ws.Cells(aS.Row + 2, 2), ws.Cells(aS.Row + 11, 5)).Value2 = bkS
+        ws.Range(ws.Cells(aE.Row + 2, 2), ws.Cells(aE.Row + 13, 5)).Value2 = bkE
+        ws.Cells(aE.Row + 15, 2).Value2 = bkT
+        ws.Cells(aI.Row + 1, 4).Value2 = bkH
+        If nI > 0 Then ws.Range(ws.Cells(aI.Row + 2, 3), ws.Cells(aI.Row + 1 + nI, 4)).Value2 = bkI
+        RefreshRegisterTables = RefreshRegisterTables & " (previous tables restored)"
+    Else
+        RefreshRegisterTables = RefreshRegisterTables & " (nothing written, saved tables kept)"
+    End If
 End Function
