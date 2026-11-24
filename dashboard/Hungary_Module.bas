@@ -35,7 +35,9 @@ Private Function Specs() As Variant
       Array("mavir_installed_capacity.csv", "D_Installed", "~Fuel_Group,~Period,Gross_Installed_MW"), _
       Array("balance_responsible_parties.csv", "D_BRP", "~Balance_Responsible_Party,~EIC_Code,~Valid_From"), _
       Array("solar_capture_daily.csv", "D_SolarCapture", "~Delivery_Date,Day_Avg_Price_EUR_MWh,Solar_Weighted_Avg_Price_EUR_MWh,Solar_Capture_Ratio,Solar_Generation_MWh,~Note"), _
-      Array("bess_spread_daily.csv", "D_BessSpread", "~Delivery_Date,Window_Hours,~Charge_Window_Start_Local,~Charge_Window_End_Local,Charge_Avg_Price_EUR_MWh,~Discharge_Window_Start_Local,~Discharge_Window_End_Local,Discharge_Avg_Price_EUR_MWh,Spread_EUR_MWh,~Note,~Day_Window_Key"))
+      Array("bess_spread_daily.csv", "D_BessSpread", "~Delivery_Date,Window_Hours,~Charge_Window_Start_Local,~Charge_Window_End_Local,Charge_Avg_Price_EUR_MWh,~Discharge_Window_Start_Local,~Discharge_Window_End_Local,Discharge_Avg_Price_EUR_MWh,Spread_EUR_MWh,~Note,~Day_Window_Key"), _
+      Array("solar_bess_scenarios.csv", "D_SBScenarios", "~Scenario_Key,~Site,PV_MWp,BESS_Hours,BESS_Power_MW,BESS_Energy_MWh,~Strategy,PV_Energy_MWh,Capture_EUR_per_MWh,Gross_EUR,Degradation_EUR,Net_EUR,Discharge_MWh,Curtail_MWh,Year,~Basis"), _
+      Array("solar_bess_dispatch_hourly.csv", "D_SBDispatch", "~Scenario_Key,~Day_Type,~Delivery_Date,~Hour_Local,PV_MW,Charge_MW,Discharge_MW,SOC_MWh,Net_MW,Curtailed_MW,Price_EUR_MWh,~Row_Key"))
 End Function
 
 Public Sub RefreshHungary(Optional ByVal Silent As Boolean = False)
