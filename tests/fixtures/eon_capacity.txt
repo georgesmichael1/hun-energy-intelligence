@@ -1,0 +1,180 @@
+Grid hosting capacity - EEL
+
+                                                                                   NAF/KÖF transzformátor
+                                                  NAF/KÖF transzformátor
+                                                                                     kapacitás szerint KÖF
+         Állomás /                             kapacitás szerint KÖF hálózaton
+                        Feszültségszint                                         hálózaton kiadható vételezési
+      Kapcsolóállomás                          kiadható vételezés teljesítmény
+                                                                               teljesítmény következő 5 évben
+                                                      aktuális mértéke
+                                                                                   valószínűsíthető mértéke
+                              [kV]                         [MVA]                            [MVA]
+Albertfalva                               11                                 6                                2
+Angyalföld                                11                               23                                8
+Békásmegyer                               11                                 7                               4
+Biatorbágy                                22                                 0                               0
+Budaközép                                 11                               26                               21
+Budaörs                                   22                               18                               15
+Csarnoktér                                11                               19                                9
+Csepel                                    11                               23                               22
+Csepel Észak                              11                               39                               34
+Diósd                                     22                                 0                               0
+Dunakeszi                                 22                                 0                               0
+Dunavarsány                               22                               64                               65
+Érd                                       22                                 8                               3
+Erzsébetváros                             11                                 8                               4
+Felsőbabád                                22                                 2                               0
+Fót                                       22                                 7                               2
+Gödöllő                                   22                               25                               14
+Káposztásmegyer                           11                               48                               36
+Kaszásdűlő                                11                               22                               10
+Katona                                    11                               22                               13
+Kelenföld                                 11                               20                               11
+Kispest                                   11                               10                                0
+Kőbánya                                   11                                 0                               0
+Kőtér                                     11                                 8                               0
+Laczkovich                                11                                 0                               0
+Lágymányos                                11                                 3                               0
+Mátyásföld                                22                                 2                               0
+Népliget                                  11                               15                                7
+Őrmező                                    11                               28                               12
+Pesterzsébet                              11                                 7                               1
+Pestlőrinc                                11                               41                               35
+Pomáz                                     22                               15                               11
+Ráckeve                                   22                                 4                               0
+Rákosfalva                                11                               18                               14
+Rákoskeresztúr                            22                               18                                8
+Rózsakert                                 11                               10                                6
+Solymár                                   22                                 0                               0
+Soroksár                                  22                               14                                2
+
+                                                                                                                  1
+Grid hosting capacity - EDE
+
+                                                                                    NAF/KÖF transzformátor
+                                                   NAF/KÖF transzformátor
+                                                                                      kapacitás szerint KÖF
+          Állomás /                             kapacitás szerint KÖF hálózaton
+                         Feszültségszint                                         hálózaton kiadható vételezési
+       Kapcsolóállomás                          kiadható vételezés teljesítmény
+                                                                                teljesítmény következő 5 évben
+                                                       aktuális mértéke
+                                                                                    valószínűsíthető mértéke
+                              [kV]                          [MVA]                            [MVA]
+Szigethalom                                22                                 0                                0
+Sződ                                       22                                 4                               1
+Újhartyán                                  22                                 8                               7
+Újpest                                     11                               22                               18
+Üllő                                       22                                 0                               0
+Vác                                        35                                 6                               4
+Vác                                        22                                 2                               3
+Városliget                                 22                               26                               16
+Vecsés                                     22                                 0                               0
+Vecsés                                     11                               20                                8
+Vérmező                                    11                                 3                               0
+Virányos                                   11                               23                               18
+Zugló                                      11                               35                               17
+
+
+
+
+                                                                                                                   2
+Módszertan
+
+                                                                                  Módszertani meghatározás
+           VET Vhr. 8. § alapján                              Termelési (betáplálási oldal)        Fogyasztási (vételezési oldal)
+„(7) Az elosztó átlátható és egyértelmű                 Az Elosztói Engedélyes a Vet Vhr. 8. § (7) bekezdésében előírt közzétételi kötelezettségének
+formában a honlapján közzéteszi és legalább             úgy tesz eleget, hogy a termelési és fogyasztási célú szabad hálózati kapacitásokra
+negyedévente aktualizálja az ellátási                   vonatkozó adatokat egységes formátumban, negyedévente aktualizálva teszi közzé
+területén                                               hivatalos weboldalán. A frissítés a rendelkezésre álló hálózati adatok, üzemviteli állapotok és
+                                                        jóváhagyott prognózisok figyelembevételével történik.
+                                                        A transzformátorkörzetenként
+                                                        meghatározott, termelési célú aktuális szabad
+                                                                                                         A fogyasztási célú csatlakozások
+                                                        kapacitások meghatározása során az Elosztói
+                                                                                                         tekintetében az aktuálisan rendelkezésre
+                                                        Engedélyes az adott NAF/KÖF transzformátor
+                                                                                                         álló szabad kapacitás az egyes alállomások
+                                                        betáplálási teljesítményét veti össze a
+                                                                                                         N–1 üzemi állapotban értelmezett
+                                                   a1   transzformátor névleges teljesítményének
+a) k isfeszültségen                                                                                     transzformátor‑kapacitásainak, valamint
+                                                        140%-ában meghatározott határértékével,
+   transzformátorkörzetenként, közép- és                                                                 az alállomás, mérési eredmények
+                                                        a számításban figyelembe véve az SCTE
+   nagyfeszültségen alállomásonként a                                                                    alapján legnagyobb csúcsterhelésének
+                                                        (saját célra termelő erőművek) és a HMKE
+   hálózati csatlakozásra rendelkezésre álló                                                             összevetésével kerül meghatározásra.
+                                                        (háztartási méretű kiserőművek) betáplálását
+   szabad transzformátorkapacitások aktuális            is.
+   és – a hálózatfejlesztési terv szerinti
+   fejlesztésekre és a VET 170. § (2) bekezdés          A következő öt évben valószínűsíthető,
+   25. pontjában kapott felhatalmazáson                 termelési célú szabad kapacitások                A fogyasztási célú, öt évre előretekintő
+   alapuló rendelet szerint meghirdetett                meghatározása a betáplálási teljesítmény és szabad kapacitás meghatározása során
+   kapacitások alapján – a következő öt évben           a transzformátor névleges teljesítményének az Elosztói Engedélyes az alállomási
+   valószínűsíthető mértékét, megjelölve, ha            140%-a közötti viszony vizsgálatával,            N–1 üzemi állapotban értelmezett
+   zárolt áramkör érintett,                             valamint a Hálózatfejlesztési Tervben            transzformátorkapacitást veti össze a
+                                                   a2
+                                                        rögzített, a Hivatal által jóváhagyott           Hálózatfejlesztési Tervben szereplő, a
+                                                        prognózis alkalmazásával történik. Az Elosztó Hivatal által jóváhagyott prognózis szerinti
+                                                        a jogszabály szerinti kapacitás‑kiosztási        csúcsterheléssel. A számítás kizárólag
+                                                        eljárásban meghatározott betáplásási             a jóváhagyott természetviselkedési
+                                                        kapacitást (ideértve azt is, ha annak értéke     dokumentumon alapulhat.
+                                                        nulla) a közzétett adatokban szerepelteti.
+                                                        A termelési célú, öt éves előrejelzés            A fogyasztási célú kapacitások előrejelzése
+                                                        készítésekor az Elosztói Engedélyes a            során az Elosztói Engedélyes a folyamatban
+b) az a) pont szerinti bontásban azon
+                                                        már megkötött, de még nem teljesített            lévő csatlakozási szerződések teljesítéséhez
+    kapacitások mértékét, amelyekre
+                                                        csatlakozási szerződések alapján lekötött        szükséges, már lekötött kapacitásokat
+    vonatkozóan csatlakozási szerződés
+                                                        kapacitásokat a rendelkezésre álló jövőbeni      figyelembe veszi, és az öt éves időtávra
+    teljesítése folyamatban van,
+                                                        szabad kapacitásból levonja, és az így korrigált vonatkozó szabad kapacitást ezekkel
+                                                        értéket tünteti fel a honlapon közzétéve.        csökkentve állapítja meg és teszi közzé.
+c) azon kisfeszültségű
+    transzformátorkörzetek, illetve közép- és
+                                                        A termelési célú csatlakozások esetében
+    nagyfeszültségű alállomások listáját,                                                                A fogyasztási célú csatlakozások esetében
+                                                        az Elosztói Engedélyes a honlapon minden
+    amelyek esetében a csatlakozásra                                                                     az Elosztói Engedélyes a rugalmas hálózati
+                                                        érintett NAF/KÖF alállomást rugalmas
+    rendelkezésre álló hálózati kapacitások                                                              csatlakozás lehetőségét minden olyan NAF/
+                                                        hálózati csatlakozásra alkalmasként
+    szűkösségére tekintettel a rugalmas                                                                  KÖF alállomás tekintetében megjelöli, ahol
+                                                        jelöli meg, és egyértelműen feltünteti a
+    hálózati csatlakozás lehetőségét biztosítja,                                                         az alkalmazható, biztosítva ezzel a fogyasztói
+                                                        kapacitás‑kiosztási eljárásra vonatkozó
+    figyelemmel a VET 170. § (2) bekezdés                                                                oldali igények rugalmassággal történő
+                                                        jogszabályi kereteket, valamint a rugalmas
+    25. pontjában kapott felhatalmazáson                                                                 kielégítésének lehetőségét.
+                                                        csatlakozás igénybevételének alapelveit.
+    alapuló rendelet alapján meghirdetettekre,
+    valamint
+                                                        A termelési célú kapacitások
+                                                        meghatározásának módszertana a betáplálási
+                                                        teljesítmény és a transzformátor névleges
+                                                                                                     A fogyasztási célú módszertan az alállomási
+                                                        teljesítményének 140%-os műszaki korlátja
+                                                                                                     N–1 üzemi állapot vizsgálatán, a történeti és
+                                                        közötti viszony elemzésén alapul, figyelembe
+                                                                                                     prognosztizált csúcsterhelés összevetésén,
+                                                        véve az SCTE és HMKE betáplálásokat. A
+d) az a) pont szerinti szabad kapacitások                                                           valamint a Hivatal által jóváhagyott
+                                                        módszertan alapját az Elosztói Szabályzat
+    meghatározásához figyelembe vett                                                                 Hálózatfejlesztési Terv természetviselkedési
+                                                        16.3.2.5. pontja, valamint a Hivatal
+    kritériumokat és módszertant.”                                                                   dokumentumában szereplő prognózisokon
+                                                        által jóváhagyott Hálózatfejlesztési Terv
+                                                                                                     alapul. A rugalmas csatlakozás feltételeit és
+                                                        természetviselkedési dokumentuma képzi,
+                                                                                                     alkalmazását a Rugalmassági Munkacsoport
+                                                        továbbá a rugalmas csatlakozás fogalmát
+                                                                                                     által közzétett tájékoztató rögzíti.
+                                                        és alkalmazási feltételeit a Rugalmassági
+                                                        Munkacsoport által közzétett tájékoztató
+                                                        rögzíti.
+
+                                                                                                                                                          3
+
