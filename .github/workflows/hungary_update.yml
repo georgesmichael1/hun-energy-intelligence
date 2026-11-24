@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: '*/30 * * * *'   # every 30 minutes, UTC
   workflow_dispatch:          # manual "Run workflow" entrypoint
+    inputs:
+      force_entsoe_daily:
+        description: 'Rerun the daily ENTSO-E batch even if it already succeeded today'
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -42,6 +47,8 @@ jobs:
       # One orchestrator: token-free feeds always; ENTSO-E daily batch when due.
       # Good data is committed even if a later step fails.
       - name: Run Hungary update
+        env:
+          ENTSOE_FORCE_DAILY: ${{ inputs.force_entsoe_daily }}
         run: python3 run_scheduled.py
 
       - name: Commit and push updated files
