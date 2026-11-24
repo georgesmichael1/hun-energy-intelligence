@@ -3,6 +3,7 @@ Covers all seven Hungarian borders in both directions (14 directional series).
 Does not change load forecasts or day-ahead prices.
 """
 import copy
+import collections
 import csv
 import datetime as dt
 import io
@@ -93,6 +94,16 @@ def complete(rows, day):
                 all(a['Interval_End_UTC'] == b['Interval_Start_UTC'] for a, b in zip(rows, rows[1:])))
 
 
+def classify_failure(exc):
+    """Separate a source that publishes nothing from transport, validation and auth problems."""
+    msg = str(exc)[:200]
+    if isinstance(exc, e.DataError) and msg.startswith('API acknowledgement, code 999'):
+        return dict(category='SOURCE_NO_DATA', reason=msg + ' (ENTSO-E publishes no data for this direction/window; saved intervals retained)')
+    if isinstance(exc, e.APIError):
+        return dict(category='TRANSPORT', reason=msg + '; saved intervals retained')
+    return dict(category='VALIDATION', reason=msg + '; saved intervals retained')
+
+
 def update(output_dir='.', now=None, session=None, token=None):
     now = now or dt.datetime.now(dt.timezone.utc)
     today = now.astimezone(e.TZ).date()
@@ -150,10 +161,10 @@ def update(output_dir='.', now=None, session=None, token=None):
                                       elapsed_seconds=round(time.monotonic() - begin, 2))), flush=True)
             except e.StopAPI:
                 stopped = True
-                failures.append(dict(direction=source + '>' + target, reason='Authentication or rate limit'))
-            except (e.APIError, e.DataError, ValueError, KeyError, TypeError, ET.ParseError):
-                failures.append(dict(direction=source + '>' + target,
-                                     reason='Source unavailable or validation failed; saved intervals retained'))
+                failures.append(dict(direction=source + '>' + target, category='AUTH_OR_RATE_LIMIT',
+                                     reason='Authentication or rate limit'))
+            except (e.APIError, e.DataError, ValueError, KeyError, TypeError, ET.ParseError) as exc:
+                failures.append(dict(direction=source + '>' + target, **classify_failure(exc)))
                 print(json.dumps(dict(direction=source + '>' + target, result='unavailable_or_invalid',
                                       elapsed_seconds=round(time.monotonic() - begin, 2))), flush=True)
             time.sleep(1)
@@ -176,11 +187,20 @@ def update(output_dir='.', now=None, session=None, token=None):
                                  complete=complete(rr, day),
                                  latest_end_utc=max((r['Interval_End_UTC'] for r in rr), default=None)))
     historic_gaps = [x for x in coverage if x['day'] < str(today) and not x['complete']]
-    state = 'OK' if not historic_gaps and not failures else 'PARTIAL'
+    no_data_dirs = {f['direction'] for f in failures if f.get('category') == 'SOURCE_NO_DATA'}
+    hard_failures = [f for f in failures if f.get('category') != 'SOURCE_NO_DATA']
+    unexplained = [g for g in historic_gaps if g['direction'] not in no_data_dirs]
+    if not historic_gaps and not failures:
+        state = 'OK'
+    elif not hard_failures and not unexplained:
+        state = 'SOURCE_PARTIAL'   # only directions the source publishes nothing for
+    else:
+        state = 'PARTIAL'          # transport, validation, auth or unexplained gaps
     status = dict(state=state, checked_at=utc_now(), timezone='Europe/Budapest',
                   requested_first_day=str(oldest), requested_last_day=str(today),
                   requested_delivery_days=31, unit='MW', row_count=len(rows),
                   historical_incomplete_pairs=historic_gaps, request_failures=failures,
+                  failure_categories=dict(collections.Counter(f.get('category', 'UNKNOWN') for f in failures)),
                   coverage=coverage,
                   note='Raw directional measurements. Today contains published completed intervals only. '
                        'Net export = HU outbound minus inbound; match exact UTC interval and resolution. '
