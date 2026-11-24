@@ -144,8 +144,15 @@ def day_bounds(day):
     return start, end
 
 
-def export_chart(session, chart_id, window_start, window_end, *, max_429_retries=4):
-    """Download the XLSX export for one chart and window. Retries 429 politely."""
+TRANSPORT_ERRORS = (requests.ConnectTimeout, requests.ReadTimeout, requests.ConnectionError)
+
+
+def export_chart(session, chart_id, window_start, window_end, *, max_429_retries=4, max_transport_retries=3):
+    """Download the XLSX export for one chart and window.
+
+    Retries HTTP 429 politely and retries transport failures (connect/read
+    timeouts, connection errors) with linear backoff; after the bounded
+    attempts are exhausted the failure is preserved, never hidden."""
     params = {
         "exportType": "xlsx",
         "fromTime": int(window_start.timestamp() * 1000),
@@ -153,9 +160,16 @@ def export_chart(session, chart_id, window_start, window_end, *, max_429_retries
         "periodType": "min",
         "period": RESOLUTION_MIN,
     }
+    transport_attempts = 0
     for attempt in range(max_429_retries + 1):
         try:
             response = session.get(EXPORT_URL.format(chart_id=chart_id), params=params, timeout=(10, 90))
+        except TRANSPORT_ERRORS as exc:
+            if transport_attempts >= max_transport_retries:
+                raise MavirError("Network request failed after retries: " + type(exc).__name__) from None
+            transport_attempts += 1
+            time.sleep(5 * transport_attempts)
+            continue
         except requests.RequestException as exc:
             raise MavirError("Network request failed: " + type(exc).__name__) from None
         if response.status_code == 429:
