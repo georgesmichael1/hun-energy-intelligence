@@ -31,6 +31,7 @@ import mnb_fx
 import imf_gdp
 import eurostat_feeds
 import brp_feed
+import mekh_register_feed
 
 TZ = ZoneInfo("Europe/Budapest")
 UTC = dt.timezone.utc
@@ -203,6 +204,16 @@ def sync_master_csv(master_path=MASTER_CSV, status_path=STATUS_JSON):
                 Period_Year=str(dt.datetime.now(UTC).year),
                 Verification_Status_Source_URL=agg.get("source", ""))
 
+    ma = DATASETS.get("mekh_aggregators", {})
+    if ma.get("state") == "OK":
+        set_row("HUN-0009", Primary_Value=ma["aggregator_count"], Period_Year=str(dt.datetime.now(UTC).year),
+                Verification_Status_Source_URL=ma.get("source", ""))
+    ms = DATASETS.get("mekh_storage_licences", {})
+    if ms.get("state") == "OK":
+        set_row("HUN-0010", Primary_Value=ms["nominal_power_mw_unrevoked"], Period_Year=str(dt.datetime.now(UTC).year),
+                Secondary_Value="%d licence rows; licensed, not necessarily operating" % ms["licence_count"],
+                Verification_Status_Source_URL=ms.get("source", ""))
+
     out = io.StringIO(newline="")
     writer = csv.DictWriter(out, fieldnames=columns, lineterminator="\n")
     writer.writeheader()
@@ -229,6 +240,7 @@ def main():
     call("current_gdp", lambda: imf_gdp.update_current_gdp())  # own curl_cffi session; IMF blocks plain requests
     call("eurostat", lambda: eurostat_feeds.update_eurostat(session=session))
     call("brp_register", lambda: brp_feed.update_brp_register(session=session))
+    call("mekh_register", lambda: mekh_register_feed.update_mekh_register(session=session))
     call("population", lambda: fetch_eurostat_population(session))
     call("worldbank", lambda: fetch_worldbank_hun_macro(session))
 
