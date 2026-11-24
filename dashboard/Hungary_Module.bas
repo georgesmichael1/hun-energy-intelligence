@@ -19,7 +19,7 @@ Public HungaryLastWarning As String
 ' ~name = copy as text; #text = constant text
 Private Function Specs() As Variant
     Specs = Array( _
-      Array("hupx_day_ahead_prices.csv", "D_Price", "~Delivery_Date,@LOCAL,Price_EUR_MWh,#HUPX day-ahead via energy-charts (CC BY 4.0)"), _
+      Array("hupx_day_ahead_prices.csv", "D_Price", "~Delivery_Date,@LOCAL,Price_EUR_MWh,~Attribution"), _
       Array("entsoe_day_ahead_prices.csv", "D_EntsoePrice", "~Delivery_Date,@LOCAL,Price_EUR_MWh,#ENTSO-E A44 (primary owner HUPX)"), _
       Array("mavir_load.csv", "D_Load", "@LOCAL,Gross_Actual_System_Load_MW,Gross_Plan_System_Load_MW,Net_Actual_Load_Settlement_MW"), _
       Array("mavir_generation_15min.csv", "D_Gen", "@LOCAL,Net_Domestic_Generation_Actual_MW,Nuclear_MW,Lignite_MW,Gas_MW,Wind_Onshore_MW,Biomass_MW,Solar_PV_Measured_MW,Hydro_RunOfRiver_MW,Waste_Incineration_MW"), _
