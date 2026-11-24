@@ -3,9 +3,15 @@
 import datetime as dt
 import json
 import os
+import threading
 from pathlib import Path
 
 DATASETS = {}
+# run_scheduled runs the token-free update and the ENTSO-E daily batch in
+# parallel threads; both record() and write_status() touch DATASETS, so they
+# are serialized here (a dict changing size mid-iteration would otherwise be
+# able to crash write_status).
+_LOCK = threading.RLock()
 
 
 def utc_now():
@@ -13,15 +19,16 @@ def utc_now():
 
 
 def record(name, state, *, detail='', **metadata):
-    now = utc_now()
-    entry = {
-        'state': state,
-        'checked_at': now,
-        'last_attempt_at': metadata.pop('last_attempt_at', now),
-        'detail': detail,
-        **metadata,
-    }
-    DATASETS[name] = entry
+    with _LOCK:
+        now = utc_now()
+        entry = {
+            'state': state,
+            'checked_at': now,
+            'last_attempt_at': metadata.pop('last_attempt_at', now),
+            'detail': detail,
+            **metadata,
+        }
+        DATASETS[name] = entry
 
 
 def atomic_text(path, text):
@@ -34,6 +41,11 @@ def atomic_text(path, text):
 
 
 def write_status(path, *, rows=None, legacy=None):
+    with _LOCK:
+        return _write_status_locked(path, rows=rows, legacy=legacy)
+
+
+def _write_status_locked(path, *, rows=None, legacy=None):
     try:
         old = json.loads(Path(path).read_text(encoding='utf-8'))
     except (OSError, ValueError):
