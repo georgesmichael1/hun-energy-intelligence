@@ -103,3 +103,63 @@ class ExportParseTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+class _FakeResponse:
+    def __init__(self, status_code=200, content=b""):
+        self.status_code = status_code
+        self.content = content
+
+
+class _FlakySession:
+    """Fails with a transport error a fixed number of times, then succeeds."""
+
+    def __init__(self, failures, error, response):
+        self.remaining = failures
+        self.error = error
+        self.response = response
+        self.calls = 0
+
+    def get(self, *args, **kwargs):
+        self.calls += 1
+        if self.remaining > 0:
+            self.remaining -= 1
+            raise self.error
+        return self.response
+
+
+class ExportTransportRetryTest(unittest.TestCase):
+    def setUp(self):
+        self._sleep = m.time.sleep
+        m.time.sleep = lambda *a, **k: None
+
+    def tearDown(self):
+        m.time.sleep = self._sleep
+
+    def _window(self):
+        start = dt.datetime(2026, 11, 23, tzinfo=TZ).astimezone(dt.timezone.utc)
+        return start, start + dt.timedelta(days=1)
+
+    def test_connect_timeout_retried_then_success(self):
+        import requests
+        content, _ = day_export(dt.date(2026, 11, 23), None)
+        session = _FlakySession(2, requests.ConnectTimeout("slow"), _FakeResponse(200, content))
+        start, end = self._window()
+        result = m.export_chart(session, "7678", start, end)
+        self.assertEqual(result, content)
+        self.assertEqual(session.calls, 3)
+
+    def test_failure_preserved_after_bounded_retries(self):
+        import requests
+        session = _FlakySession(99, requests.ConnectionError("down"), _FakeResponse(200, b"PKxx"))
+        start, end = self._window()
+        with self.assertRaises(m.MavirError):
+            m.export_chart(session, "7678", start, end)
+        self.assertEqual(session.calls, 4)  # 1 initial + 3 bounded retries
+
+    def test_non_transport_error_not_retried(self):
+        import requests
+        session = _FlakySession(1, requests.HTTPError("bad"), _FakeResponse(200, b"PKxx"))
+        start, end = self._window()
+        with self.assertRaises(m.MavirError):
+            m.export_chart(session, "7678", start, end)
+        self.assertEqual(session.calls, 1)
