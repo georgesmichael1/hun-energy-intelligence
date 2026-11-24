@@ -32,6 +32,7 @@ Private Function Specs() As Variant
       Array("mekh_aggregators.csv", "D_Aggregators", "~Aggregator,~Registration_Decision_No,~City"), _
       Array("hun_substation_capacity.csv", "D_Substations", "~Table_Label,~Substation,Voltage_kV,Releasable_Offtake_MVA,Probable_5y_Offtake_MVA"), _
       Array("mekh_storage_licences.csv", "D_Storage", "~Licensee,~Site,Nominal_Power_MW,Storage_Capacity_MWh,~Revoked_Date"), _
+      Array("mavir_installed_capacity.csv", "D_Installed", "~Fuel_Group,~Period,Gross_Installed_MW"), _
       Array("balance_responsible_parties.csv", "D_BRP", "~Balance_Responsible_Party,~EIC_Code,~Valid_From"))
 End Function
 
@@ -52,6 +53,8 @@ Public Sub RefreshHungary(Optional ByVal Silent As Boolean = False)
     Next i
     msg = ImportStatus()
     If Len(msg) > 0 Then HungaryLastWarning = HungaryLastWarning & "status.json: " & msg & vbLf
+    msg = RefreshRegisterTables()
+    If Len(msg) > 0 Then HungaryLastWarning = HungaryLastWarning & "register tables: " & msg & vbLf
     ResizeCharts
     Application.Calculation = xlCalculationAutomatic
     Application.Calculate
@@ -416,3 +419,90 @@ NextMatch:
         End If
     Next ws
 End Sub
+
+' rewrites the value tables on the Registers page from the refreshed D_* sheets (top storage, E.ON substations, installed capacity)
+Private Function RefreshRegisterTables() As String
+    Dim ws As Worksheet, c As Range, a As Range, d As Worksheet, r As Long, i As Long, k As Long, best As Long, lastR As Long
+    Dim used() As Boolean, pw As Double, bp As Double, lp As String, g As String, tot As Double, v2025 As Variant, vl As Variant
+    On Error GoTo Fail
+    For Each ws In ThisWorkbook.Worksheets
+        If Left$(ws.Name, 2) <> "D_" Then
+            Set a = ws.Columns(2).Find("Largest unrevoked storage", LookIn:=xlValues, LookAt:=xlPart)
+            If Not a Is Nothing Then Exit For
+        End If
+    Next ws
+    If a Is Nothing Then RefreshRegisterTables = "Registers page not found": Exit Function
+    ' top 10 unrevoked storage licences by MW
+    Set d = ThisWorkbook.Worksheets("D_Storage")
+    lastR = d.Cells(d.Rows.Count, 1).End(xlUp).Row
+    ReDim used(2 To IIf(lastR < 2, 2, lastR))
+    For k = 0 To 9
+        best = 0: bp = -1
+        For r = 2 To lastR
+            If Len(CStr(d.Cells(r, 5).Value2)) = 0 And IsNumeric(d.Cells(r, 3).Value2) And Not IsEmpty(d.Cells(r, 3).Value2) And Not used(r) Then
+                pw = CDbl(d.Cells(r, 3).Value2)
+                If pw > bp Then bp = pw: best = r
+            End If
+        Next r
+        If best > 0 Then
+            used(best) = True
+            ws.Cells(a.Row + 2 + k, 2).Value2 = Left$(CStr(d.Cells(best, 1).Value2), 34)
+            ws.Cells(a.Row + 2 + k, 3).Value2 = d.Cells(best, 3).Value2
+            ws.Cells(a.Row + 2 + k, 4).Value2 = d.Cells(best, 4).Value2
+            ws.Cells(a.Row + 2 + k, 5).Value2 = Left$(CStr(d.Cells(best, 2).Value2), 60)
+        End If
+    Next k
+    ' top 12 E.ON substations by releasable MVA
+    Set a = ws.Columns(2).Find("E.ON offtake", LookIn:=xlValues, LookAt:=xlPart)
+    If a Is Nothing Then RefreshRegisterTables = "substation table not found": Exit Function
+    Set d = ThisWorkbook.Worksheets("D_Substations")
+    lastR = d.Cells(d.Rows.Count, 1).End(xlUp).Row
+    ReDim used(2 To IIf(lastR < 2, 2, lastR))
+    tot = 0
+    For r = 2 To lastR
+        If IsNumeric(d.Cells(r, 4).Value2) Then tot = tot + CDbl(d.Cells(r, 4).Value2)
+    Next r
+    For k = 0 To 11
+        best = 0: bp = -1
+        For r = 2 To lastR
+            If IsNumeric(d.Cells(r, 4).Value2) And Not IsEmpty(d.Cells(r, 4).Value2) And Not used(r) Then
+                If CDbl(d.Cells(r, 4).Value2) > bp Then bp = CDbl(d.Cells(r, 4).Value2): best = r
+            End If
+        Next r
+        If best > 0 Then
+            used(best) = True
+            ws.Cells(a.Row + 2 + k, 2).Value2 = d.Cells(best, 2).Value2
+            ws.Cells(a.Row + 2 + k, 3).Value2 = d.Cells(best, 3).Value2
+            ws.Cells(a.Row + 2 + k, 4).Value2 = d.Cells(best, 4).Value2
+            ws.Cells(a.Row + 2 + k, 5).Value2 = d.Cells(best, 5).Value2
+        End If
+    Next k
+    ws.Cells(a.Row + 15, 2).Value2 = "Total of " & (lastR - 1) & " published substation rows: " & Format$(tot, "0") & " MVA releasable now. MVM Halozat, MVM Emasz and MAVIR substation data are not parsed."
+    ' installed capacity: 2025 column and latest column per fuel group
+    Set a = ws.Columns(2).Find("Installed capacity by primary source", LookIn:=xlValues, LookAt:=xlPart)
+    If a Is Nothing Then RefreshRegisterTables = "installed table not found": Exit Function
+    Set d = ThisWorkbook.Worksheets("D_Installed")
+    lastR = d.Cells(d.Rows.Count, 1).End(xlUp).Row
+    lp = ""
+    For r = 2 To lastR
+        If CStr(d.Cells(r, 2).Value2) > lp Then lp = CStr(d.Cells(r, 2).Value2)
+    Next r
+    ws.Cells(a.Row + 1, 4).Value2 = "Latest (MW) " & lp
+    i = a.Row + 2
+    Do While Len(CStr(ws.Cells(i, 2).Value2)) > 0 And Left$(CStr(ws.Cells(i, 2).Value2), 6) <> "Latest"
+        g = CStr(ws.Cells(i, 2).Value2)
+        v2025 = Empty: vl = Empty
+        For r = 2 To lastR
+            If Replace(CStr(d.Cells(r, 1).Value2), "_", " ") = g Then
+                If CStr(d.Cells(r, 2).Value2) = "2025" Then v2025 = d.Cells(r, 3).Value2
+                If CStr(d.Cells(r, 2).Value2) = lp Then vl = d.Cells(r, 3).Value2
+            End If
+        Next r
+        ws.Cells(i, 3).Value2 = v2025
+        ws.Cells(i, 4).Value2 = vl
+        i = i + 1
+    Loop
+    Exit Function
+Fail:
+    RefreshRegisterTables = "error " & Err.Number & ": " & Err.Description & " (saved tables kept)"
+End Function
