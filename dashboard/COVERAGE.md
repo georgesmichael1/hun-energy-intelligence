@@ -7,7 +7,7 @@ Actual / forecast labels are in the CSV column names (Plan, Forecast, Actual). N
 | Bosnia dashboard metric | Hungary equivalent | Status | Source |
 |---|---|---|---|
 | NOS BiH 24h dispatch (plan vs actual gen/load) | MAVIR 15-min load actual/plan, generation by fuel, interconnector flows | LIVE (actual + plan) | rtdwweb.mavir.hu chart export |
-| Regional / day-ahead prices | HUPX day-ahead 15-min (energy-charts, CC BY 4.0) + ENTSO-E A44 latest day | LIVE (wholesale only) | api.energy-charts.info, ENTSO-E |
+| Regional / day-ahead prices | HUPX day-ahead 15-min (HUPX Labs primary, energy-charts CC BY 4.0 fallback) + ENTSO-E A44 latest day | LIVE (wholesale only) | labs.hupx.hu, api.energy-charts.info, ENTSO-E |
 | ENTSO-E load forecast, physical flows | Same datasets for HU and 7 neighbours | LIVE (14 directions x 31 days; Ukraine uses area 10Y1001C--00003F) | ENTSO-E |
 | Balancing prices | MAVIR aFRR/mFRR/FRR offered capacity (MW). Prices (EUR/MW) not in this feed | LIVE (capacity); price NONE yet | MAVIR |
 | Aggregators table (23 firms, GWh bought/sold) | MEKH register of 100 aggregators (names, decision no., city). Volumes are not published | LIVE register; volumes NONE | MEKH licensed-entity XLSX |
