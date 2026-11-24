@@ -2,9 +2,9 @@
 
 Every Hungarian market participant belongs to a balance group (merlegkor)
 whose balance responsible party settles imbalances with MAVIR. MAVIR publishes
-the current register as an XLSX linked from its scheduling page. This is the
-authoritative aggregator/trader roster: names, EIC codes and validity dates
-as published, with no inferred roles or volumes.
+the current register as an XLSX linked from its scheduling page. A BRP is an imbalance-settlement
+party, not automatically an aggregator. The aggregator roster comes from MEKH
+(mekh_register_feed.py). Names, EIC codes and validity dates are as published.
 """
 import csv
 import datetime as dt
