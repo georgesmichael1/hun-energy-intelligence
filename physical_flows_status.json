@@ -1,12 +1,12 @@
 {
   "state": "OK",
-  "checked_at": "2026-11-24T18:43:19+00:00",
+  "checked_at": "2026-11-24T18:53:22+00:00",
   "timezone": "Europe/Budapest",
   "requested_first_day": "2026-10-25",
   "requested_last_day": "2026-11-24",
   "requested_delivery_days": 31,
   "unit": "MW",
-  "row_count": 32575,
+  "row_count": 32582,
   "historical_incomplete_pairs": [],
   "request_failures": [],
   "failure_categories": {},
@@ -2954,37 +2954,37 @@
     {
       "day": "2026-11-24",
       "direction": "HU>AT",
-      "rows": 77,
+      "rows": 78,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:15:00Z"
+      "latest_end_utc": "2026-11-24T18:30:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "AT>HU",
-      "rows": 77,
+      "rows": 78,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:15:00Z"
+      "latest_end_utc": "2026-11-24T18:30:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>SK",
-      "rows": 77,
+      "rows": 78,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:15:00Z"
+      "latest_end_utc": "2026-11-24T18:30:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "SK>HU",
-      "rows": 77,
+      "rows": 78,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:15:00Z"
+      "latest_end_utc": "2026-11-24T18:30:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>SI",
-      "rows": 77,
+      "rows": 78,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:15:00Z"
+      "latest_end_utc": "2026-11-24T18:30:00Z"
     },
     {
       "day": "2026-11-24",
@@ -3010,16 +3010,16 @@
     {
       "day": "2026-11-24",
       "direction": "HU>HR",
-      "rows": 78,
+      "rows": 79,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:30:00Z"
+      "latest_end_utc": "2026-11-24T18:45:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HR>HU",
-      "rows": 78,
+      "rows": 79,
       "complete": false,
-      "latest_end_utc": "2026-11-24T18:30:00Z"
+      "latest_end_utc": "2026-11-24T18:45:00Z"
     },
     {
       "day": "2026-11-24",
