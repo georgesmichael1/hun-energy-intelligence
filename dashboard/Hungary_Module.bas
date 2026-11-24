@@ -33,7 +33,9 @@ Private Function Specs() As Variant
       Array("hun_substation_capacity.csv", "D_Substations", "~Table_Label,~Substation,Voltage_kV,Releasable_Offtake_MVA,Probable_5y_Offtake_MVA"), _
       Array("mekh_storage_licences.csv", "D_Storage", "~Licensee,~Site,Nominal_Power_MW,Storage_Capacity_MWh,~Revoked_Date"), _
       Array("mavir_installed_capacity.csv", "D_Installed", "~Fuel_Group,~Period,Gross_Installed_MW"), _
-      Array("balance_responsible_parties.csv", "D_BRP", "~Balance_Responsible_Party,~EIC_Code,~Valid_From"))
+      Array("balance_responsible_parties.csv", "D_BRP", "~Balance_Responsible_Party,~EIC_Code,~Valid_From"), _
+      Array("solar_capture_daily.csv", "D_SolarCapture", "~Delivery_Date,Day_Avg_Price_EUR_MWh,Solar_Weighted_Avg_Price_EUR_MWh,Solar_Capture_Ratio,Solar_Generation_MWh,~Note"), _
+      Array("bess_spread_daily.csv", "D_BessSpread", "~Delivery_Date,Window_Hours,~Charge_Window_Start_Local,~Charge_Window_End_Local,Charge_Avg_Price_EUR_MWh,~Discharge_Window_Start_Local,~Discharge_Window_End_Local,Discharge_Avg_Price_EUR_MWh,Spread_EUR_MWh,~Note,~Day_Window_Key"))
 End Function
 
 Public Sub RefreshHungary(Optional ByVal Silent As Boolean = False)
