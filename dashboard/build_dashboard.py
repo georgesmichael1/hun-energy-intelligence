@@ -188,7 +188,7 @@ def chart(ws, cell, title, kind="line", series=(), ytitle="", size=(560, 280), s
         else:
             s["fill"] = {"color": color}
         ch.add_series(s)
-    ch.set_title({"name": title, "name_font": {"size": 11, "color": NAVY}})
+    ch.set_title({"name": title, "name_font": {"size": 11, "color": NAVY}})  # a title starting with "=" is a live cell link
     ch.set_y_axis({"name": ytitle, "name_font": {"size": 9}, "num_font": {"size": 8}, "major_gridlines": {"visible": True, "line": {"color": "#DDDDDD"}}})
     ch.set_x_axis({"text_axis": True, "label_position": "low", "num_font": {"size": 8, "rotation": -30}, "interval_unit": xint, "interval_tick": xint, "num_format": xfmt} if kind != "column" else {"num_font": {"size": 8}})
     ch.show_blanks_as("gap")
@@ -271,8 +271,9 @@ hh = [(i, r) for i, r in enumerate(tar) if r["Consumer_Group"] == "Household"]
 nh = [(i, r) for i, r in enumerate(tar) if r["Consumer_Group"] != "Household"]
 for ch_i, (grp, rows_, col) in enumerate((("Household (2500-4999 kWh)", hh, TEAL), ("Non-household (500-1999 MWh)", nh, NAVY))):
     a, b = rows_[0][0] + 2, rows_[-1][0] + 2
-    chart(ws, "B5" if ch_i == 0 else "I5", grp + " price, EUR/kWh all taxes, latest " + (rows_[-1][1]["Period"]), kind="column", series=[(grp, f"=D_Tariffs!$A${a}:$A${b}", f"=D_Tariffs!$D${a}:$D${b}", col)], ytitle="EUR/kWh", size=(430, 280))
-chart(ws, "B21", "HICP annual inflation (%), latest published period " + hicp[-1]["Period"] + " (Eurostat publishes with a lag)", kind="column", series=[("HICP", f"=D_HICP!$A$2:$A${D['hicp'][1]+1}", f"=D_HICP!$B$2:$B${D['hicp'][1]+1}", GOLD)], ytitle="%", size=(430, 260))
+    chart(ws, "B5" if ch_i == 0 else "I5", grp + " price, EUR/kWh all taxes (fixed block of build-time periods)", kind="column", series=[(grp, f"=D_Tariffs!$A${a}:$A${b}", f"=D_Tariffs!$D${a}:$D${b}", col)], ytitle="EUR/kWh", size=(430, 280))
+ws.write_formula(19, 1, '="HICP annual inflation (%), latest period in the data: "&INDEX(D_HICP!$A:$A,COUNTA(D_HICP!$A:$A))', F(bold=True, font_size=9, font_color=NAVY), "HICP annual inflation (%), latest period in the data: " + hicp[-1]["Period"])
+chart(ws, "B21", "=" + ws.get_name() + "!$B$20", kind="column", series=[("HICP", f"=D_HICP!$A$2:$A${D['hicp'][1]+1}", f"=D_HICP!$B$2:$B${D['hicp'][1]+1}", GOLD)], ytitle="%", size=(430, 260))
 ws.write(20, 8, "Macro snapshot (hun_data.csv, as of the pipeline run)", f_sec)
 f_w = F(border=1, text_wrap=True, valign="top", font_size=9)
 f_wh = F(bold=True, font_color="white", bg_color=TEAL, border=1, font_size=9)
@@ -292,7 +293,7 @@ header(ws, "REGISTERS & DATA HEALTH", "MEKH aggregator register, MEKH storage li
 kpi(ws, 4, 1, "AGGREGATORS REGISTERED (MEKH)", f"=IF(COUNTA(D_Aggregators!$A$2:$A$500)=0,\"no data\",COUNTA(D_Aggregators!$A$2:$A$500))", f_kv0, "independent aggregator register", len(agg) or "no data")
 kpi(ws, 4, 3, "STORAGE LICENCE POWER (MW)", f"=IF(COUNT(D_Storage!$C$2:$C$500)=0,\"no data\",SUMIFS(D_Storage!$C$2:$C$500,D_Storage!$E$2:$E$500,\"\"))", f_kv0, "licensed, not necessarily operating", round(sum(num(r["Nominal_Power_MW"]) or 0 for r in sto if not r["Revoked_Date"]), 1) if sto else "no data")
 kpi(ws, 4, 5, "BALANCE RESPONSIBLE PARTIES", "=COUNTA(D_BRP!$A$2:$A$500)", f_kv0, "MAVIR imbalance settlement, not aggregators", len(brp))
-kpi(ws, 4, 7, "DATASETS OK", f"=COUNTIF(D_Status!$B$2:$B$60,\"OK\")", f_kv0, "of all datasets in status.json", sum(1 for v in det.values() if v.get("state") == "OK"))
+kpi(ws, 4, 7, "DATASETS OK", f"=COUNTIF(D_Status!$B$2:$B$60,\"OK\")", f_kv0, f"of {len(det)} datasets; {sum(1 for v in det.values() if v.get('state') == 'STATIC_REFERENCE')} more STATIC_REFERENCE (labelled snapshot)", sum(1 for v in det.values() if v.get("state") == "OK"))
 kpi(ws, 4, 9, "SOURCE_PARTIAL", f"=COUNTIF(D_Status!$B$2:$B$60,\"SOURCE_PARTIAL\")", f_kv0, "upstream published nothing for a day/direction", sum(1 for v in det.values() if v.get("state") == "SOURCE_PARTIAL"))
 kpi(ws, 4, 11, "PARTIAL / FAILED / SKIPPED", f"=COUNTIF(D_Status!$B$2:$B$60,\"PARTIAL\")+COUNTIF(D_Status!$B$2:$B$60,\"FAILED\")+COUNTIF(D_Status!$B$2:$B$60,\"SKIPPED\")", f_kv0, "transport, validation, auth or skipped", sum(1 for v in det.values() if v.get("state") in ("PARTIAL", "FAILED", "SKIPPED")))
 ws.write(9, 1, "Dataset states (status.json, last pipeline run)", f_sec)
