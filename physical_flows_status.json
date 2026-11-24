@@ -1,449 +1,15 @@
 {
-  "state": "SOURCE_PARTIAL",
-  "checked_at": "2026-11-24T17:29:46+00:00",
+  "state": "OK",
+  "checked_at": "2026-11-24T17:35:32+00:00",
   "timezone": "Europe/Budapest",
   "requested_first_day": "2026-10-25",
   "requested_last_day": "2026-11-24",
   "requested_delivery_days": 31,
   "unit": "MW",
-  "row_count": 31044,
-  "historical_incomplete_pairs": [
-    {
-      "day": "2026-10-25",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-25",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-26",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-26",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-27",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-27",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-28",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-28",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-29",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-29",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-30",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-30",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-31",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-10-31",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-01",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-01",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-02",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-02",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-03",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-03",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-04",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-04",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-05",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-05",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-06",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-06",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-07",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-07",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-08",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-08",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-09",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-09",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-10",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-10",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-11",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-11",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-12",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-12",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-13",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-13",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-14",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-14",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-15",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-15",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-16",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-16",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-17",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-17",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-18",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-18",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-19",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-19",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-20",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-20",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-21",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-21",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-22",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-22",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-23",
-      "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    },
-    {
-      "day": "2026-11-23",
-      "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
-    }
-  ],
-  "request_failures": [
-    {
-      "direction": "HU>UA",
-      "category": "SOURCE_NO_DATA",
-      "reason": "API acknowledgement, code 999: No matching data found for Data item NETCROSSBORDERPHYSICALFLOWSR3 12.1.G (10YUA-WEPS-----0, 10YHU-MAVIR----U) and interval 2026-10-24T22:00:00Z2026-1 (ENTSO-E publishes no data for this direction/window; saved intervals retained)"
-    },
-    {
-      "direction": "UA>HU",
-      "category": "SOURCE_NO_DATA",
-      "reason": "API acknowledgement, code 999: No matching data found for Data item NETCROSSBORDERPHYSICALFLOWSR3 12.1.G (10YHU-MAVIR----U, 10YUA-WEPS-----0) and interval 2026-10-24T22:00:00Z2026-1 (ENTSO-E publishes no data for this direction/window; saved intervals retained)"
-    }
-  ],
-  "failure_categories": {
-    "SOURCE_NO_DATA": 2
-  },
+  "row_count": 32528,
+  "historical_incomplete_pairs": [],
+  "request_failures": [],
+  "failure_categories": {},
   "coverage": [
     {
       "day": "2026-10-25",
@@ -532,16 +98,16 @@
     {
       "day": "2026-10-25",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 25,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
     },
     {
       "day": "2026-10-25",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 25,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
     },
     {
       "day": "2026-10-26",
@@ -630,16 +196,16 @@
     {
       "day": "2026-10-26",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
     },
     {
       "day": "2026-10-26",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
     },
     {
       "day": "2026-10-27",
@@ -728,16 +294,16 @@
     {
       "day": "2026-10-27",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
     },
     {
       "day": "2026-10-27",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
     },
     {
       "day": "2026-10-28",
@@ -826,16 +392,16 @@
     {
       "day": "2026-10-28",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
     },
     {
       "day": "2026-10-28",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
     },
     {
       "day": "2026-10-29",
@@ -924,16 +490,16 @@
     {
       "day": "2026-10-29",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
     },
     {
       "day": "2026-10-29",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
     },
     {
       "day": "2026-10-30",
@@ -1022,16 +588,16 @@
     {
       "day": "2026-10-30",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
     },
     {
       "day": "2026-10-30",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
     },
     {
       "day": "2026-10-31",
@@ -1120,16 +686,16 @@
     {
       "day": "2026-10-31",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
     },
     {
       "day": "2026-10-31",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
     },
     {
       "day": "2026-11-01",
@@ -1218,16 +784,16 @@
     {
       "day": "2026-11-01",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
     },
     {
       "day": "2026-11-01",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
     },
     {
       "day": "2026-11-02",
@@ -1316,16 +882,16 @@
     {
       "day": "2026-11-02",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
     },
     {
       "day": "2026-11-02",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
     },
     {
       "day": "2026-11-03",
@@ -1414,16 +980,16 @@
     {
       "day": "2026-11-03",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
     },
     {
       "day": "2026-11-03",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
     },
     {
       "day": "2026-11-04",
@@ -1512,16 +1078,16 @@
     {
       "day": "2026-11-04",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
     },
     {
       "day": "2026-11-04",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
     },
     {
       "day": "2026-11-05",
@@ -1610,16 +1176,16 @@
     {
       "day": "2026-11-05",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
     },
     {
       "day": "2026-11-05",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
     },
     {
       "day": "2026-11-06",
@@ -1708,16 +1274,16 @@
     {
       "day": "2026-11-06",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
     },
     {
       "day": "2026-11-06",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
     },
     {
       "day": "2026-11-07",
@@ -1806,16 +1372,16 @@
     {
       "day": "2026-11-07",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
     },
     {
       "day": "2026-11-07",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
     },
     {
       "day": "2026-11-08",
@@ -1904,16 +1470,16 @@
     {
       "day": "2026-11-08",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
     },
     {
       "day": "2026-11-08",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
     },
     {
       "day": "2026-11-09",
@@ -2002,16 +1568,16 @@
     {
       "day": "2026-11-09",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
     },
     {
       "day": "2026-11-09",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
     },
     {
       "day": "2026-11-10",
@@ -2100,16 +1666,16 @@
     {
       "day": "2026-11-10",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
     },
     {
       "day": "2026-11-10",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
     },
     {
       "day": "2026-11-11",
@@ -2198,16 +1764,16 @@
     {
       "day": "2026-11-11",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
     },
     {
       "day": "2026-11-11",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
     },
     {
       "day": "2026-11-12",
@@ -2296,16 +1862,16 @@
     {
       "day": "2026-11-12",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
     },
     {
       "day": "2026-11-12",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
     },
     {
       "day": "2026-11-13",
@@ -2394,16 +1960,16 @@
     {
       "day": "2026-11-13",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
     },
     {
       "day": "2026-11-13",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
     },
     {
       "day": "2026-11-14",
@@ -2492,16 +2058,16 @@
     {
       "day": "2026-11-14",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
     },
     {
       "day": "2026-11-14",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
     },
     {
       "day": "2026-11-15",
@@ -2590,16 +2156,16 @@
     {
       "day": "2026-11-15",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
     },
     {
       "day": "2026-11-15",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
     },
     {
       "day": "2026-11-16",
@@ -2688,16 +2254,16 @@
     {
       "day": "2026-11-16",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
     },
     {
       "day": "2026-11-16",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
     },
     {
       "day": "2026-11-17",
@@ -2786,16 +2352,16 @@
     {
       "day": "2026-11-17",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
     },
     {
       "day": "2026-11-17",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
     },
     {
       "day": "2026-11-18",
@@ -2884,16 +2450,16 @@
     {
       "day": "2026-11-18",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
     },
     {
       "day": "2026-11-18",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
     },
     {
       "day": "2026-11-19",
@@ -2982,16 +2548,16 @@
     {
       "day": "2026-11-19",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
     },
     {
       "day": "2026-11-19",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
     },
     {
       "day": "2026-11-20",
@@ -3080,16 +2646,16 @@
     {
       "day": "2026-11-20",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
     },
     {
       "day": "2026-11-20",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
     },
     {
       "day": "2026-11-21",
@@ -3178,16 +2744,16 @@
     {
       "day": "2026-11-21",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
     },
     {
       "day": "2026-11-21",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
     },
     {
       "day": "2026-11-22",
@@ -3276,16 +2842,16 @@
     {
       "day": "2026-11-22",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
     },
     {
       "day": "2026-11-22",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
     },
     {
       "day": "2026-11-23",
@@ -3374,44 +2940,44 @@
     {
       "day": "2026-11-23",
       "direction": "HU>UA",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
     },
     {
       "day": "2026-11-23",
       "direction": "UA>HU",
-      "rows": 0,
-      "complete": false,
-      "latest_end_utc": null
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>AT",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "AT>HU",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>SK",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "SK>HU",
-      "rows": 72,
+      "rows": 73,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:00:00Z"
+      "latest_end_utc": "2026-11-24T17:15:00Z"
     },
     {
       "day": "2026-11-24",
@@ -3444,16 +3010,16 @@
     {
       "day": "2026-11-24",
       "direction": "HU>HR",
-      "rows": 73,
+      "rows": 74,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:15:00Z"
+      "latest_end_utc": "2026-11-24T17:30:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HR>HU",
-      "rows": 73,
+      "rows": 74,
       "complete": false,
-      "latest_end_utc": "2026-11-24T17:15:00Z"
+      "latest_end_utc": "2026-11-24T17:30:00Z"
     },
     {
       "day": "2026-11-24",
@@ -3472,16 +3038,16 @@
     {
       "day": "2026-11-24",
       "direction": "HU>UA",
-      "rows": 0,
+      "rows": 18,
       "complete": false,
-      "latest_end_utc": null
+      "latest_end_utc": "2026-11-24T17:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "UA>HU",
-      "rows": 0,
+      "rows": 18,
       "complete": false,
-      "latest_end_utc": null
+      "latest_end_utc": "2026-11-24T17:00:00Z"
     }
   ],
   "note": "Raw directional measurements. Today contains published completed intervals only. Net export = HU outbound minus inbound; match exact UTC interval and resolution. Missing pairs are gaps, never zero."

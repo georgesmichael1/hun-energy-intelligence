@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "run_finished_at": "2026-11-24T17:29:46+00:00",
+  "run_finished_at": "2026-11-24T17:35:32+00:00",
   "last_verified_date": "",
   "last_verified_date_is_legacy": true,
   "verification_note": "No whole-master verification performed; use dataset_details.",
@@ -23,16 +23,16 @@
     "worldbank": "OK",
     "entsoe_load_forecast": "OK",
     "entsoe_prices": "OK",
-    "entsoe_physical_flows_31d": "SOURCE_PARTIAL: 31 Budapest delivery days x 14 directions; see physical_flows_status.json"
+    "entsoe_physical_flows_31d": "OK"
   },
   "dataset_details": {
     "mavir_load": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:26:32+00:00",
-      "last_attempt_at": "2026-11-24T17:26:32+00:00",
+      "checked_at": "2026-11-24T17:32:00+00:00",
+      "last_attempt_at": "2026-11-24T17:32:00+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2957,
-      "intervals_fetched": 2957,
+      "row_count": 2958,
+      "intervals_fetched": 2958,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "7678",
@@ -41,15 +41,15 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-25",
       "requested_last_day": "2026-11-24",
-      "last_success_at": "2026-11-24T17:26:32+00:00"
+      "last_success_at": "2026-11-24T17:32:00+00:00"
     },
     "mavir_generation": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:26:46+00:00",
-      "last_attempt_at": "2026-11-24T17:26:46+00:00",
+      "checked_at": "2026-11-24T17:32:14+00:00",
+      "last_attempt_at": "2026-11-24T17:32:14+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2957,
-      "intervals_fetched": 2957,
+      "row_count": 2958,
+      "intervals_fetched": 2958,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "12058",
@@ -58,15 +58,15 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-25",
       "requested_last_day": "2026-11-24",
-      "last_success_at": "2026-11-24T17:26:46+00:00"
+      "last_success_at": "2026-11-24T17:32:14+00:00"
     },
     "mavir_balancing": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:26:59+00:00",
-      "last_attempt_at": "2026-11-24T17:26:59+00:00",
+      "checked_at": "2026-11-24T17:32:28+00:00",
+      "last_attempt_at": "2026-11-24T17:32:28+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2957,
-      "intervals_fetched": 2957,
+      "row_count": 2958,
+      "intervals_fetched": 2958,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "1244886",
@@ -75,15 +75,15 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-25",
       "requested_last_day": "2026-11-24",
-      "last_success_at": "2026-11-24T17:26:59+00:00"
+      "last_success_at": "2026-11-24T17:32:28+00:00"
     },
     "mavir_flows": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:14+00:00",
-      "last_attempt_at": "2026-11-24T17:27:14+00:00",
+      "checked_at": "2026-11-24T17:32:42+00:00",
+      "last_attempt_at": "2026-11-24T17:32:42+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2957,
-      "intervals_fetched": 2957,
+      "row_count": 2958,
+      "intervals_fetched": 2958,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "5229",
@@ -92,12 +92,12 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-25",
       "requested_last_day": "2026-11-24",
-      "last_success_at": "2026-11-24T17:27:14+00:00"
+      "last_success_at": "2026-11-24T17:32:42+00:00"
     },
     "price_hu": {
       "state": "SOURCE_PARTIAL",
-      "checked_at": "2026-11-24T17:27:15+00:00",
-      "last_attempt_at": "2026-11-24T17:27:15+00:00",
+      "checked_at": "2026-11-24T17:32:44+00:00",
+      "last_attempt_at": "2026-11-24T17:32:44+00:00",
       "detail": "Source returned no valid prices for 2026-11-21 - day omitted whole, no retained history substituted; wholesale spot, not a customer tariff",
       "market": "HU",
       "product": "DAY_AHEAD",
@@ -107,25 +107,25 @@
         "2026-11-24"
       ],
       "intervals": 2884,
-      "fetched_at": "2026-11-24T17:27:14+00:00",
-      "last_successful_fetch_at": "2026-11-24T17:27:14+00:00",
+      "fetched_at": "2026-11-24T17:32:42+00:00",
+      "last_successful_fetch_at": "2026-11-24T17:32:42+00:00",
       "last_success_at": null
     },
     "fx": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:16+00:00",
-      "last_attempt_at": "2026-11-24T17:27:16+00:00",
+      "checked_at": "2026-11-24T17:32:46+00:00",
+      "last_attempt_at": "2026-11-24T17:32:46+00:00",
       "detail": "Official MNB daily rates read with publication date; HUF floats, no peg",
       "source": "https://www.mnb.hu/en/arfolyamok/",
       "source_date": "2026-11-24",
       "eur_huf": 369.57,
       "usd_huf": 337.97,
-      "last_success_at": "2026-11-24T17:27:16+00:00"
+      "last_success_at": "2026-11-24T17:32:46+00:00"
     },
     "current_gdp": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:17+00:00",
-      "last_attempt_at": "2026-11-24T17:27:17+00:00",
+      "checked_at": "2026-11-24T17:32:47+00:00",
+      "last_attempt_at": "2026-11-24T17:32:47+00:00",
       "detail": "Annual nominal GDP, current-year IMF forecast/estimate, not a real-time observation",
       "year": 2026,
       "value_usd_billions": 265.911,
@@ -133,88 +133,88 @@
       "vintage": "World Economic Outlook (October 2026)",
       "source_modified": "2026-10-08 14:43:33",
       "source": "https://www.imf.org/external/datamapper/api/v2/NGDPD",
-      "last_success_at": "2026-11-24T17:27:17+00:00"
+      "last_success_at": "2026-11-24T17:32:47+00:00"
     },
     "eurostat_hicp": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:18+00:00",
-      "last_attempt_at": "2026-11-24T17:27:18+00:00",
+      "checked_at": "2026-11-24T17:32:47+00:00",
+      "last_attempt_at": "2026-11-24T17:32:47+00:00",
       "detail": "Official HICP annual rate of change, monthly, published with a lag",
       "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr",
       "latest_period": "2025-12",
       "latest_value_pct": 3.3,
-      "last_success_at": "2026-11-24T17:27:18+00:00"
+      "last_success_at": "2026-11-24T17:32:47+00:00"
     },
     "eurostat_tariff_household": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:18+00:00",
-      "last_attempt_at": "2026-11-24T17:27:18+00:00",
+      "checked_at": "2026-11-24T17:32:47+00:00",
+      "last_attempt_at": "2026-11-24T17:32:47+00:00",
       "detail": "Official semi-annual final customer price per kWh; NOT a wholesale market price",
       "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_204",
       "latest_period": "2026-S1",
       "latest_value_eur_per_kwh": 0.1139,
       "consumer_group": "Household",
       "band": "2500-4999 kWh (band DC)",
-      "last_success_at": "2026-11-24T17:27:18+00:00"
+      "last_success_at": "2026-11-24T17:32:47+00:00"
     },
     "eurostat_tariff_nonhousehold": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:18+00:00",
-      "last_attempt_at": "2026-11-24T17:27:18+00:00",
+      "checked_at": "2026-11-24T17:32:47+00:00",
+      "last_attempt_at": "2026-11-24T17:32:47+00:00",
       "detail": "Official semi-annual final customer price per kWh; NOT a wholesale market price",
       "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_205",
       "latest_period": "2026-S1",
       "latest_value_eur_per_kwh": 0.2713,
       "consumer_group": "Non-household",
       "band": "500-1999 MWh (band IC)",
-      "last_success_at": "2026-11-24T17:27:18+00:00"
+      "last_success_at": "2026-11-24T17:32:47+00:00"
     },
     "brp_register": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:43+00:00",
-      "last_attempt_at": "2026-11-24T17:27:43+00:00",
+      "checked_at": "2026-11-24T17:33:12+00:00",
+      "last_attempt_at": "2026-11-24T17:33:12+00:00",
       "detail": "MAVIR balance responsible party register as published; BRPs settle imbalances and are not all aggregators or traders - MAVIR accredits aggregators separately; no inferred roles or volumes",
       "source": "https://www.mavir.hu/documents/10258/329165061/EIC_202612.xlsx/7957910a-f33d-793c-c316-a0b214677b63?t=1795522694815",
       "publication_page": "https://www.mavir.hu/web/mavir/menetrendkezeles1",
       "party_count": 198,
-      "last_success_at": "2026-11-24T17:27:43+00:00"
+      "last_success_at": "2026-11-24T17:33:12+00:00"
     },
     "mekh_aggregators": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:46+00:00",
-      "last_attempt_at": "2026-11-24T17:27:46+00:00",
+      "checked_at": "2026-11-24T17:33:15+00:00",
+      "last_attempt_at": "2026-11-24T17:33:15+00:00",
       "detail": "MEKH register of registered aggregators as published; not the MAVIR BRP list",
       "source": "https://www.mekh.hu/download/fix/Villamosenergia_engedelyesek",
       "publication_page": "https://www.mekh.hu/villamosenergia-ipari-engedelyesek-listaja",
       "aggregator_count": 100,
-      "last_success_at": "2026-11-24T17:27:46+00:00"
+      "last_success_at": "2026-11-24T17:33:15+00:00"
     },
     "mekh_storage_licences": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:46+00:00",
-      "last_attempt_at": "2026-11-24T17:27:46+00:00",
+      "checked_at": "2026-11-24T17:33:15+00:00",
+      "last_attempt_at": "2026-11-24T17:33:15+00:00",
       "detail": "MEKH electricity-storage licences as published (licensed, not necessarily operating; rows copied as published, so a licence/site listed twice by MEKH appears twice)",
       "source": "https://www.mekh.hu/download/fix/Villamosenergia_engedelyesek",
       "publication_page": "https://www.mekh.hu/villamosenergia-ipari-engedelyesek-listaja",
       "licence_count": 213,
       "nominal_power_mw_unrevoked": 1411.626,
       "rows_sharing_licence_and_site": 1,
-      "last_success_at": "2026-11-24T17:27:46+00:00"
+      "last_success_at": "2026-11-24T17:33:15+00:00"
     },
     "population": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:46+00:00",
-      "last_attempt_at": "2026-11-24T17:27:46+00:00",
+      "checked_at": "2026-11-24T17:33:15+00:00",
+      "last_attempt_at": "2026-11-24T17:33:15+00:00",
       "detail": "Official Eurostat population on 1 January, annual, published with a lag",
       "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_pjan?geo=HU&sex=T&age=TOTAL&unit=NR&lang=EN&lastTimePeriod=6",
       "latest_year": 2025,
       "latest_value": 9539502,
-      "last_success_at": "2026-11-24T17:27:46+00:00"
+      "last_success_at": "2026-11-24T17:33:15+00:00"
     },
     "worldbank": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:46+00:00",
-      "last_attempt_at": "2026-11-24T17:27:46+00:00",
+      "checked_at": "2026-11-24T17:33:16+00:00",
+      "last_attempt_at": "2026-11-24T17:33:16+00:00",
       "detail": "Historical values, not today's observation",
       "indicators_parsed": [
         "NE.EXP.GNFS.CD",
@@ -226,12 +226,12 @@
         2020,
         2025
       ],
-      "last_success_at": "2026-11-24T17:27:46+00:00"
+      "last_success_at": "2026-11-24T17:33:16+00:00"
     },
     "entsoe_load_forecast": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:27:55+00:00",
-      "last_attempt_at": "2026-11-24T17:27:55+00:00",
+      "checked_at": "2026-11-24T17:33:21+00:00",
+      "last_attempt_at": "2026-11-24T17:33:21+00:00",
       "detail": "Complete requested historical day; not current-day data",
       "row_count": 96,
       "directions": 1,
@@ -240,12 +240,12 @@
       "source": "https://web-api.tp.entsoe.eu/api",
       "coverage_start_utc": "2026-11-22T23:00:00Z",
       "coverage_end_utc": "2026-11-23T23:00:00Z",
-      "last_success_at": "2026-11-24T17:27:55+00:00"
+      "last_success_at": "2026-11-24T17:33:21+00:00"
     },
     "entsoe_prices": {
       "state": "OK",
-      "checked_at": "2026-11-24T17:28:08+00:00",
-      "last_attempt_at": "2026-11-24T17:28:08+00:00",
+      "checked_at": "2026-11-24T17:33:27+00:00",
+      "last_attempt_at": "2026-11-24T17:33:27+00:00",
       "detail": "Complete official auction day; primary owner HUPX",
       "row_count": 96,
       "unit": "EUR/MWh",
@@ -253,17 +253,17 @@
       "source": "https://web-api.tp.entsoe.eu/api",
       "coverage_start_utc": "2026-11-22T23:00:00Z",
       "coverage_end_utc": "2026-11-23T23:00:00Z",
-      "last_success_at": "2026-11-24T17:28:08+00:00"
+      "last_success_at": "2026-11-24T17:33:27+00:00"
     },
     "entsoe_physical_flows_31d": {
-      "state": "SOURCE_PARTIAL",
-      "checked_at": "2026-11-24T17:29:46+00:00",
-      "last_attempt_at": "2026-11-24T17:29:46+00:00",
+      "state": "OK",
+      "checked_at": "2026-11-24T17:35:32+00:00",
+      "last_attempt_at": "2026-11-24T17:35:32+00:00",
       "detail": "31 Budapest delivery days x 14 directions; see physical_flows_status.json",
-      "row_count": 31044,
-      "historical_incomplete_pairs": 60,
-      "request_failures": 2,
-      "last_success_at": null
+      "row_count": 32528,
+      "historical_incomplete_pairs": 0,
+      "request_failures": 0,
+      "last_success_at": "2026-11-24T17:35:32+00:00"
     }
   }
 }
