@@ -103,3 +103,50 @@ class MekhRegisterTests(unittest.TestCase):
         self.assertEqual(sto[0]["Nominal_Power_MW"], 2.5)
         with self.assertRaises(ValueError):
             m.parse(self._book(dup=True), "t")
+
+class _FakeResp:
+    def __init__(self, status_code=200, text="", content=b""):
+        self.status_code = status_code
+        self.text = text
+        self.content = content
+
+
+class _FlakySession:
+    def __init__(self, failures, error, response):
+        self.remaining = failures
+        self.error = error
+        self.response = response
+        self.calls = 0
+
+    def get(self, *args, **kwargs):
+        self.calls += 1
+        if self.remaining > 0:
+            self.remaining -= 1
+            raise self.error
+        return self.response
+
+
+class BrpRetryTest(unittest.TestCase):
+    def setUp(self):
+        import time
+        self._sleep = time.sleep
+        import brp_feed
+        brp_feed.time.sleep = lambda *a, **k: None
+
+    def tearDown(self):
+        import brp_feed
+        brp_feed.time.sleep = self._sleep
+
+    def test_get_retries_connect_timeout(self):
+        import requests
+        session = _FlakySession(2, requests.ConnectTimeout("slow"), _FakeResp(200, text="ok"))
+        resp = aggregators_feed._get(session, "https://www.mavir.hu/x", 30)
+        self.assertEqual(resp.status_code, 200)
+        self.assertEqual(session.calls, 3)
+
+    def test_get_failure_preserved_after_exhaustion(self):
+        import requests
+        session = _FlakySession(99, requests.ReadTimeout("slow"), _FakeResp(200, text="ok"))
+        with self.assertRaises(requests.ReadTimeout):
+            aggregators_feed._get(session, "https://www.mavir.hu/x", 30)
+        self.assertEqual(session.calls, 4)
