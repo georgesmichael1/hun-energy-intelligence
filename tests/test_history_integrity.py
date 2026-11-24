@@ -144,7 +144,7 @@ class HistoryIntegrityTest(unittest.TestCase):
         gap = TODAY - dt.timedelta(days=3)
         rows = self.update(FakeSession(window_payload(null_days=(gap,))))
         self.assertEqual([r for r in rows if r["Delivery_Date"] == gap.isoformat()], [])
-        self.assertEqual(DATASETS["price_hu"]["state"], "PARTIAL")
+        self.assertEqual(DATASETS["price_hu"]["state"], "SOURCE_PARTIAL")
         self.assertIn(gap.isoformat(), DATASETS["price_hu"]["detail"])
 
     def test_failed_fetch_preserves_saved_and_reports_failed(self):
@@ -164,3 +164,12 @@ class HistoryIntegrityTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class FailureClassificationTests(unittest.TestCase):
+    def test_categories_separate_source_from_transport(self):
+        import physical_flow_history as pf
+        import entsoe_adapter as ea
+        self.assertEqual(pf.classify_failure(ea.DataError('API acknowledgement, code 999: No matching data'))['category'], 'SOURCE_NO_DATA')
+        self.assertEqual(pf.classify_failure(ea.APIError('API HTTP 500'))['category'], 'TRANSPORT')
+        self.assertEqual(pf.classify_failure(ea.DataError('Unexpected unit, MW required'))['category'], 'VALIDATION')
