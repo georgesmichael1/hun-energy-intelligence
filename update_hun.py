@@ -14,6 +14,7 @@ failure. Nothing here writes typed-in fallback values.
 """
 import csv
 import datetime as dt
+from concurrent.futures import ThreadPoolExecutor
 import io
 import math
 import os
@@ -227,8 +228,6 @@ def sync_master_csv(master_path=MASTER_CSV, status_path=STATUS_JSON):
 
 
 def main():
-    session = make_session()
-
     def call(name, func, default=None):
         try:
             return func()
@@ -237,18 +236,40 @@ def main():
                 record(name, "FAILED", detail=type(exc).__name__)
             return default
 
-    call("mavir", lambda: mavir_adapter.update_all(session=session))
-    call("price_hu", lambda: hupx_prices.update_hupx_prices(session=session))
-    call("fx", lambda: mnb_fx.update_mnb_fx(session=session))
-    call("current_gdp", lambda: imf_gdp.update_current_gdp())  # own curl_cffi session; IMF blocks plain requests
-    call("eurostat", lambda: eurostat_feeds.update_eurostat(session=session))
-    call("brp_register", lambda: brp_feed.update_brp_register(session=session))
-    call("mekh_register", lambda: mekh_register_feed.update_mekh_register(session=session))
-    call("substation_capacity", lambda: substation_capacity_feed.update_substation_capacity())
-    call("mavir_connection_requests", lambda: mavir_connection_requests_feed.update())
-    call("mavir_installed_capacity", lambda: mavir_installed_capacity_feed.update_installed_capacity())
-    call("population", lambda: fetch_eurostat_population(session))
-    call("worldbank", lambda: fetch_worldbank_hun_macro(session))
+    # Independent feeds run concurrently, grouped so no two tasks ever hit the same
+    # host at once (all MAVIR feeds share one group, both Eurostat feeds another).
+    # Each group gets its own requests.Session (sessions are not thread-safe).
+    # record() stays one atomic dict store per dataset key; each module writes only
+    # its own CSV; status.json and hun_data.csv are written after all groups join.
+    # Per-feed HTTP timeouts and bounded retries are unchanged, so a hung feed still
+    # fails inside its own budget; future.result() re-raises anything unexpected.
+    groups = [
+        [("mavir", lambda s: mavir_adapter.update_all(session=s)),
+         ("brp_register", lambda s: brp_feed.update_brp_register(session=s)),
+         ("substation_capacity", lambda s: substation_capacity_feed.update_substation_capacity(session=s)),
+         ("mavir_connection_requests", lambda s: mavir_connection_requests_feed.update(session=s)),
+         ("mavir_installed_capacity", lambda s: mavir_installed_capacity_feed.update_installed_capacity(session=s))],
+        [("eurostat", lambda s: eurostat_feeds.update_eurostat(session=s)),
+         ("population", lambda s: fetch_eurostat_population(s))],
+        [("price_hu", lambda s: hupx_prices.update_hupx_prices(session=s))],
+        [("fx", lambda s: mnb_fx.update_mnb_fx(session=s))],
+        [("current_gdp", lambda s: imf_gdp.update_current_gdp())],  # own curl_cffi session; IMF blocks plain requests
+        [("mekh_register", lambda s: mekh_register_feed.update_mekh_register(session=s))],
+        [("worldbank", lambda s: fetch_worldbank_hun_macro(s))],
+    ]
+
+    def run_group(tasks):
+        session = make_session()
+        try:
+            for name, func in tasks:
+                call(name, lambda f=func: f(session))
+        finally:
+            session.close()
+
+    with ThreadPoolExecutor(max_workers=len(groups)) as pool:
+        futures = [pool.submit(run_group, tasks) for tasks in groups]
+        for future in futures:
+            future.result()
 
     try:
         sync_master_csv()
