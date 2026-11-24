@@ -74,7 +74,7 @@ def expected_count(day):
 
 
 def update_hupx_prices(csv_path="hupx_day_ahead_prices.csv", session=None, now=None):
-    """User-confirmed incremental design over the dynamic 31-day window (run-local
+    """Incremental design over the dynamic 31-day window (run-local
     today + previous 30 days): refresh today and yesterday, refill any missing or
     incomplete older day, and retain complete saved history. One efficient range
     request covers the whole window; saved good data survives a failed fetch."""
