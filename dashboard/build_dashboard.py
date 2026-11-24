@@ -180,7 +180,7 @@ def header(ws, title, sub, page_no):
     ws.hide_gridlines(2)
     ws.set_landscape(); ws.set_paper(8); ws.fit_to_pages(1, 1)
     ws.set_column(0, 0, 2); ws.set_column(1, 14, 13)
-    ws.set_row(0, 34); ws.set_row(1, 18)
+    ws.set_row(0, 34); ws.set_row(1, 18); ws.set_row(2, 18)
     for c in range(0, 15):
         ws.write(0, c, "", f_title); ws.write(1, c, "", f_sub)
     ws.write(0, 1, "HUNGARY ENERGY  |  " + title, f_title)
@@ -193,7 +193,7 @@ def kpi(ws, row, col, label, formula, fmt, sub, val=0):
     ws.merge_range(row, col, row, col + 1, label, f_kl)
     ws.merge_range(row + 1, col, row + 1, col + 1, "", fmt); ws.write_formula(row + 1, col, formula, fmt, val)
     ws.merge_range(row + 2, col, row + 2, col + 1, sub, f_ks)
-    ws.set_row(row + 1, 34); ws.set_row(row + 2, 26)
+    ws.set_row(row, 24); ws.set_row(row + 1, 34); ws.set_row(row + 2, 30)
 
 
 def chart(ws, cell, title, kind="line", series=(), ytitle="", size=(560, 280), sub=None, stacked=False, xint=480, xfmt="dd mmm", ymin=None):
@@ -342,6 +342,7 @@ sb_pv = int(os.environ.get("SB_SEL_PV", "10"))
 sb_bess = int(os.environ.get("SB_SEL_BESS", "2"))
 sb_strat = os.environ.get("SB_SEL_STRAT", "grid_pv")
 sb_day = os.environ.get("SB_SEL_DAY", "top_revenue")
+ws.set_row(3, 20)
 for c, lbl in ((1, "Site"), (4, "PV MWp"), (7, "BESS hours"), (10, "Charging"), (13, "Dispatch day")):
     ws.write(3, c, lbl, f_kl)
 ws.write(3, 2, sb_site, f_cell); ws.write(3, 5, sb_pv, f_cell); ws.write(3, 8, sb_bess, f_cell)
@@ -355,10 +356,10 @@ skey = '$C$4&"|"&$F$4&"|"&$I$4&"|"&$L$4'
 sm = f'MATCH({skey},D_SBScenarios!$A:$A,0)'
 scen_by_key = {r["Scenario_Key"]: r for r in sbscen}
 sel_scen = scen_by_key.get(f"{sb_site}|{sb_pv}|{sb_bess}|{sb_strat}", {})
-kpi(ws, 4, 1, "NET ENERGY REVENUE (GROSS - DEGRADATION)", f'=IFERROR(INDEX(D_SBScenarios!$L:$L,{sm}),"no data")', f_kv0, "gross - degradation; ex-post, not a forecast", num(sel_scen.get("Net_EUR", "")) or 0)
+kpi(ws, 4, 1, "NET REVENUE (EUR)", f'=IFERROR(INDEX(D_SBScenarios!$L:$L,{sm}),"no data")', f_kv0, "energy revenue gross - degradation; before fixed O&M and other costs; ex-post, not a forecast", num(sel_scen.get("Net_EUR", "")) or 0)
 kpi(ws, 4, 3, "GROSS (EUR)", f'=IFERROR(INDEX(D_SBScenarios!$J:$J,{sm}),"no data")', f_kv0, "price x net grid position", num(sel_scen.get("Gross_EUR", "")) or 0)
 kpi(ws, 4, 5, "DEGRADATION (EUR)", f'=IFERROR(INDEX(D_SBScenarios!$K:$K,{sm}),"no data")', f_kv0, "throughput cost inside the optimisation (10 EUR/MWh discharged, labelled assumption)", num(sel_scen.get("Degradation_EUR", "")) or 0)
-kpi(ws, 4, 7, "CAPTURE (EUR/MWh)", f'=IFERROR(INDEX(D_SBScenarios!$I:$I,{sm}),"no data")', f_kv, "gross / PV energy", num(sel_scen.get("Capture_EUR_per_MWh", "")) or 0)
+kpi(ws, 4, 7, "REVENUE / PV ENERGY (EUR/MWh)", f'=IFERROR(INDEX(D_SBScenarios!$I:$I,{sm}),"no data")', f_kv, "gross / PV energy; with grid charging on, gross includes grid arbitrage, so this is not a pure solar capture price", num(sel_scen.get("Capture_EUR_per_MWh", "")) or 0)
 kpi(ws, 4, 9, "CURTAILED (MWh)", f'=IFERROR(INDEX(D_SBScenarios!$N:$N,{sm}),"no data")', f_kv, "free curtailment, mostly negative-price hours", num(sel_scen.get("Curtail_MWh", "")) or 0)
 kpi(ws, 4, 11, "PV ENERGY (MWh)", f'=IFERROR(INDEX(D_SBScenarios!$H:$H,{sm}),"no data")', f_kv, "PVGIS 2023, slope 35 deg south, 14% loss", num(sel_scen.get("PV_Energy_MWh", "")) or 0)
 nobess_scen = scen_by_key.get(f"{sb_site}|{sb_pv}|0|{sb_strat}", {})
@@ -376,12 +377,12 @@ for i, pvp in enumerate((1, 10, 50)):
 chart(ws, "B32", "Net revenue by plant size and battery (EUR million, upper bound)", kind="column",
       series=[(f"BESS {bh} h", "=Solar_BESS!$C$11:$C$13", f"=Solar_BESS!${['AA','AB','AC'][j]}$11:${['AA','AB','AC'][j]}$13", [NAVY, TEAL, GOLD][j]) for j, bh in enumerate((0, 2, 4))],
       ytitle="EUR million", size=(700, 240), xint=1, xfmt="0", ymin=0)
-ws.write(14, 2, "grid_pv minus pv_only, same selection (EUR):", f_ks)
+ws.merge_range(14, 1, 14, 3, "grid_pv minus pv_only, same selection (EUR):", f_ks)
 alt = f'MATCH($C$4&"|"&$F$4&"|"&$I$4&"|"&IF($L$4="grid_pv","pv_only","grid_pv"),D_SBScenarios!$A:$A,0)'
 alt_scen = scen_by_key.get(f"{sb_site}|{sb_pv}|{sb_bess}|{'pv_only' if sb_strat == 'grid_pv' else 'grid_pv'}", {})
 ws.write_formula(14, 5, f'=IFERROR(INDEX(D_SBScenarios!$L:$L,{sm})-INDEX(D_SBScenarios!$L:$L,{alt}),"no data")', F(font_size=12, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="#,##0"), (num(sel_scen.get("Net_EUR", "")) or 0) - (num(alt_scen.get("Net_EUR", "")) or 0))
 ws.write(0, 18, "dispatch helpers", f_ks)
-for j in range(25):
+for j in range(24):
     r = j + 1
     rk = f'{skey}&"|"&$O$4&"|"&{j}'
     mk = f'MATCH({rk},D_SBDispatch!$L:$L,0)'
@@ -390,7 +391,7 @@ for j in range(25):
         ws.write_formula(r, cidx, f'=IFERROR(INDEX(D_SBDispatch!${col}:${col},{mk}),NA())', None)
 chD = wb.add_chart({"type": "line"})
 for nm, colL, color, y2 in (("PV MW", "T", GOLD, False), ("Net export MW", "X", NAVY, False), ("Charge MW", "U", TEAL, False), ("Discharge MW", "V", RED, False), ("Price EUR/MWh", "Y", GREY, True)):
-    s = {"name": nm, "categories": "=Solar_BESS!$S$2:$S$26", "values": f"=Solar_BESS!${colL}$2:${colL}$26", "line": {"color": color, "width": 1.25}}
+    s = {"name": nm, "categories": "=Solar_BESS!$S$2:$S$25", "values": f"=Solar_BESS!${colL}$2:${colL}$25", "line": {"color": color, "width": 1.25}}
     if y2:
         s["y2_axis"] = True
     chD.add_series(s)
@@ -404,23 +405,44 @@ ws.write(48, 1, "INVESTMENT VIEW - editable assumptions (placeholders, NOT verif
 assum = [("PV capex (EUR/kWp)", 600), ("BESS capex (EUR/kWh)", 300), ("PV O&M (EUR/kWp/yr)", 10),
          ("BESS O&M (EUR/kW/yr)", 5), ("WACC (%)", 8), ("Lifetime (years)", 25)]
 for i, (lbl, v) in enumerate(assum):
-    ws.write(49 + i, 2, lbl, F(font_size=9, border=1, text_wrap=True))
+    ws.merge_range(49 + i, 1, 49 + i, 2, lbl, F(font_size=9, border=1, text_wrap=True))
     ws.write(49 + i, 3, v, F(border=1, bg_color="#FFF3CD", num_format="#,##0" if v >= 10 else "0.0"))
 ws.write(49, 4, "EDIT the yellow cells. Defaults are placeholders for structure only, not sourced costs.", f_note)
 f_inv = F(font_size=12, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="#,##0")
-ws.write(49, 6, "Capex total (EUR)", f_cell)
-ws.write_formula(49, 7, "=$F$4*1000*$D$50+$I$4*0.5*$F$4*1000*$D$51", f_inv, sb_pv * 1000 * 600 + sb_bess * 0.5 * sb_pv * 1000 * 300)
-ws.write(50, 6, "O&M total (EUR/yr)", f_cell)
-ws.write_formula(50, 7, "=$F$4*1000*$D$52+$I$4*0.5*$F$4*1000*$D$53", f_inv, sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5)
-ws.write(51, 6, "Net cash flow (EUR/yr)", f_cell)
-ws.write_formula(51, 7, f"=INDEX(D_SBScenarios!$L:$L,{sm})-$H$51", f_inv, (num(sel_scen.get("Net_EUR", "")) or 0) - (sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5))
-ws.write(52, 6, "Discounted returns, simple NPV (EUR)", f_cell)
-ws.write(52, 8, "=IF(TRUE,\"repeats 2023 flat; not a forecast\",\"\")", f_note)
+f_basis = F(font_size=10, italic=True, font_color=GREY, valign="top")
+f_invl = F(font_size=10, font_color=NAVY, bg_color=LIGHT, align="right", valign="vcenter")
+ws.merge_range(49, 6, 49, 7, "Capex total (EUR)", f_invl)
+ws.write_formula(49, 8, "=$F$4*1000*$D$50+$I$4*0.5*$F$4*1000*$D$51", f_inv, sb_pv * 1000 * 600 + sb_bess * 0.5 * sb_pv * 1000 * 300)
+ws.merge_range(50, 6, 50, 7, "O&M total (EUR/yr)", f_invl)
+ws.write_formula(50, 8, "=$F$4*1000*$D$52+$I$4*0.5*$F$4*1000*$D$53", f_inv, sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5)
+ws.merge_range(51, 6, 51, 7, "Net cash flow (EUR/yr)", f_invl)
+ws.write_formula(51, 8, f"=INDEX(D_SBScenarios!$L:$L,{sm})-$I$51", f_inv, (num(sel_scen.get("Net_EUR", "")) or 0) - (sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5))
+ws.merge_range(52, 6, 52, 7, "Simple NPV (EUR)", f_invl)
+ws.merge_range(52, 9, 53, 14, "=IF(TRUE,\"repeats 2023 flat; not a forecast\",\"\")", f_note)
 npv0 = -(sb_pv * 1000 * 600 + sb_bess * 0.5 * sb_pv * 1000 * 300) + ((num(sel_scen.get("Net_EUR", "")) or 0) - (sb_pv * 1000 * 10 + sb_bess * 0.5 * sb_pv * 1000 * 5)) * (1 - (1.08) ** (-25)) / 0.08
-ws.write_formula(52, 7, "=-$H$50+$H$52*(1-(1+$D$54/100)^(-$D$55))/($D$54/100)", f_inv, npv0)
-ws.write(53, 6, "Flat 2023 net revenue, no escalation, taxes, fees or financing; indicative structure only. Omitted: intraday/imbalance, network charges, capex financing.", f_note)
-ws.merge_range("B56:O59", "Basis and limits: ex-post optimisation on realised 2023 prices = theoretical price-taker upper bound; DAM bids are due before results are known (HUPX gate closure 12:00 D-1), so an implementable forecast-based strategy earns less. Weather: PVGIS-SARAH3 satellite samples (~HH:10 instantaneous, assigned to the containing UTC hour; instantaneous-vs-hourly-average is a JRC-documented approximation) with ERA5 meteo; slope 35 deg south, 14% system loss. Prices: Energy-Charts HU day-ahead, CC BY 4.0, source Bundesnetzagentur | SMARD.de. Dispatch: daily MILP with charge/discharge exclusivity, free curtailment, daily SOC neutrality (interday flexibility not modelled); degradation 10 EUR/MWh discharged is included in the objective, never double-counted. Sites are representative coordinates, not verified developable plots; the 5 km substation filter is checked separately. All 54 scenarios are fully precomputed: the selectors SWITCH BETWEEN them; they do not optimise arbitrary sizes. Supported sizes: PV 1/10/50 MWp; battery 0/2/4 h at 0.5 MW power per MWp (so 10 MWp + 2 h = 5 MW / 10 MWh); strategies pv_only / grid_pv. The weather and price series are a fixed 2023 historical dataset: the daily workflow refreshes operational feeds, not this backtest, and editing the yellow cost cells changes the investment reporting only, never the stored optimal dispatch. Verification: 54 scenarios x 8,760 h = 473,040 scenario-hours re-checked for SOC dynamics/bounds, charge/discharge exclusivity, grid limits, no phantom import and accounting reconciliation; max abs violation 5e-14 (solver precision) - see solar_bess_verification.json.", f_note)
-ws.print_area(0, 0, 60, 15)
+ws.write_formula(52, 8, "=-$I$50+$I$52*(1-(1+$D$54/100)^(-$D$55))/($D$54/100)", f_inv, npv0)
+ws.write(55, 1, "Flat 2023 net revenue, no escalation, taxes, fees or financing; indicative structure only. Omitted: intraday/imbalance, network charges, capex financing.", f_basis)
+basis_lines = [
+    "Basis and limits: ex-post optimisation on realised 2023 prices = theoretical price-taker upper bound; DAM bids are due",
+    "before results are known (HUPX gate closure 12:00 D-1), so an implementable forecast-based strategy earns less.",
+    "Weather: PVGIS-SARAH3 satellite samples (~HH:10 instantaneous, assigned to the containing UTC hour; the",
+    "instantaneous-vs-hourly-average assignment is a JRC-documented approximation) with ERA5 meteo; slope 35 deg south, 14% loss.",
+    "Prices: Energy-Charts HU day-ahead, CC BY 4.0, source Bundesnetzagentur | SMARD.de.",
+    "Dispatch: daily MILP with charge/discharge exclusivity, free curtailment, daily SOC neutrality (interday flexibility not modelled);",
+    "degradation 10 EUR/MWh discharged is included in the objective, never double-counted.",
+    "Sites are representative coordinates, not verified developable plots; the 5 km substation filter is checked separately.",
+    "All 54 scenarios are fully precomputed: the selectors SWITCH BETWEEN them; they do not optimise arbitrary sizes.",
+    "Supported sizes: PV 1/10/50 MWp; battery 0/2/4 h at 0.5 MW power per MWp (so 10 MWp + 2 h = 5 MW / 10 MWh);",
+    "strategies pv_only / grid_pv.",
+    "The weather and price series are a fixed 2023 historical dataset: the daily workflow refreshes operational feeds, not this",
+    "backtest, and editing the yellow cost cells changes the investment reporting only, never the stored optimal dispatch.",
+    "Verification: 54 scenarios x 8,760 h = 473,040 scenario-hours re-checked for SOC dynamics/bounds, charge/discharge exclusivity,",
+    "grid limits, no phantom import and accounting reconciliation; max abs violation 5e-14 (solver precision) - see solar_bess_verification.json.",
+]
+for _k, _ln in enumerate(basis_lines):
+    ws.set_row(57 + _k, 15)
+    ws.write(57 + _k, 1, _ln, f_basis)
+ws.print_area(0, 0, 72, 15)
 
 # ---------- 5 System ----------
 ws = pages["System"]
