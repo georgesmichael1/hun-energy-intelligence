@@ -290,7 +290,7 @@ ws.set_column(8, 14, 13)
 
 # ---------- 6 Registers & health ----------
 ws = pages["Registers_Health"]
-header(ws, "REGISTERS & DATA HEALTH", "MEKH aggregator register, MEKH storage licences, MAVIR balance responsible parties (a different thing), and every dataset state. The refresh macro updates every table on this page (counts, status, storage, E.ON substations, installed capacity). Only the 2024 connection-queue note is a static snapshot.", 6)
+header(ws, "REGISTERS & DATA HEALTH", "Registers, storage, E.ON substations, installed capacity and dataset states. The macro refreshes all but the static 2024 queue note.", 6)
 kpi(ws, 4, 1, "AGGREGATORS REGISTERED (MEKH)", f"=IF(COUNTA(D_Aggregators!$A$2:$A$500)=0,\"no data\",COUNTA(D_Aggregators!$A$2:$A$500))", f_kv0, "independent aggregator register", len(agg) or "no data")
 kpi(ws, 4, 3, "STORAGE LICENCE POWER (MW)", f"=IF(COUNT(D_Storage!$C$2:$C$500)=0,\"no data\",SUMIFS(D_Storage!$C$2:$C$500,D_Storage!$E$2:$E$500,\"\"))", f_kv0, "licensed, not necessarily operating", round(sum(num(r["Nominal_Power_MW"]) or 0 for r in sto if not r["Revoked_Date"]), 1) if sto else "no data")
 kpi(ws, 4, 5, "BALANCE RESPONSIBLE PARTIES", "=COUNTA(D_BRP!$A$2:$A$500)", f_kv0, "MAVIR imbalance settlement, not aggregators", len(brp))
