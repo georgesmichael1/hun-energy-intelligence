@@ -42,6 +42,8 @@ class ParallelFetchTest(unittest.TestCase):
             patch.object(update_hun, "fetch_worldbank_hun_macro", make("worldbank")),
             patch.object(update_hun, "make_session", lambda: _DummySession()),
             patch.object(update_hun, "sync_master_csv", lambda: None),
+            patch.object(update_hun.investment_indicators, "update_solar_capture", make("solar_capture_daily")),
+            patch.object(update_hun.investment_indicators, "update_bess_spread", make("bess_spread_daily")),
         ]
 
     def test_all_datasets_recorded_once_and_failure_preserved(self):
