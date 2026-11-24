@@ -76,3 +76,30 @@ class EurostatTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class MekhRegisterTests(unittest.TestCase):
+    def _book(self, dup=False):
+        import io, openpyxl
+        wb = openpyxl.Workbook()
+        a = wb.active; a.title = "Aggregator"
+        a.append(["Villamosenergia-ipari engedély"])
+        a.append(["Engedélyes, x", "t", "n", "m", "l", "c", "p", "city", "s", "j", "h", "Felfüggesztés"])
+        for i in range(25):
+            a.append(["Agg %d Kft." % (i if not (dup and i == 1) else 0), "Aggregátor nyilvántartásba vétele", "%d/2025" % (0 if dup and i == 1 else i), 0, "", "Magyarország", "1000", "Budapest"])
+        s = wb.create_sheet("Tarolok")
+        s.append(["Villamosenergia-ipari engedély"])
+        s.append(["Engedélyes, x", "t", "c", "z", "t", "k", "h", "Alapengedely Szama", "Hatarozat Kiadas Datuma", "Engedely Hatalya", "Telephey",
+                  "Névleges teljesítőképesség (MW)", "Névleges Tárolókapacitás (MWh)", "Modositasok Szama", "u", "d", "v", "Visszavonas Datuma"])
+        for i in range(25):
+            s.append(["Sto %d Kft." % i, "Tároló", "HU", "1", "B", "u", "1", "%d/2026" % i, None, None, "site %d" % i, 2.5, 5.0, 0, "", "", "", ""])
+        buf = io.BytesIO(); wb.save(buf)
+        return buf.getvalue()
+
+    def test_parse_counts_and_dup_rejected(self):
+        import mekh_register_feed as m
+        agg, sto = m.parse(self._book(), "t")
+        self.assertEqual((len(agg), len(sto)), (25, 25))
+        self.assertEqual(sto[0]["Nominal_Power_MW"], 2.5)
+        with self.assertRaises(ValueError):
+            m.parse(self._book(dup=True), "t")
