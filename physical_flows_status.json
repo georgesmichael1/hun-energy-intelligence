@@ -1,12 +1,12 @@
 {
   "state": "OK",
-  "checked_at": "2026-11-24T19:51:45+00:00",
+  "checked_at": "2026-11-24T20:22:23+00:00",
   "timezone": "Europe/Budapest",
   "requested_first_day": "2026-10-25",
   "requested_last_day": "2026-11-24",
   "requested_delivery_days": 31,
   "unit": "MW",
-  "row_count": 32626,
+  "row_count": 32650,
   "historical_incomplete_pairs": [],
   "request_failures": [],
   "failure_categories": {},
@@ -2954,100 +2954,100 @@
     {
       "day": "2026-11-24",
       "direction": "HU>AT",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "AT>HU",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>SK",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "SK>HU",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>SI",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "SI>HU",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>RO",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "RO>HU",
-      "rows": 82,
+      "rows": 84,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:30:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>HR",
-      "rows": 83,
+      "rows": 85,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:45:00Z"
+      "latest_end_utc": "2026-11-24T20:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HR>HU",
-      "rows": 83,
+      "rows": 85,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:45:00Z"
+      "latest_end_utc": "2026-11-24T20:15:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>RS",
-      "rows": 20,
+      "rows": 21,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:00:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "RS>HU",
-      "rows": 20,
+      "rows": 21,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:00:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "HU>UA",
-      "rows": 20,
+      "rows": 21,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:00:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     },
     {
       "day": "2026-11-24",
       "direction": "UA>HU",
-      "rows": 20,
+      "rows": 21,
       "complete": false,
-      "latest_end_utc": "2026-11-24T19:00:00Z"
+      "latest_end_utc": "2026-11-24T20:00:00Z"
     }
   ],
   "note": "Raw directional measurements. Today contains published completed intervals only. Net export = HU outbound minus inbound; match exact UTC interval and resolution. Missing pairs are gaps, never zero."
