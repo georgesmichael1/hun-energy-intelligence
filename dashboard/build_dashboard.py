@@ -144,6 +144,7 @@ D["subs"] = data_sheet("D_Substations", ["Table_Label", "Substation", "Voltage_k
 D["sto"] = data_sheet("D_Storage", ["Licensee", "Site", "Power_MW", "Capacity_MWh", "Revoked"],
                       [(r["Licensee"], r["Site"], num(r["Nominal_Power_MW"]), num(r["Storage_Capacity_MWh"]), r["Revoked_Date"]) for r in sto])
 D["brp"] = data_sheet("D_BRP", ["Balance responsible party (MAVIR)", "EIC", "Valid_From"], [(r["Balance_Responsible_Party"], r["EIC_Code"], r["Valid_From"]) for r in brp])
+D["inst"] = data_sheet("D_Installed", ["Fuel_Group", "Period", "Gross_Installed_MW"], [(r["Fuel_Group"], r["Period"], num(r["Gross_Installed_MW"])) for r in inst])
 det = status["dataset_details"]
 D["stat"] = data_sheet("D_Status", ["Dataset", "State", "Detail", "Last_success"],
                        [(k, v.get("state"), (v.get("detail") or "")[:240], v.get("last_success_at") or "") for k, v in det.items()])
@@ -289,7 +290,7 @@ ws.set_column(8, 14, 13)
 
 # ---------- 6 Registers & health ----------
 ws = pages["Registers_Health"]
-header(ws, "REGISTERS & DATA HEALTH", "MEKH aggregator register, MEKH storage licences, MAVIR balance responsible parties (a different thing), and every dataset state. Refresh macro updates D_Aggregators, D_Storage, D_BRP, D_Substations and the KPI counts. The status table, installed-capacity table, top-storage list and static-queue note are build-time snapshots (rebuild or re-run the repo workflow).", 6)
+header(ws, "REGISTERS & DATA HEALTH", "MEKH aggregator register, MEKH storage licences, MAVIR balance responsible parties (a different thing), and every dataset state. The refresh macro updates every table on this page (counts, status, storage, E.ON substations, installed capacity). Only the 2024 connection-queue note is a static snapshot.", 6)
 kpi(ws, 4, 1, "AGGREGATORS REGISTERED (MEKH)", f"=IF(COUNTA(D_Aggregators!$A$2:$A$500)=0,\"no data\",COUNTA(D_Aggregators!$A$2:$A$500))", f_kv0, "independent aggregator register", len(agg) or "no data")
 kpi(ws, 4, 3, "STORAGE LICENCE POWER (MW)", f"=IF(COUNT(D_Storage!$C$2:$C$500)=0,\"no data\",SUMIFS(D_Storage!$C$2:$C$500,D_Storage!$E$2:$E$500,\"\"))", f_kv0, "licensed, not necessarily operating", round(sum(num(r["Nominal_Power_MW"]) or 0 for r in sto if not r["Revoked_Date"]), 1) if sto else "no data")
 kpi(ws, 4, 5, "BALANCE RESPONSIBLE PARTIES", "=COUNTA(D_BRP!$A$2:$A$500)", f_kv0, "MAVIR imbalance settlement, not aggregators", len(brp))
@@ -299,12 +300,16 @@ kpi(ws, 4, 11, "PARTIAL / FAILED / SKIPPED", f"=COUNTIF(D_Status!$B$2:$B$60,\"PA
 ws.write(9, 1, "Dataset states (status.json, last pipeline run)", f_sec)
 ws.set_column(1, 1, 40); ws.set_column(2, 2, 18); ws.set_column(3, 14, 12)
 ws.write(10, 1, "Dataset", f_h); ws.write(10, 2, "State", f_h); ws.merge_range(10, 3, 10, 14, "Detail", f_h)
-for i, (k, v) in enumerate(det.items()):
+NST = 30   # capacity of the live status table (D_Status rows 2..31)
+_dl = list(det.items())
+for i in range(NST):
     r = 11 + i
-    ws.write(r, 1, k, f_cell)
-    ws.write(r, 2, v.get("state"), f_cell)
-    ws.set_row(r, 26); ws.merge_range(r, 3, r, 14, (v.get("detail") or "")[:240], F(border=1, text_wrap=True, valign="top", font_size=9))
-base = 11 + len(det) + 1
+    k, v = _dl[i] if i < len(_dl) else ("", {})
+    ws.write_formula(r, 1, f'=IF(D_Status!$A${i+2}="","",D_Status!$A${i+2})', f_cell, k)
+    ws.write_formula(r, 2, f'=IF(D_Status!$B${i+2}="","",D_Status!$B${i+2})', f_cell, v.get("state") or "")
+    ws.set_row(r, 26); ws.merge_range(r, 3, r, 14, "", F(border=1, text_wrap=True, valign="top", font_size=9))
+    ws.write_formula(r, 3, f'=IF(D_Status!$C${i+2}="","",D_Status!$C${i+2})', F(border=1, text_wrap=True, valign="top", font_size=9), (v.get("detail") or "")[:240])
+base = 11 + NST + 1
 ws.write(base, 1, "Largest unrevoked storage licences (MEKH, licensed not necessarily operating)", f_sec)
 ws.set_row(base + 1, 30); f_h = F(bold=True, font_color="white", bg_color=TEAL, border=1, text_wrap=True, valign="vcenter"); ws.write(base + 1, 1, "Licensee", f_h); ws.write(base + 1, 2, "Power (MW)", f_h); ws.write(base + 1, 3, "Capacity (MWh)", f_h); ws.merge_range(base + 1, 4, base + 1, 8, "Site", f_h)
 top = sorted([r for r in sto if not r["Revoked_Date"] and num(r["Nominal_Power_MW"])], key=lambda r: -num(r["Nominal_Power_MW"]))[:10]
@@ -324,7 +329,8 @@ ws.write(sb + 15, 1, "Total of %d published substation rows: %d MVA releasable n
 ic = sb + 18
 ws.write(ic, 1, "Installed capacity by primary source (MAVIR, gross MW, as of latest period below; system level, not per plant)", f_sec)
 ws.set_row(ic + 1, 30)
-for j, h in enumerate(["Fuel group", "2025 (MW)", "Latest (MW)"]):
+_lp0 = max((r["Period"] for r in inst), default="")
+for j, h in enumerate(["Fuel group", "2025 (MW)", "Latest (MW) " + _lp0]):
     ws.write(ic + 1, 1 + j, h, f_h)
 _per = sorted({r["Period"] for r in inst})
 _last = _per[-1] if _per else ""
@@ -336,7 +342,7 @@ for i, g in enumerate(_fg):
     v = {r["Period"]: r["Gross_Installed_MW"] for r in inst if r["Fuel_Group"] == g}
     ws.write(ic + 2 + i, 1, g.replace("_", " "), f_cell)
     ws.write(ic + 2 + i, 2, num(v.get("2025")), f_num); ws.write(ic + 2 + i, 3, num(v.get(_last)), f_num)
-ws.write(ic + 3 + len(_fg), 1, ("Latest period " + _last + ". " if _last else "No data. ") + "Battery storage here = installed market plus MAVIR units at that date. It is a different definition from the MEKH licensed storage above (licence list 2026-11-19, licensed not necessarily built); the two are not reconciled. Per-plant MW is not published in the MEKH plant sheets.", F(font_size=9))
+ws.write(ic + 3 + len(_fg), 1, "Latest period: see the Latest column header (refreshed from D_Installed). " + "Battery storage here = installed market plus MAVIR units at that date. It is a different definition from the MEKH licensed storage above (licence list 2026-11-19, licensed not necessarily built); the two are not reconciled. Per-plant MW is not published in the MEKH plant sheets.", F(font_size=9))
 _acc = [r for r in creq if r["Rejected"] == "nem"]
 _cm = ["Solar_MVA", "Wind_MVA", "Storage_MVA", "Gas_CCGT_MVA", "Gas_Other_MVA", "Hydro_MVA", "Other_RES_MVA", "Oil_MVA"]
 ws.write(ic + 5 + len(_fg), 1, ("STATIC 2024 queue, not the current pipeline: MAVIR connection requests (closed procedure, file of Sept 2024, MVA not MW): %d requests, %d not rejected; not-rejected MVA: solar %.0f, wind %.0f, storage %.0f." % (len(creq), len(_acc), sum(num(r["Solar_MVA"]) or 0 for r in _acc), sum(num(r["Wind_MVA"]) or 0 for r in _acc), sum(num(r["Storage_MVA"]) or 0 for r in _acc))) if creq else "Connection requests: no data", F(font_size=9))
