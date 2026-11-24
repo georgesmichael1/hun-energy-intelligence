@@ -289,7 +289,7 @@ ws.set_column(8, 14, 13)
 
 # ---------- 6 Registers & health ----------
 ws = pages["Registers_Health"]
-header(ws, "REGISTERS & DATA HEALTH", "MEKH aggregator register, MEKH storage licences, MAVIR balance responsible parties (a different thing), and every dataset state.", 6)
+header(ws, "REGISTERS & DATA HEALTH", "MEKH aggregator register, MEKH storage licences, MAVIR balance responsible parties (a different thing), and every dataset state. Refresh macro updates D_Aggregators, D_Storage, D_BRP, D_Substations and the KPI counts. The status table, installed-capacity table, top-storage list and static-queue note are build-time snapshots (rebuild or re-run the repo workflow).", 6)
 kpi(ws, 4, 1, "AGGREGATORS REGISTERED (MEKH)", f"=IF(COUNTA(D_Aggregators!$A$2:$A$500)=0,\"no data\",COUNTA(D_Aggregators!$A$2:$A$500))", f_kv0, "independent aggregator register", len(agg) or "no data")
 kpi(ws, 4, 3, "STORAGE LICENCE POWER (MW)", f"=IF(COUNT(D_Storage!$C$2:$C$500)=0,\"no data\",SUMIFS(D_Storage!$C$2:$C$500,D_Storage!$E$2:$E$500,\"\"))", f_kv0, "licensed, not necessarily operating", round(sum(num(r["Nominal_Power_MW"]) or 0 for r in sto if not r["Revoked_Date"]), 1) if sto else "no data")
 kpi(ws, 4, 5, "BALANCE RESPONSIBLE PARTIES", "=COUNTA(D_BRP!$A$2:$A$500)", f_kv0, "MAVIR imbalance settlement, not aggregators", len(brp))
