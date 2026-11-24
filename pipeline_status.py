@@ -57,7 +57,8 @@ def write_status(path, *, rows=None, legacy=None):
         'rows': rows if rows is not None else old.get('rows'),
         **(legacy or {}),
         'datasets': {k: (v['state'] if v['state'] == 'OK' else
-                          'FAILED: ' + v['state'] + ': ' + v['detail'])
+                          ('FAILED: ' if v['state'] in ('FAILED', 'PARTIAL') else '')
+                          + v['state'] + ': ' + v['detail'])
                      for k, v in DATASETS.items()},
         'dataset_details': DATASETS,
     }
@@ -67,7 +68,7 @@ def write_status(path, *, rows=None, legacy=None):
 
 def problems(status):
     issues = [f'{k}: {v}' for k, v in status.get('datasets', {}).items()
-              if v != 'OK' and status.get('dataset_details', {}).get(k, {}).get('state') != 'STATIC_REFERENCE']
+              if v != 'OK' and status.get('dataset_details', {}).get(k, {}).get('state') not in ('STATIC_REFERENCE', 'SOURCE_PARTIAL')]
     if not status.get('datasets'):
         issues.append('Dataset state missing')
     return issues
