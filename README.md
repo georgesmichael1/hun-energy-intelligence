@@ -24,6 +24,8 @@ Until the `ENTSOE_API_TOKEN` repository secret is set (Settings > Secrets and va
 | `entsoe_day_ahead_prices.csv` | ENTSO-E Transparency Platform A44 | Official previous-day auction curve (primary owner HUPX) | CC-BY data (ENTSO-E Terms of Use apply) |
 | `entsoe_load_forecast.csv` | ENTSO-E A65 | Day-ahead total load forecast, previous day | Actual load |
 | `entsoe_physical_flows.csv` | ENTSO-E A11 | Raw directional MW per border per direction; net export = HU outbound minus inbound | Signed net flow; missing pairs are gaps, never zero |
+| `solar_capture_daily.csv` | Derived (investment_indicators.py): HUPX DAM prices x MAVIR measured solar | Daily solar capture ratio (solar-weighted / simple average price), complete days only, blank when average <= 0 | A revenue or price forecast |
+| `bess_spread_daily.csv` | Derived (investment_indicators.py): HUPX DAM prices | Daily best chronological 1/2/4h charge-discharge window and raw spread (charge before discharge, before losses & fees) | A revenue, dispatch or hybrid uplift figure |
 | `mnb_fx.csv` | MNB official daily rates | EUR/HUF, USD/HUF with publication date | A peg (HUF floats) |
 | `current_gdp.csv` | IMF WEO datamapper (HUN) | Current-year nominal GDP forecast/estimate | Finalized national accounts |
 | `eurostat_hicp.csv` | Eurostat prc_hicp_manr | All-items HICP annual rate, monthly | Core inflation |
@@ -53,6 +55,7 @@ Until the `ENTSOE_API_TOKEN` repository secret is set (Settings > Secrets and va
 - `physical_flow_history.py` - rolling 31-day flow history for 14 directions
 - `mnb_fx.py`, `eurostat_feeds.py`, `imf_gdp.py`, `brp_feed.py` - macro/FX/tariff/register feeds
 - `pipeline_status.py`, `price_xml_parser.py` - shared plumbing (identical to Bosnia)
+- `investment_indicators.py` - daily solar capture ratio and chronological BESS spread indicators
 - `tests/` - offline unit tests
 
 
