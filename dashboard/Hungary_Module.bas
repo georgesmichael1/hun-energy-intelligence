@@ -227,7 +227,7 @@ End Function
 ' shows an explicit gap instead of joining the neighbouring days. Blank, never zero, never estimated.
 Private Function WithGapDays(ByVal a As Variant) As Variant
     Dim n As Long, r As Long, k As Long, q As Long, d0 As Date, d1 As Date, dd As Date
-    Dim missing As Long, outv() As Variant, o As Long, prev As String, cur As String, cols As Long
+    Dim missing As Long, extra As Long, outv() As Variant, o As Long, prev As String, cur As String, cols As Long
     n = UBound(a, 1): cols = UBound(a, 2)
     If n < 2 Then WithGapDays = a: Exit Function
     For r = 2 To n
@@ -235,11 +235,11 @@ Private Function WithGapDays(ByVal a As Variant) As Variant
         If prev <> cur Then
             d0 = DateSerial(CLng(Left$(prev, 4)), CLng(Mid$(prev, 6, 2)), CLng(Mid$(prev, 9, 2)))
             d1 = DateSerial(CLng(Left$(cur, 4)), CLng(Mid$(cur, 6, 2)), CLng(Mid$(cur, 9, 2)))
-            If d1 - d0 > 1 Then missing = missing + CLng(d1 - d0 - 1)
+            If d1 - d0 > 1 Then missing = missing + CLng(d1 - d0 - 1): extra = extra + ExtraQuarters(d0, d1)
         End If
     Next r
     If missing = 0 Then WithGapDays = a: Exit Function
-    ReDim outv(1 To n + missing * 96, 1 To cols)
+    ReDim outv(1 To n + missing * 96 + extra, 1 To cols)
     o = 0
     For r = 1 To n
         If r > 1 Then
@@ -248,10 +248,10 @@ Private Function WithGapDays(ByVal a As Variant) As Variant
                 d0 = DateSerial(CLng(Left$(prev, 4)), CLng(Mid$(prev, 6, 2)), CLng(Mid$(prev, 9, 2)))
                 d1 = DateSerial(CLng(Left$(cur, 4)), CLng(Mid$(cur, 6, 2)), CLng(Mid$(cur, 9, 2)))
                 For dd = d0 + 1 To d1 - 1
-                    For q = 0 To 95
+                    For q = 0 To QuartersInDay(dd) - 1
                         o = o + 1
                         outv(o, 1) = Format$(dd, "yyyy-mm-dd")
-                        outv(o, 2) = dd + TimeSerial(0, 15 * q, 0)
+                        outv(o, 2) = LocalOfUtc(UtcMidnight(dd) + TimeSerial(0, 15 * q, 0))
                     Next q
                 Next dd
             End If
@@ -260,6 +260,45 @@ Private Function WithGapDays(ByVal a As Variant) As Variant
         For k = 1 To cols: outv(o, k) = a(r, k): Next k
     Next r
     WithGapDays = outv
+End Function
+
+' Budapest delivery day length: 92 quarter-hours on the March clock change, 100 on the October one, else 96.
+Private Function QuartersInDay(ByVal d As Date) As Long
+    Dim y As Long
+    y = Year(d)
+    QuartersInDay = 96
+    If d = LastSunday(y, 3) Then QuartersInDay = 92
+    If d = LastSunday(y, 10) Then QuartersInDay = 100
+End Function
+
+' sum of (QuartersInDay - 96) over the days strictly between d0 and d1
+Private Function ExtraQuarters(ByVal d0 As Date, ByVal d1 As Date) As Long
+    Dim dd As Date
+    For dd = d0 + 1 To d1 - 1
+        ExtraQuarters = ExtraQuarters + QuartersInDay(dd) - 96
+    Next dd
+End Function
+
+' UTC instant of local midnight at the start of Budapest day d
+Private Function UtcMidnight(ByVal d As Date) As Date
+    If QuartersInDay(d) = 100 Then
+        UtcMidnight = d - TimeSerial(2, 0, 0)       ' CEST at midnight on the October change day
+    ElseIf d >= LastSunday(Year(d), 3) And d < LastSunday(Year(d), 10) Then
+        UtcMidnight = d - TimeSerial(IIf(d = LastSunday(Year(d), 3), 1, 2), 0, 0)
+    Else
+        UtcMidnight = d - TimeSerial(1, 0, 0)
+    End If
+End Function
+
+' UTC time -> Europe/Budapest wall-clock (EU rule), numeric twin of BudapestLocal
+Private Function LocalOfUtc(ByVal d As Date) As Date
+    Dim y As Long
+    y = Year(d)
+    If d >= LastSunday(y, 3) + TimeSerial(1, 0, 0) And d < LastSunday(y, 10) + TimeSerial(1, 0, 0) Then
+        LocalOfUtc = d + TimeSerial(2, 0, 0)
+    Else
+        LocalOfUtc = d + TimeSerial(1, 0, 0)
+    End If
 End Function
 
 ' The ENTSO-E chart shows one delivery day only: keep the rows of the latest Delivery_Date (column 1).
