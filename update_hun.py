@@ -37,6 +37,7 @@ import substation_capacity_feed
 import mavir_connection_requests_feed
 import mavir_installed_capacity_feed
 import investment_indicators
+import solar_bess_model
 
 TZ = ZoneInfo("Europe/Budapest")
 UTC = dt.timezone.utc
@@ -276,6 +277,10 @@ def main():
     # fetched MAVIR generation and HUPX price series; no new external sources.
     call("solar_capture_daily", lambda: investment_indicators.update_solar_capture())
     call("bess_spread_daily", lambda: investment_indicators.update_bess_spread())
+
+    # Solar+BESS backtest: fixed 2023 historical dataset (PVGIS + Energy-Charts);
+    # recomputes the 54-scenario MILP grid from the committed cache (no refetch).
+    call("solar_bess_backtest", lambda: solar_bess_model.update_solar_bess("."))
 
     try:
         sync_master_csv()
