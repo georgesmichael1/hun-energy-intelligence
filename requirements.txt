@@ -1,0 +1,6 @@
+requests
+pandas<3
+beautifulsoup4
+openpyxl
+lxml
+curl_cffi
