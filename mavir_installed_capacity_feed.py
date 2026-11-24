@@ -10,6 +10,7 @@ import csv
 import datetime as dt
 import io
 import re
+import time
 from pathlib import Path
 
 import requests
@@ -73,18 +74,30 @@ def _csv(rows):
     return out.getvalue()
 
 
+def _get(session, url, read_timeout, attempts=4):
+    """GET with retries for connect/read timeouts (mavir.hu is slow from some networks)."""
+    last = None
+    for i in range(attempts):
+        try:
+            return session.get(url, headers=HEADERS, timeout=(25, read_timeout))
+        except (requests.ConnectTimeout, requests.ReadTimeout, requests.ConnectionError) as exc:
+            last = exc
+            time.sleep(3 * (i + 1))
+    raise last
+
+
 def update_installed_capacity(output_dir=".", session=None):
     stamp = utc_now()
     own = session is None
     session = session or requests.Session()
     try:
-        page = session.get(PAGE, headers=HEADERS, timeout=(10, 60))
+        page = _get(session, PAGE, 60)
         m = LINK.search(page.text) if page.status_code == 200 else None
         if not m:
             raise ValueError("Installed-capacity PDF link not found on MAVIR page")
         href, ymd = m.group(1).replace("&amp;", "&"), m.group(2)
         last = dt.date(int(ymd[:4]), int(ymd[4:6]), int(ymd[6:]))
-        resp = session.get(BASE + href, headers=HEADERS, timeout=(10, 90))
+        resp = _get(session, BASE + href, 90)
         if resp.status_code != 200 or resp.content[:4] != b"%PDF":
             raise ValueError("Download failed or not PDF (HTTP " + str(resp.status_code) + ")")
         rows = parse_text(pdf_text(resp.content), last, BASE + href, stamp)
