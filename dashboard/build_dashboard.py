@@ -121,7 +121,7 @@ def with_gaps(rows):
 
 price_rows, missing_days = with_gaps(price)
 D["price"] = data_sheet("D_Price", ["Delivery_Date", "Local_Start", "Price_EUR_MWh", "Source"],
-                        [(r["Delivery_Date"], r.get("_local") or local(r["Interval_Start_UTC"]), num(r["Price_EUR_MWh"]), "HUPX day-ahead via energy-charts (CC BY 4.0)" if r["Price_EUR_MWh"] != "" else "") for r in price_rows])
+                        [(r["Delivery_Date"], r.get("_local") or local(r["Interval_Start_UTC"]), num(r["Price_EUR_MWh"]), r.get("Attribution", "") if r["Price_EUR_MWh"] != "" else "") for r in price_rows])
 D["eprice"] = data_sheet("D_EntsoePrice", ["Delivery_Date", "Local_Start", "Price_EUR_MWh", "Source"],
                          [(r["Delivery_Date"], local(r["Interval_Start_UTC"]), num(r["Price_EUR_MWh"]), "ENTSO-E A44 (primary owner HUPX)") for r in eprice])
 LC = ["Gross_Actual_System_Load_MW", "Gross_Plan_System_Load_MW", "Net_Actual_Load_Settlement_MW"]
@@ -230,7 +230,7 @@ ws.merge_range("B25:O26", "Honesty rules: figures come from the last saved pipel
 
 # ---------- 2 Day-ahead ----------
 ws = pages["DayAhead"]
-header(ws, "DAY-AHEAD PRICES", "Published 15-minute wholesale intervals. HUPX series via energy-charts (CC BY 4.0); ENTSO-E A44 latest day as a cross-check.", 2)
+header(ws, "DAY-AHEAD PRICES", "Published 15-minute wholesale intervals. HUPX series from HUPX Labs DAM data (fallback: energy-charts, CC BY 4.0); per-row provenance in the Source column. ENTSO-E A44 latest day as a cross-check.", 2)
 chart(ws, "B5", "HUPX day-ahead, all saved days (EUR/MWh)", series=[("HUPX", f"={PS}!$B$2:$B${PN+1}", f"={PS}!$C$2:$C${PN+1}", TEAL)], ytitle="EUR/MWh", size=(900, 300))
 ES, EN = sheet_of("eprice"), D["eprice"][1]
 chart(ws, "B21", "ENTSO-E A44 day-ahead, latest delivery day " + _latest + " (EUR/MWh)", series=[("ENTSO-E A44", f"={ES}!$B$2:$B${EN+1}", f"={ES}!$C$2:$C${EN+1}", NAVY)], ytitle="EUR/MWh", size=(900, 260), xint=8, xfmt="hh:mm")
