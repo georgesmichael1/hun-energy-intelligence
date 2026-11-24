@@ -55,7 +55,10 @@ f_sec = F(bold=True, font_size=12, font_color=NAVY, bottom=2, bottom_color=TEAL)
 
 # ---------------- data sheets ----------------
 price = [r for r in read("hupx_day_ahead_prices.csv")]
-eprice = read("entsoe_day_ahead_prices.csv")
+eprice_all = read("entsoe_day_ahead_prices.csv")
+_latest = max((r["Delivery_Date"] for r in eprice_all), default="")
+eprice = sorted((r for r in eprice_all if r["Delivery_Date"] == _latest), key=lambda r: r["Interval_Start_UTC"])
+eprice_other_days = sorted({r["Delivery_Date"] for r in eprice_all} - {_latest})
 load = read("mavir_load.csv"); gen = read("mavir_generation_15min.csv")
 flow = read("mavir_flows_interconnectors.csv"); bal = read("mavir_balancing_offers.csv")
 elf = read("entsoe_load_forecast.csv")
@@ -220,8 +223,9 @@ ws = pages["DayAhead"]
 header(ws, "DAY-AHEAD PRICES", "Published 15-minute wholesale intervals. HUPX series via energy-charts (CC BY 4.0); ENTSO-E A44 latest day as a cross-check.", 2)
 chart(ws, "B5", "HUPX day-ahead, all saved days (EUR/MWh)", series=[("HUPX", f"={PS}!$B$2:$B${PN+1}", f"={PS}!$C$2:$C${PN+1}", TEAL)], ytitle="EUR/MWh", size=(900, 300))
 ES, EN = sheet_of("eprice"), D["eprice"][1]
-chart(ws, "B21", "ENTSO-E A44 day-ahead, latest delivery day (EUR/MWh)", series=[("ENTSO-E A44", f"={ES}!$B$2:$B${EN+1}", f"={ES}!$C$2:$C${EN+1}", NAVY)], ytitle="EUR/MWh", size=(900, 260), xint=8, xfmt="hh:mm")
+chart(ws, "B21", "ENTSO-E A44 day-ahead, latest delivery day " + _latest + " (EUR/MWh)", series=[("ENTSO-E A44", f"={ES}!$B$2:$B${EN+1}", f"={ES}!$C$2:$C${EN+1}", NAVY)], ytitle="EUR/MWh", size=(900, 260), xint=8, xfmt="hh:mm")
 days = sorted({r["Delivery_Date"] for r in price})
+ws.merge_range("B40:J41", "ENTSO-E A44 is a separate official dataset, never merged into the HUPX series. Other A44 days stored (not charted): " + (", ".join(eprice_other_days) or "none") + ".", F(font_size=9, text_wrap=True, valign="top"))
 ws.merge_range("M4:P5", "Excluded, no valid source data: " + (", ".join(missing_days) if missing_days else "none") + ". Left as a gap, not zero, not estimated, not in any average.", F(font_size=9, bold=True, font_color=RED, text_wrap=True, valign="top"))
 ws.write(5, 12, "Delivery day", f_h); ws.write(5, 13, "Avg", f_h); ws.write(5, 14, "Min", f_h); ws.write(5, 15, "Max", f_h)
 ws.set_column(12, 15, 12)
