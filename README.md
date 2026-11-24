@@ -54,3 +54,10 @@ Until the `ENTSOE_API_TOKEN` repository secret is set (Settings > Secrets and va
 - `mnb_fx.py`, `eurostat_feeds.py`, `imf_gdp.py`, `brp_feed.py` - macro/FX/tariff/register feeds
 - `pipeline_status.py`, `price_xml_parser.py` - shared plumbing (identical to Bosnia)
 - `tests/` - offline unit tests
+
+
+## Dashboard
+See dashboard/COVERAGE.md for the metric coverage matrix against the Bosnia framework, build_dashboard.py for the
+Excel workbook and Hungary_Module.bas for the VBA refresh. SOURCE_PARTIAL means the upstream source published nothing for
+a day or direction; it is shown as a warning, never counted OK, and is refetched by later runs (price_hu on every run,
+ENTSO-E physical flows in the daily batch) until it fills or the day leaves the 31-day window.
