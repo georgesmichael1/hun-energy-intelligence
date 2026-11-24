@@ -133,7 +133,7 @@ def update(output_dir='.', now=None, session=None, token=None):
                 failures.append(dict(direction=source + '>' + target,
                                      reason='Token missing' if not token else 'Stopped after authentication/rate limit'))
                 continue
-            # User-confirmed incremental design: refetch today/yesterday plus any
+            # Incremental design: refetch today/yesterday plus any
             # missing or incomplete older day; retain complete saved history.
             fetch_first = today - dt.timedelta(days=1)
             for offset in range(29):
