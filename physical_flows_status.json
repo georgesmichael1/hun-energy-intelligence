@@ -1,0 +1,3697 @@
+{
+  "state": "PARTIAL",
+  "checked_at": "2026-11-24T17:08:07+00:00",
+  "timezone": "Europe/Budapest",
+  "requested_first_day": "2026-10-25",
+  "requested_last_day": "2026-11-24",
+  "requested_delivery_days": 31,
+  "unit": "MW",
+  "row_count": 28073,
+  "historical_incomplete_pairs": [
+    {
+      "day": "2026-10-25",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    }
+  ],
+  "request_failures": [
+    {
+      "direction": "SK>HU",
+      "reason": "Source unavailable or validation failed; saved intervals retained"
+    },
+    {
+      "direction": "HU>UA",
+      "reason": "Source unavailable or validation failed; saved intervals retained"
+    },
+    {
+      "direction": "UA>HU",
+      "reason": "Source unavailable or validation failed; saved intervals retained"
+    }
+  ],
+  "coverage": [
+    {
+      "day": "2026-10-25",
+      "direction": "HU>AT",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "AT>HU",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>SK",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>SI",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "SI>HU",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>RO",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "RO>HU",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>HR",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HR>HU",
+      "rows": 100,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>RS",
+      "rows": 25,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "RS>HU",
+      "rows": 25,
+      "complete": true,
+      "latest_end_utc": "2026-10-25T23:00:00Z"
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-25",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-26T23:00:00Z"
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-26",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-27T23:00:00Z"
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-27",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-28T23:00:00Z"
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-28",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-29T23:00:00Z"
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-29",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-30T23:00:00Z"
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-30",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-10-31T23:00:00Z"
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-10-31",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-01T23:00:00Z"
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-01",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-02T23:00:00Z"
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-02",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-03T23:00:00Z"
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-03",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-04T23:00:00Z"
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-04",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-05T23:00:00Z"
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-05",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-06T23:00:00Z"
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-06",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-07T23:00:00Z"
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-07",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-08T23:00:00Z"
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-08",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-09T23:00:00Z"
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-09",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-10T23:00:00Z"
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-10",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-11T23:00:00Z"
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-11",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-12T23:00:00Z"
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-12",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-13T23:00:00Z"
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-13",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-14T23:00:00Z"
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-14",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-15T23:00:00Z"
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-15",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-16T23:00:00Z"
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-16",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-17T23:00:00Z"
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-17",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-18T23:00:00Z"
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-18",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-19T23:00:00Z"
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-19",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-20T23:00:00Z"
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-20",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-21T23:00:00Z"
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-21",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-22T23:00:00Z"
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-22",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>AT",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "AT>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>SK",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>SI",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "SI>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>RO",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "RO>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>HR",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HR>HU",
+      "rows": 96,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>RS",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "RS>HU",
+      "rows": 24,
+      "complete": true,
+      "latest_end_utc": "2026-11-23T23:00:00Z"
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-23",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>AT",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "AT>HU",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>SK",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "SK>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>SI",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "SI>HU",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>RO",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "RO>HU",
+      "rows": 71,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:45:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>HR",
+      "rows": 72,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T17:00:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HR>HU",
+      "rows": 72,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T17:00:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>RS",
+      "rows": 17,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:00:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "RS>HU",
+      "rows": 17,
+      "complete": false,
+      "latest_end_utc": "2026-11-24T16:00:00Z"
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "HU>UA",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    },
+    {
+      "day": "2026-11-24",
+      "direction": "UA>HU",
+      "rows": 0,
+      "complete": false,
+      "latest_end_utc": null
+    }
+  ],
+  "note": "Raw directional measurements. Today contains published completed intervals only. Net export = HU outbound minus inbound; match exact UTC interval and resolution. Missing pairs are gaps, never zero."
+}
