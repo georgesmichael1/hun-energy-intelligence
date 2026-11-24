@@ -92,8 +92,26 @@ def data_sheet(name, header, rows, fmts=None):
 
 
 D = {}
+def with_gaps(rows):
+    """Insert blank 15-min rows for delivery days the source omitted so charts show a visible gap."""
+    have = {r["Delivery_Date"] for r in rows}
+    if not have:
+        return rows, []
+    d0, d1 = dt.date.fromisoformat(min(have)), dt.date.fromisoformat(max(have))
+    missing = [str(d0 + dt.timedelta(days=i)) for i in range((d1 - d0).days + 1) if str(d0 + dt.timedelta(days=i)) not in have]
+    out = list(rows)
+    for m in missing:
+        day = dt.date.fromisoformat(m)
+        for q in range(96):
+            t = dt.datetime.combine(day, dt.time()) + dt.timedelta(minutes=15 * q)
+            out.append({"Delivery_Date": m, "_local": t, "Price_EUR_MWh": ""})
+    out.sort(key=lambda r: r.get("_local") or local(r["Interval_Start_UTC"]))
+    return out, missing
+
+
+price_rows, missing_days = with_gaps(price)
 D["price"] = data_sheet("D_Price", ["Delivery_Date", "Local_Start", "Price_EUR_MWh", "Source"],
-                        [(r["Delivery_Date"], local(r["Interval_Start_UTC"]), num(r["Price_EUR_MWh"]), "HUPX day-ahead via energy-charts (CC BY 4.0)") for r in price])
+                        [(r["Delivery_Date"], r.get("_local") or local(r["Interval_Start_UTC"]), num(r["Price_EUR_MWh"]), "HUPX day-ahead via energy-charts (CC BY 4.0)" if r["Price_EUR_MWh"] != "" else "") for r in price_rows])
 D["eprice"] = data_sheet("D_EntsoePrice", ["Delivery_Date", "Local_Start", "Price_EUR_MWh", "Source"],
                          [(r["Delivery_Date"], local(r["Interval_Start_UTC"]), num(r["Price_EUR_MWh"]), "ENTSO-E A44 (primary owner HUPX)") for r in eprice])
 LC = ["Gross_Actual_System_Load_MW", "Gross_Plan_System_Load_MW", "Net_Actual_Load_Settlement_MW"]
@@ -186,16 +204,16 @@ pal = [NAVY, TEAL, GOLD, RED, "#7B6D8D", "#4A90A4", "#8CB369", GREY]
 PS, PN = sheet_of("price"), D["price"][1]
 # ---------- 1 Overview ----------
 ws = pages["Overview"]
-header(ws, "EXECUTIVE OVERVIEW", "Wholesale market, system and register snapshot. Every figure is a live formula over the data sheets.", 1)
+header(ws, "EXECUTIVE OVERVIEW", "Snapshot of the repo CSVs saved by the pipeline (workflow runs every 30 min). Not real time. KPI cells are formulas over the data sheets.", 1)
 kpi(ws, 4, 1, "LATEST HUPX DAY-AHEAD (EUR/MWh)", f"=IFERROR(LOOKUP(2,1/({PS}!$C$2:$C$5000<>\"\"),{PS}!$C$2:$C$5000),\"no data\")", f_kv, "wholesale spot, latest published 15-min interval", last(price, "Price_EUR_MWh"))
-kpi(ws, 4, 3, "31-DAY AVERAGE (EUR/MWh)", f"=IFERROR(AVERAGE({PS}!$C$2:$C$5000),\"no data\")", f_kv, "complete saved days only; omitted days are not zero", mean(price, "Price_EUR_MWh"))
+kpi(ws, 4, 3, "31-DAY AVERAGE (EUR/MWh)", f"=IFERROR(AVERAGE({PS}!$C$2:$C$5000),\"no data\")", f_kv, "equal-weight mean of 15-min prices, complete days only; excluded: " + (", ".join(missing_days) or "none"), mean(price, "Price_EUR_MWh"))
 kpi(ws, 4, 5, "LATEST GROSS SYSTEM LOAD (MW)", f"=IFERROR(LOOKUP(2,1/(D_Load!$B$2:$B$5000<>\"\"),D_Load!$B$2:$B$5000),\"no data\")", f_kv0, "MAVIR actual, 15-min", last(load, "Gross_Actual_System_Load_MW"))
 kpi(ws, 4, 7, "LATEST NET GENERATION (MW)", f"=IFERROR(LOOKUP(2,1/(D_Gen!$B$2:$B$5000<>\"\"),D_Gen!$B$2:$B$5000),\"no data\")", f_kv0, "MAVIR actual domestic", last(gen, "Net_Domestic_Generation_Actual_MW"))
 kpi(ws, 4, 9, "NUCLEAR SHARE, LATEST", f"=IFERROR(LOOKUP(2,1/(D_Gen!$C$2:$C$5000<>\"\"),D_Gen!$C$2:$C$5000)/LOOKUP(2,1/(D_Gen!$B$2:$B$5000<>\"\"),D_Gen!$B$2:$B$5000),\"no data\")", F(font_size=22, bold=True, font_color=NAVY, bg_color=LIGHT, align="center", num_format="0%"), "Paks, share of net generation", (last(gen, "Nuclear_MW") / last(gen, "Net_Domestic_Generation_Actual_MW")))
 kpi(ws, 4, 11, "EUR / HUF (MNB)", "=IFERROR(INDEX(D_FX!$C$2:$C$10,MATCH(\"EUR\",D_FX!$B$2:$B$10,0)),\"no data\")", f_kv, "official daily rate", eur_huf())
 chart(ws, "B9", "HUPX day-ahead price, 15-minute (EUR/MWh)", series=[("HUPX day-ahead", f"={PS}!$B$2:$B${PN+1}", f"={PS}!$C$2:$C${PN+1}", TEAL)], ytitle="EUR/MWh", size=(600, 290))
 chart(ws, "I9", "MAVIR gross system load, actual vs plan (MW)", series=[("Actual", f"=D_Load!$A$2:$A${D['load'][1]+1}", f"=D_Load!$B$2:$B${D['load'][1]+1}", NAVY), ("Plan", f"=D_Load!$A$2:$A${D['load'][1]+1}", f"=D_Load!$C$2:$C${D['load'][1]+1}", GOLD)], ytitle="MW", size=(600, 290))
-ws.merge_range("B25:O26", "Honesty rules: wholesale spot prices (HUPX) are never mixed with customer tariffs (Eurostat, page 5). A day the source did not publish is left out whole, never zero or estimated. Dataset states are on page 6.", f_note)
+ws.merge_range("B25:O26", "Honesty rules: figures come from the last saved pipeline snapshot, not a live feed. Wholesale spot prices (HUPX) are never mixed with customer tariffs (Eurostat, page 5). A day the source did not publish is left out whole, never zero or estimated. Dataset states are on page 6.", f_note)
 
 # ---------- 2 Day-ahead ----------
 ws = pages["DayAhead"]
@@ -204,6 +222,7 @@ chart(ws, "B5", "HUPX day-ahead, all saved days (EUR/MWh)", series=[("HUPX", f"=
 ES, EN = sheet_of("eprice"), D["eprice"][1]
 chart(ws, "B21", "ENTSO-E A44 day-ahead, latest delivery day (EUR/MWh)", series=[("ENTSO-E A44", f"={ES}!$B$2:$B${EN+1}", f"={ES}!$C$2:$C${EN+1}", NAVY)], ytitle="EUR/MWh", size=(900, 260), xint=8, xfmt="hh:mm")
 days = sorted({r["Delivery_Date"] for r in price})
+ws.merge_range("M4:P5", "Excluded, no valid source data: " + (", ".join(missing_days) if missing_days else "none") + ". Left as a gap, not zero, not estimated, not in any average.", F(font_size=9, bold=True, font_color=RED, text_wrap=True, valign="top"))
 ws.write(5, 12, "Delivery day", f_h); ws.write(5, 13, "Avg", f_h); ws.write(5, 14, "Min", f_h); ws.write(5, 15, "Max", f_h)
 ws.set_column(12, 15, 12)
 for i, d in enumerate(days[-31:]):
@@ -225,11 +244,11 @@ chart(ws, "B38", "ENTSO-E day-ahead load forecast, latest day (MW)", series=[("F
 
 # ---------- 4 Flows & balancing ----------
 ws = pages["Flows_Balancing"]
-header(ws, "CROSS-BORDER FLOWS & BALANCING", "MAVIR actual interconnector flows (sign as published by MAVIR) and balancing-capacity offers.", 4)
+header(ws, "CROSS-BORDER FLOWS & BALANCING", "MAVIR actual interconnector flows: positive = import into Hungary, negative = export (cross-checked against ENTSO-E). Balancing-capacity offers.", 4)
 FN, BN = D["flow"][1], D["bal"][1]
-chart(ws, "B5", "Actual interconnector flows by border (MW, MAVIR sign convention)", series=[(h.replace("_Actual_MW", ""), f"=D_Flows!$A$2:$A${FN+1}", f"=D_Flows!${chr(66+i)}$2:${chr(66+i)}${FN+1}", pal[i]) for i, h in enumerate(FC)], ytitle="MW", size=(900, 320))
+chart(ws, "B5", "Actual interconnector flows by border (MW, + import to HU / - export)", series=[(h.replace("_Actual_MW", ""), f"=D_Flows!$A$2:$A${FN+1}", f"=D_Flows!${chr(66+i)}$2:${chr(66+i)}${FN+1}", pal[i]) for i, h in enumerate(FC)], ytitle="MW", size=(900, 320))
 chart(ws, "B22", "Balancing offers: aFRR / mFRR up and down (MW)", series=[(h.replace("_Offers_MW", ""), f"=D_Balancing!$A$2:$A${BN+1}", f"=D_Balancing!${chr(66+i)}$2:${chr(66+i)}${BN+1}", pal[i]) for i, h in enumerate(BC)], ytitle="MW", size=(900, 280))
-ws.merge_range("B37:O38", "ENTSO-E physical flows (14 directions, 31 days) are in entsoe_physical_flows.csv with coverage in physical_flows_status.json. Directions the source does not publish are reported as SOURCE_NO_DATA gaps, never zero.", f_note)
+ws.merge_range("B37:O39", "Sign check: MAVIR actual flow equals ENTSO-E import minus export within about 1 MW for AT, SK, RO, HR and SI over 2,957 shared intervals (RS and UA overlap fewer intervals). ENTSO-E physical flows, 14 directions x 31 days, are in entsoe_physical_flows.csv; current coverage state is on page 6 and in physical_flows_status.json. Gaps are never zero.", f_note)
 
 # ---------- 5 Tariffs & macro ----------
 ws = pages["Tariffs_Macro"]
@@ -239,12 +258,20 @@ hh = [(i, r) for i, r in enumerate(tar) if r["Consumer_Group"] == "Household"]
 nh = [(i, r) for i, r in enumerate(tar) if r["Consumer_Group"] != "Household"]
 for ch_i, (grp, rows_, col) in enumerate((("Household (2500-4999 kWh)", hh, TEAL), ("Non-household (500-1999 MWh)", nh, NAVY))):
     a, b = rows_[0][0] + 2, rows_[-1][0] + 2
-    chart(ws, "B5" if ch_i == 0 else "I5", grp + " price, EUR/kWh all taxes", kind="column", series=[(grp, f"=D_Tariffs!$A${a}:$A${b}", f"=D_Tariffs!$D${a}:$D${b}", col)], ytitle="EUR/kWh", size=(430, 280))
-chart(ws, "B21", "HICP annual inflation (%)", kind="column", series=[("HICP", f"=D_HICP!$A$2:$A${D['hicp'][1]+1}", f"=D_HICP!$B$2:$B${D['hicp'][1]+1}", GOLD)], ytitle="%", size=(430, 260))
-ws.write(20, 8, "Master-sheet macro rows (hun_data.csv)", f_sec)
+    chart(ws, "B5" if ch_i == 0 else "I5", grp + " price, EUR/kWh all taxes, latest " + (rows_[-1][1]["Period"]), kind="column", series=[(grp, f"=D_Tariffs!$A${a}:$A${b}", f"=D_Tariffs!$D${a}:$D${b}", col)], ytitle="EUR/kWh", size=(430, 280))
+chart(ws, "B21", "HICP annual inflation (%), latest published period " + hicp[-1]["Period"] + " (Eurostat publishes with a lag)", kind="column", series=[("HICP", f"=D_HICP!$A$2:$A${D['hicp'][1]+1}", f"=D_HICP!$B$2:$B${D['hicp'][1]+1}", GOLD)], ytitle="%", size=(430, 260))
+ws.write(20, 8, "Macro snapshot (hun_data.csv, as of the pipeline run)", f_sec)
+f_w = F(border=1, text_wrap=True, valign="top", font_size=9)
+f_wh = F(bold=True, font_color="white", bg_color=TEAL, border=1, font_size=9)
+ws.merge_range(21, 8, 21, 9, "Indicator", f_wh); ws.merge_range(21, 10, 21, 12, "Value and source vintage", f_wh); ws.write(21, 13, "Unit", f_wh); ws.write(21, 14, "Period", f_wh)
 macro = [r for r in master if r["Domain_Category"].startswith("8.")]
 for i, r in enumerate(macro):
-    ws.merge_range(21 + i, 8, 21 + i, 10, r["Entity_Project_Indicator_Name"][:48], f_cell); ws.merge_range(21 + i, 11, 21 + i, 14, (r["Primary_Value"] or "")[:70] + " " + (r["Primary_Unit"] or ""), f_cell)
+    rr = 22 + i
+    ws.set_row(rr, 36)
+    ws.merge_range(rr, 8, rr, 9, r["Entity_Project_Indicator_Name"], f_w)
+    ws.merge_range(rr, 10, rr, 12, r["Primary_Value"] or "", f_w)
+    ws.write(rr, 13, r["Primary_Unit"] or "", f_w); ws.write(rr, 14, r["Period_Year"] or "", f_w)
+ws.set_column(8, 14, 13)
 
 # ---------- 6 Registers & health ----------
 ws = pages["Registers_Health"]
@@ -255,19 +282,21 @@ kpi(ws, 4, 5, "BALANCE RESPONSIBLE PARTIES", "=COUNTA(D_BRP!$A$2:$A$500)", f_kv0
 kpi(ws, 4, 7, "DATASETS OK", f"=COUNTIF(D_Status!$B$2:$B$60,\"OK\")", f_kv0, "of all datasets in status.json", sum(1 for v in det.values() if v.get("state") == "OK"))
 kpi(ws, 4, 9, "SOURCE_PARTIAL", f"=COUNTIF(D_Status!$B$2:$B$60,\"SOURCE_PARTIAL\")", f_kv0, "upstream published nothing for a day/direction", sum(1 for v in det.values() if v.get("state") == "SOURCE_PARTIAL"))
 kpi(ws, 4, 11, "PARTIAL / FAILED / SKIPPED", f"=COUNTIF(D_Status!$B$2:$B$60,\"PARTIAL\")+COUNTIF(D_Status!$B$2:$B$60,\"FAILED\")+COUNTIF(D_Status!$B$2:$B$60,\"SKIPPED\")", f_kv0, "transport, validation, auth or skipped", sum(1 for v in det.values() if v.get("state") in ("PARTIAL", "FAILED", "SKIPPED")))
-ws.write(9, 1, "Dataset states (status.json)", f_sec)
-ws.set_column(1, 1, 26)
+ws.write(9, 1, "Dataset states (status.json, last pipeline run)", f_sec)
+ws.set_column(1, 1, 30); ws.set_column(2, 2, 18); ws.set_column(3, 14, 12)
 ws.write(10, 1, "Dataset", f_h); ws.write(10, 2, "State", f_h); ws.merge_range(10, 3, 10, 14, "Detail", f_h)
 for i, (k, v) in enumerate(det.items()):
     r = 11 + i
     ws.write(r, 1, k, f_cell)
     ws.write(r, 2, v.get("state"), f_cell)
-    ws.merge_range(r, 3, r, 14, (v.get("detail") or "")[:200], f_cell)
-ws.write(11 + len(det) + 1, 1, "Largest unrevoked storage licences (MW)", f_sec)
+    ws.set_row(r, 26); ws.merge_range(r, 3, r, 14, (v.get("detail") or "")[:240], F(border=1, text_wrap=True, valign="top", font_size=9))
+base = 11 + len(det) + 1
+ws.write(base, 1, "Largest unrevoked storage licences (MEKH, licensed not necessarily operating)", f_sec)
+ws.set_row(base + 1, 30); f_h = F(bold=True, font_color="white", bg_color=TEAL, border=1, text_wrap=True, valign="vcenter"); ws.write(base + 1, 1, "Licensee", f_h); ws.write(base + 1, 2, "Power (MW)", f_h); ws.write(base + 1, 3, "Capacity (MWh)", f_h); ws.merge_range(base + 1, 4, base + 1, 8, "Site", f_h)
 top = sorted([r for r in sto if not r["Revoked_Date"] and num(r["Nominal_Power_MW"])], key=lambda r: -num(r["Nominal_Power_MW"]))[:10]
 for i, r in enumerate(top):
-    rr = 11 + len(det) + 2 + i
-    ws.merge_range(rr, 1, rr, 4, r["Licensee"][:60], f_cell); ws.write(rr, 5, num(r["Nominal_Power_MW"]), f_num); ws.write(rr, 6, num(r["Storage_Capacity_MWh"]), f_num)
-    ws.merge_range(rr, 7, rr, 10, r["Site"][:50], f_cell)
+    rr = base + 2 + i
+    ws.write(rr, 1, r["Licensee"][:34], f_cell); ws.write(rr, 2, num(r["Nominal_Power_MW"]), f_num); ws.write(rr, 3, num(r["Storage_Capacity_MWh"]), f_num)
+    ws.merge_range(rr, 4, rr, 8, r["Site"][:60], F(border=1, indent=1))
 wb.close()
 print("wrote", OUT)
