@@ -1,0 +1,162 @@
+name: Hungary All Updates (3 jobs in parallel)
+
+# One workflow, three jobs that run side by side (same pattern as the Bosnia combined workflow).
+# Each schedule runs only its own job: token-free feeds every 30 min, ENTSO-E daily 02:30 UTC
+# (03:30 Budapest, after the previous Budapest day is complete), physical flows daily 03:17 UTC.
+# A manual run starts all three jobs.
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+    - cron: '30 2 * * *'
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: hun-all-${{ github.event.schedule || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  update-hun-master-csv:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '*/30 * * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          sudo apt-get install -y poppler-utils
+
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Run Hungary updater
+        run: python3 update_hun.py
+
+      # Good data is saved first, even if a later check fails.
+      - name: Commit and push updated files
+        run: |
+          git config user.name "Hungary Energy Auto-Updater"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for f in hun_data.csv status.json balance_responsible_parties.csv bess_spread_daily.csv current_gdp.csv eurostat_hicp.csv eurostat_tariffs.csv hun_connection_requests.csv hun_substation_capacity.csv hupx_day_ahead_prices.csv mavir_balancing_offers.csv mavir_flows_interconnectors.csv mavir_generation_15min.csv mavir_installed_capacity.csv mavir_load.csv mekh_aggregators.csv mekh_storage_licences.csv mnb_fx.csv solar_bess_dispatch_hourly.csv solar_bess_scenarios.csv solar_bess_verification.json solar_capture_daily.csv; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --staged --quiet; then
+            echo "No data changes this run."
+          else
+            git commit -m "chore(data): auto-update $(date -u +'%Y-%m-%d %H:%M')"
+            pushed=0
+            for attempt in 1 2 3 4 5 6; do
+              if git pull --rebase --autostash origin main && git push origin HEAD:main; then pushed=1; break; fi
+              echo "Push attempt $attempt failed, retrying"; sleep $((attempt * 4))
+            done
+            [ "$pushed" = 1 ]
+          fi
+
+      # Any dataset not OK turns the run red (STATIC_REFERENCE and SOURCE_PARTIAL are warnings).
+      - name: Dataset quality gate
+        run: python3 quality_gate.py status.json
+
+  entsoe-daily:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '30 2 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      ENTSOE_API_TOKEN: ${{ secrets.ENTSOE_API_TOKEN }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run offline tests
+        run: python -m unittest discover -s tests -v
+
+      # Fails the run if the token is missing or any dataset is not OK. Writes entsoe_status.json.
+      - name: Fetch previous-day ENTSO-E data
+        id: fetch
+        continue-on-error: true
+        run: python3 entsoe_daily.py
+
+      # Valid recovered data is saved even after a partial failure; the run still ends red.
+      - name: Commit and push ENTSO-E CSVs
+        run: |
+          git config user.name "Hungary Energy Auto-Updater"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for f in entsoe_load_forecast.csv entsoe_day_ahead_prices.csv entsoe_status.json; do
+            [ -f "$f" ] && git add "$f"
+          done
+          if git diff --staged --quiet; then
+            echo "No ENTSO-E changes this run."
+          else
+            git commit -m "chore(entsoe): daily previous-day update $(date -u +'%Y-%m-%d %H:%M')"
+            pushed=0
+            for attempt in 1 2 3 4 5 6; do
+              if git pull --rebase --autostash origin main && git push origin HEAD:main; then pushed=1; break; fi
+              echo "Push attempt $attempt failed, retrying"; sleep $((attempt * 4))
+            done
+            [ "$pushed" = 1 ]
+          fi
+
+      - name: ENTSO-E quality gate
+        if: steps.fetch.outcome != 'success'
+        run: |
+          echo "::error::ENTSO-E daily data incomplete. See entsoe_status.json; valid data retained."
+          exit 1
+
+  physical-flows:
+    if: github.event_name == 'workflow_dispatch' || github.event.schedule == '17 3 * * *'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      ENTSOE_API_TOKEN: ${{ secrets.ENTSOE_API_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: pip install -r requirements.txt
+      - name: Offline tests
+        run: python -m unittest discover -s tests -v
+      - name: Fetch today and previous 30 delivery days
+        id: fetch
+        continue-on-error: true
+        run: python physical_flow_history.py
+      - name: Save valid intervals and coverage even if incomplete
+        run: |
+          git config user.name "Hungary Energy Auto-Updater"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add entsoe_physical_flows.csv physical_flows_status.json
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(flows): refresh 31 delivery days"
+            pushed=0
+            for attempt in 1 2 3 4 5 6; do
+              if git pull --rebase --autostash origin main && git push origin HEAD:main; then pushed=1; break; fi
+              echo "Push attempt $attempt failed, retrying"; sleep $((attempt * 4))
+            done
+            [ "$pushed" = 1 ]
+          fi
+      - name: Coverage quality gate
+        if: steps.fetch.outcome != 'success'
+        run: |
+          echo "::error::Physical flow coverage incomplete. See physical_flows_status.json; valid intervals retained."
+          exit 1
