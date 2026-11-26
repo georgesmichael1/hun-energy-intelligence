@@ -7,7 +7,7 @@ import threading
 from pathlib import Path
 
 DATASETS = {}
-# run_scheduled runs the token-free update and the ENTSO-E daily batch in
+# The token-free update and the ENTSO-E daily batch may share a process in
 # parallel threads; both record() and write_status() touch DATASETS, so they
 # are serialized here (a dict changing size mid-iteration would otherwise be
 # able to crash write_status).
