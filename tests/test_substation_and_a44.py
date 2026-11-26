@@ -5,7 +5,9 @@ import unittest
 from pathlib import Path
 
 import entsoe_adapter
-import run_scheduled
+import entsoe_daily
+import json
+import os
 import substation_capacity_feed as feed
 from pipeline_status import DATASETS
 
@@ -43,11 +45,15 @@ class OmittedDayFill(unittest.TestCase):
         DATASETS.clear()
 
     def test_omitted_days_only_from_source_partial(self):
-        DATASETS["price_hu"] = {"state": "SOURCE_PARTIAL",
-                                "detail": "Source returned no valid prices for 2026-11-21,2026-11-18 - day omitted whole"}
-        self.assertEqual(run_scheduled.omitted_price_days(), ["2026-11-18", "2026-11-21"])
-        DATASETS["price_hu"] = {"state": "OK", "detail": "x 2026-11-21"}
-        self.assertEqual(run_scheduled.omitted_price_days(), [])
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "status.json")
+            def write(state, detail):
+                Path(path).write_text(json.dumps({"dataset_details": {"price_hu": {"state": state, "detail": detail}}}))
+            write("SOURCE_PARTIAL", "Source returned no valid prices for 2026-11-21,2026-11-18 - day omitted whole")
+            self.assertEqual(entsoe_daily.omitted_price_days(path), ["2026-11-18", "2026-11-21"])
+            write("OK", "x 2026-11-21")
+            self.assertEqual(entsoe_daily.omitted_price_days(path), [])
+            self.assertEqual(entsoe_daily.omitted_price_days(os.path.join(tmp, "missing.json")), [])
 
     def test_multi_day_a44_persist_keeps_days_sorted_and_separate(self):
         def day_rows(day):
