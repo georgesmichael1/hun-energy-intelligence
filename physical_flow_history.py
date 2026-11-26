@@ -215,4 +215,6 @@ def update(output_dir='.', now=None, session=None, token=None):
 if __name__ == '__main__':
     status = update()
     # Persist partial good data and coverage before workflow quality gate.
-    raise SystemExit(0 if status['state'] == 'OK' else 1)
+    if status['state'] == 'SOURCE_PARTIAL':
+        print('::warning::Physical flows: the source publishes nothing for some directions/days; shown as gaps, never zero.')
+    raise SystemExit(0 if status['state'] in ('OK', 'SOURCE_PARTIAL') else 1)
