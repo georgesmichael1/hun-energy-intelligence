@@ -8,7 +8,7 @@ Hungarian counterpart of [bih-energy-intelligence](https://github.com/georgesmic
 
 | Workflow | Schedule (UTC) | Token? | What it does |
 |---|---|---|---|
-| `hungary_update.yml` | every 30 min + manual "Run workflow" | Only for the ENTSO-E batch | One orchestrated run: token-free feeds always (MAVIR, HUPX-zone prices, MNB, IMF, World Bank, Eurostat, BRP register); the ENTSO-E daily batch (load forecast, official A44 prices, 31-day physical flows) runs once a day after 03:30 Europe/Budapest when the token is set |
+| `hun_all.yml` | every 30 min (master), 02:30 UTC (ENTSO-E daily), 03:17 UTC (physical flows) + manual "Run workflow" (all 3 jobs) | Only for the ENTSO-E jobs | One consolidated workflow, 3 jobs in parallel. Master: token-free feeds (MAVIR, HUPX-zone prices, MNB, IMF, World Bank, Eurostat, BRP register, MEKH, E.ON substations) plus the quality gate. entsoe-daily: load forecast and official A44 prices. physical-flows: 31-day physical flows. Each job commits with a pull-rebase push retry loop |
 
 Until the `ENTSOE_API_TOKEN` repository secret is set (Settings > Secrets and variables > Actions), the ENTSO-E datasets record SKIPPED (a warning; the run stays green). Once set, their failures turn the run red. Use the same personal ENTSO-E Transparency Platform token as the Bosnia repo. The token is never written to code, CSVs, status files or logs; it travels only as the `securityToken` query parameter.
 
