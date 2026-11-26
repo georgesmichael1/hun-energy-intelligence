@@ -1,22 +1,22 @@
 {
   "schema_version": 2,
-  "run_finished_at": "2026-11-26T13:34:54+00:00",
+  "run_finished_at": "2026-11-26T22:36:47+00:00",
   "last_verified_date": "",
   "last_verified_date_is_legacy": true,
   "verification_note": "No whole-master verification performed; use dataset_details.",
   "rows": 15,
   "datasets": {
-    "worldbank": "OK",
     "eurostat_hicp": "OK",
-    "current_gdp": "OK",
     "eurostat_tariff_household": "OK",
+    "current_gdp": "OK",
     "eurostat_tariff_nonhousehold": "OK",
+    "worldbank": "OK",
     "population": "OK",
     "fx": "OK",
     "mavir_load": "OK",
+    "price_hu": "OK",
     "mekh_aggregators": "OK",
     "mekh_storage_licences": "OK",
-    "price_hu": "OK",
     "mavir_generation": "OK",
     "mavir_balancing": "OK",
     "mavir_flows": "OK",
@@ -28,10 +28,57 @@
     "bess_spread_daily": "OK"
   },
   "dataset_details": {
+    "eurostat_hicp": {
+      "state": "OK",
+      "checked_at": "2026-11-26T22:33:39+00:00",
+      "last_attempt_at": "2026-11-26T22:33:39+00:00",
+      "detail": "Official HICP annual rate of change, monthly, published with a lag",
+      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr",
+      "latest_period": "2025-12",
+      "latest_value_pct": 3.3,
+      "last_success_at": "2026-11-26T22:33:39+00:00"
+    },
+    "eurostat_tariff_household": {
+      "state": "OK",
+      "checked_at": "2026-11-26T22:33:39+00:00",
+      "last_attempt_at": "2026-11-26T22:33:39+00:00",
+      "detail": "Official semi-annual final customer price per kWh; NOT a wholesale market price",
+      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_204",
+      "latest_period": "2026-S1",
+      "latest_value_eur_per_kwh": 0.1139,
+      "consumer_group": "Household",
+      "band": "2500-4999 kWh (band DC)",
+      "last_success_at": "2026-11-26T22:33:39+00:00"
+    },
+    "current_gdp": {
+      "state": "OK",
+      "checked_at": "2026-11-26T22:33:39+00:00",
+      "last_attempt_at": "2026-11-26T22:33:39+00:00",
+      "detail": "Annual nominal GDP, current-year IMF forecast/estimate, not a real-time observation",
+      "year": 2026,
+      "value_usd_billions": 265.911,
+      "classification": "IMF forecast",
+      "vintage": "World Economic Outlook (October 2026)",
+      "source_modified": "2026-10-08 14:43:33",
+      "source": "https://www.imf.org/external/datamapper/api/v2/NGDPD",
+      "last_success_at": "2026-11-26T22:33:39+00:00"
+    },
+    "eurostat_tariff_nonhousehold": {
+      "state": "OK",
+      "checked_at": "2026-11-26T22:33:39+00:00",
+      "last_attempt_at": "2026-11-26T22:33:39+00:00",
+      "detail": "Official semi-annual final customer price per kWh; NOT a wholesale market price",
+      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_205",
+      "latest_period": "2026-S1",
+      "latest_value_eur_per_kwh": 0.2713,
+      "consumer_group": "Non-household",
+      "band": "500-1999 MWh (band IC)",
+      "last_success_at": "2026-11-26T22:33:39+00:00"
+    },
     "worldbank": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:10+00:00",
-      "last_attempt_at": "2026-11-26T13:31:10+00:00",
+      "checked_at": "2026-11-26T22:33:39+00:00",
+      "last_attempt_at": "2026-11-26T22:33:39+00:00",
       "detail": "Historical values, not today's observation",
       "indicators_parsed": [
         "NE.EXP.GNFS.CD",
@@ -43,83 +90,36 @@
         2020,
         2025
       ],
-      "last_success_at": "2026-11-26T13:31:10+00:00"
-    },
-    "eurostat_hicp": {
-      "state": "OK",
-      "checked_at": "2026-11-26T13:31:10+00:00",
-      "last_attempt_at": "2026-11-26T13:31:10+00:00",
-      "detail": "Official HICP annual rate of change, monthly, published with a lag",
-      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/prc_hicp_manr",
-      "latest_period": "2025-12",
-      "latest_value_pct": 3.3,
-      "last_success_at": "2026-11-26T13:31:10+00:00"
-    },
-    "current_gdp": {
-      "state": "OK",
-      "checked_at": "2026-11-26T13:31:10+00:00",
-      "last_attempt_at": "2026-11-26T13:31:10+00:00",
-      "detail": "Annual nominal GDP, current-year IMF forecast/estimate, not a real-time observation",
-      "year": 2026,
-      "value_usd_billions": 265.911,
-      "classification": "IMF forecast",
-      "vintage": "World Economic Outlook (October 2026)",
-      "source_modified": "2026-10-08 14:43:33",
-      "source": "https://www.imf.org/external/datamapper/api/v2/NGDPD",
-      "last_success_at": "2026-11-26T13:31:10+00:00"
-    },
-    "eurostat_tariff_household": {
-      "state": "OK",
-      "checked_at": "2026-11-26T13:31:10+00:00",
-      "last_attempt_at": "2026-11-26T13:31:10+00:00",
-      "detail": "Official semi-annual final customer price per kWh; NOT a wholesale market price",
-      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_204",
-      "latest_period": "2026-S1",
-      "latest_value_eur_per_kwh": 0.1139,
-      "consumer_group": "Household",
-      "band": "2500-4999 kWh (band DC)",
-      "last_success_at": "2026-11-26T13:31:10+00:00"
-    },
-    "eurostat_tariff_nonhousehold": {
-      "state": "OK",
-      "checked_at": "2026-11-26T13:31:10+00:00",
-      "last_attempt_at": "2026-11-26T13:31:10+00:00",
-      "detail": "Official semi-annual final customer price per kWh; NOT a wholesale market price",
-      "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/nrg_pc_205",
-      "latest_period": "2026-S1",
-      "latest_value_eur_per_kwh": 0.2713,
-      "consumer_group": "Non-household",
-      "band": "500-1999 MWh (band IC)",
-      "last_success_at": "2026-11-26T13:31:10+00:00"
+      "last_success_at": "2026-11-26T22:33:39+00:00"
     },
     "population": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:10+00:00",
-      "last_attempt_at": "2026-11-26T13:31:10+00:00",
+      "checked_at": "2026-11-26T22:33:39+00:00",
+      "last_attempt_at": "2026-11-26T22:33:39+00:00",
       "detail": "Official Eurostat population on 1 January, annual, published with a lag",
       "source": "https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/demo_pjan?geo=HU&sex=T&age=TOTAL&unit=NR&lang=EN&lastTimePeriod=6",
       "latest_year": 2025,
       "latest_value": 9539502,
-      "last_success_at": "2026-11-26T13:31:10+00:00"
+      "last_success_at": "2026-11-26T22:33:39+00:00"
     },
     "fx": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:11+00:00",
-      "last_attempt_at": "2026-11-26T13:31:11+00:00",
+      "checked_at": "2026-11-26T22:33:40+00:00",
+      "last_attempt_at": "2026-11-26T22:33:40+00:00",
       "detail": "Official MNB daily rates read with publication date; HUF floats, no peg",
       "source": "https://www.mnb.hu/en/arfolyamok/",
       "source_date": "2026-11-26",
       "eur_huf": 372.0,
       "usd_huf": 339.04,
-      "last_success_at": "2026-11-26T13:31:11+00:00"
+      "last_success_at": "2026-11-26T22:33:40+00:00"
     },
     "mavir_load": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:11+00:00",
-      "last_attempt_at": "2026-11-26T13:31:11+00:00",
+      "checked_at": "2026-11-26T22:33:41+00:00",
+      "last_attempt_at": "2026-11-26T22:33:41+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2938,
-      "intervals_fetched": 2938,
+      "row_count": 2974,
+      "intervals_fetched": 2974,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "7678",
@@ -128,34 +128,12 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-27",
       "requested_last_day": "2026-11-26",
-      "last_success_at": "2026-11-26T13:31:11+00:00"
-    },
-    "mekh_aggregators": {
-      "state": "OK",
-      "checked_at": "2026-11-26T13:31:13+00:00",
-      "last_attempt_at": "2026-11-26T13:31:13+00:00",
-      "detail": "MEKH register of registered aggregators as published; not the MAVIR BRP list",
-      "source": "https://www.mekh.hu/download/fix/Villamosenergia_engedelyesek",
-      "publication_page": "https://www.mekh.hu/villamosenergia-ipari-engedelyesek-listaja",
-      "aggregator_count": 100,
-      "last_success_at": "2026-11-26T13:31:13+00:00"
-    },
-    "mekh_storage_licences": {
-      "state": "OK",
-      "checked_at": "2026-11-26T13:31:13+00:00",
-      "last_attempt_at": "2026-11-26T13:31:13+00:00",
-      "detail": "MEKH electricity-storage licences as published (licensed, not necessarily operating; rows copied as published, so a licence/site listed twice by MEKH appears twice)",
-      "source": "https://www.mekh.hu/download/fix/Villamosenergia_engedelyesek",
-      "publication_page": "https://www.mekh.hu/villamosenergia-ipari-engedelyesek-listaja",
-      "licence_count": 219,
-      "nominal_power_mw_unrevoked": 1415.626,
-      "rows_sharing_licence_and_site": 1,
-      "last_success_at": "2026-11-26T13:31:13+00:00"
+      "last_success_at": "2026-11-26T22:33:41+00:00"
     },
     "price_hu": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:15+00:00",
-      "last_attempt_at": "2026-11-26T13:31:15+00:00",
+      "checked_at": "2026-11-26T22:33:41+00:00",
+      "last_attempt_at": "2026-11-26T22:33:41+00:00",
       "detail": "Incremental refresh of today/yesterday plus missing or incomplete days; complete saved history retained; primary HUPX Labs ok; fallback energy-charts ok; wholesale spot, not a customer tariff",
       "market": "HU",
       "product": "DAY_AHEAD",
@@ -165,17 +143,39 @@
         "2026-11-26"
       ],
       "intervals": 2976,
-      "fetched_at": "2026-11-26T13:31:09+00:00",
-      "last_successful_fetch_at": "2026-11-26T13:31:09+00:00",
-      "last_success_at": "2026-11-26T13:31:15+00:00"
+      "fetched_at": "2026-11-26T22:33:38+00:00",
+      "last_successful_fetch_at": "2026-11-26T22:33:38+00:00",
+      "last_success_at": "2026-11-26T22:33:41+00:00"
+    },
+    "mekh_aggregators": {
+      "state": "OK",
+      "checked_at": "2026-11-26T22:33:42+00:00",
+      "last_attempt_at": "2026-11-26T22:33:42+00:00",
+      "detail": "MEKH register of registered aggregators as published; not the MAVIR BRP list",
+      "source": "https://www.mekh.hu/download/fix/Villamosenergia_engedelyesek",
+      "publication_page": "https://www.mekh.hu/villamosenergia-ipari-engedelyesek-listaja",
+      "aggregator_count": 100,
+      "last_success_at": "2026-11-26T22:33:42+00:00"
+    },
+    "mekh_storage_licences": {
+      "state": "OK",
+      "checked_at": "2026-11-26T22:33:42+00:00",
+      "last_attempt_at": "2026-11-26T22:33:42+00:00",
+      "detail": "MEKH electricity-storage licences as published (licensed, not necessarily operating; rows copied as published, so a licence/site listed twice by MEKH appears twice)",
+      "source": "https://www.mekh.hu/download/fix/Villamosenergia_engedelyesek",
+      "publication_page": "https://www.mekh.hu/villamosenergia-ipari-engedelyesek-listaja",
+      "licence_count": 219,
+      "nominal_power_mw_unrevoked": 1415.626,
+      "rows_sharing_licence_and_site": 1,
+      "last_success_at": "2026-11-26T22:33:42+00:00"
     },
     "mavir_generation": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:26+00:00",
-      "last_attempt_at": "2026-11-26T13:31:26+00:00",
+      "checked_at": "2026-11-26T22:33:55+00:00",
+      "last_attempt_at": "2026-11-26T22:33:55+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2938,
-      "intervals_fetched": 2938,
+      "row_count": 2974,
+      "intervals_fetched": 2974,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "12058",
@@ -184,15 +184,15 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-27",
       "requested_last_day": "2026-11-26",
-      "last_success_at": "2026-11-26T13:31:26+00:00"
+      "last_success_at": "2026-11-26T22:33:55+00:00"
     },
     "mavir_balancing": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:39+00:00",
-      "last_attempt_at": "2026-11-26T13:31:39+00:00",
+      "checked_at": "2026-11-26T22:34:08+00:00",
+      "last_attempt_at": "2026-11-26T22:34:08+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2938,
-      "intervals_fetched": 2938,
+      "row_count": 2974,
+      "intervals_fetched": 2974,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "1244886",
@@ -201,15 +201,15 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-27",
       "requested_last_day": "2026-11-26",
-      "last_success_at": "2026-11-26T13:31:39+00:00"
+      "last_success_at": "2026-11-26T22:34:08+00:00"
     },
     "mavir_flows": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:55+00:00",
-      "last_attempt_at": "2026-11-26T13:31:55+00:00",
+      "checked_at": "2026-11-26T22:34:23+00:00",
+      "last_attempt_at": "2026-11-26T22:34:23+00:00",
       "detail": "MAVIR published chart export; today holds published completed intervals only",
-      "row_count": 2938,
-      "intervals_fetched": 2938,
+      "row_count": 2974,
+      "intervals_fetched": 2974,
       "unit": "MW",
       "resolution": "PT15M",
       "chart_id": "5229",
@@ -218,22 +218,22 @@
       "timezone": "Europe/Budapest",
       "requested_first_day": "2026-10-27",
       "requested_last_day": "2026-11-26",
-      "last_success_at": "2026-11-26T13:31:55+00:00"
+      "last_success_at": "2026-11-26T22:34:23+00:00"
     },
     "brp_register": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:32:24+00:00",
-      "last_attempt_at": "2026-11-26T13:32:24+00:00",
+      "checked_at": "2026-11-26T22:34:53+00:00",
+      "last_attempt_at": "2026-11-26T22:34:53+00:00",
       "detail": "MAVIR balance responsible party register as published; BRPs settle imbalances and are not all aggregators or traders - MAVIR accredits aggregators separately; no inferred roles or volumes",
       "source": "https://www.mavir.hu/documents/10258/329165061/EIC_202612.xlsx/7957910a-f33d-793c-c316-a0b214677b63?t=1795522694815",
       "publication_page": "https://www.mavir.hu/web/mavir/menetrendkezeles1",
       "party_count": 198,
-      "last_success_at": "2026-11-26T13:32:24+00:00"
+      "last_success_at": "2026-11-26T22:34:53+00:00"
     },
     "substation_capacity": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:32:26+00:00",
-      "last_attempt_at": "2026-11-26T13:32:26+00:00",
+      "checked_at": "2026-11-26T22:34:54+00:00",
+      "last_attempt_at": "2026-11-26T22:34:54+00:00",
       "detail": "E.ON Hungary published offtake hosting capacity per HV/MV substation (MVA, not MW); E.ON areas only, not MVM or MAVIR; quarterly publication, not real time",
       "source": "https://www.eon.hu/content/dam/eon/eon-hungary/documents/Lakossagi/aram/szabad_kapacitas_ELMU.pdf",
       "row_count": 51,
@@ -242,12 +242,12 @@
         "EEL"
       ],
       "releasable_mva_total": 729,
-      "last_success_at": "2026-11-26T13:32:26+00:00"
+      "last_success_at": "2026-11-26T22:34:54+00:00"
     },
     "mavir_connection_requests": {
       "state": "STATIC_REFERENCE",
-      "checked_at": "2026-11-26T13:32:26+00:00",
-      "last_attempt_at": "2026-11-26T13:32:26+00:00",
+      "checked_at": "2026-11-26T22:34:54+00:00",
+      "last_attempt_at": "2026-11-26T22:34:54+00:00",
       "detail": "MAVIR 2nd publication procedure, closing publication of September 2024 (closed procedure, not a live queue). Saved once; not re-downloaded each run.",
       "source": "https://www.mavir.hu/documents/10258/246912995/II_kozzetetel_lezaro_publikacio.xlsx/47d0431f-88ad-a8c4-44c6-9da75d6a9ee0?t=1726553202714",
       "publication_page": "https://www.mavir.hu/web/mavir/masodik-kozzeteteli-eljaras",
@@ -256,35 +256,35 @@
     },
     "mavir_installed_capacity": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:32:26+00:00",
-      "last_attempt_at": "2026-11-26T13:32:26+00:00",
+      "checked_at": "2026-11-26T22:34:55+00:00",
+      "last_attempt_at": "2026-11-26T22:34:55+00:00",
       "detail": "MAVIR gross installed capacity by primary source (MW), excl. household-size (HMKE) and own-use (SCTE) plants; system level, not per plant; updated by MAVIR on its own schedule",
       "source": "https://www.mavir.hu/documents/10258/358704256/BT_2015-20261101_ig_BR_NT_HU_v1.pdf/10032a23-7e7e-68ad-fbcd-029e55457385?t=1794845356100",
       "publication_page": "https://www.mavir.hu/web/mavir/energia-mix-eromuvi-beepitett-teljesitokepesseg-adatok",
       "row_count": 156,
       "latest_period": "2026-11-01",
       "total_gross_mw": 13291.1,
-      "last_success_at": "2026-11-26T13:32:26+00:00"
+      "last_success_at": "2026-11-26T22:34:55+00:00"
     },
     "solar_capture_daily": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:32:26+00:00",
-      "last_attempt_at": "2026-11-26T13:32:26+00:00",
+      "checked_at": "2026-11-26T22:34:55+00:00",
+      "last_attempt_at": "2026-11-26T22:34:55+00:00",
       "detail": "Solar-generation-weighted day-ahead price vs plain day average, complete Budapest delivery days only; ratio blank when the day average is zero/negative or solar output is zero. National level, not site revenue. Sources: HUPX/energy-charts DAM + MAVIR measured solar.",
       "days_computed": 30,
       "days_skipped_incomplete": [],
       "latest_day": "2026-11-25",
-      "last_success_at": "2026-11-26T13:32:26+00:00"
+      "last_success_at": "2026-11-26T22:34:55+00:00"
     },
     "bess_spread_daily": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:32:27+00:00",
-      "last_attempt_at": "2026-11-26T13:32:27+00:00",
+      "checked_at": "2026-11-26T22:34:55+00:00",
+      "last_attempt_at": "2026-11-26T22:34:55+00:00",
       "detail": "Best chronological charge window before a same-length discharge window per complete Budapest delivery day, for 1h/2h/4h scenarios; raw day-ahead price spread in EUR/MWh. Gross screening indicator: no efficiency, degradation, fees, capacity or opportunity-cost assumptions; not profit.",
       "days_computed": 31,
       "days_skipped_incomplete": [],
       "latest_day": "2026-11-26",
-      "last_success_at": "2026-11-26T13:32:27+00:00"
+      "last_success_at": "2026-11-26T22:34:55+00:00"
     }
   }
 }
