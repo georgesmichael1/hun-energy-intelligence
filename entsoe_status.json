@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "run_finished_at": "2026-11-26T13:31:28+00:00",
+  "run_finished_at": "2026-11-27T11:14:51+00:00",
   "last_verified_date": "",
   "last_verified_date_is_legacy": true,
   "verification_note": "No whole-master verification performed; use dataset_details.",
@@ -12,30 +12,30 @@
   "dataset_details": {
     "entsoe_load_forecast": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:11+00:00",
-      "last_attempt_at": "2026-11-26T13:31:11+00:00",
+      "checked_at": "2026-11-27T11:14:36+00:00",
+      "last_attempt_at": "2026-11-27T11:14:36+00:00",
       "detail": "Complete requested historical day; not current-day data",
       "row_count": 96,
       "directions": 1,
       "unit": "MW",
-      "target_local_day": "2026-11-25",
+      "target_local_day": "2026-11-26",
       "source": "https://web-api.tp.entsoe.eu/api",
-      "coverage_start_utc": "2026-11-24T23:00:00Z",
-      "coverage_end_utc": "2026-11-25T23:00:00Z",
-      "last_success_at": "2026-11-26T13:31:11+00:00"
+      "coverage_start_utc": "2026-11-25T23:00:00Z",
+      "coverage_end_utc": "2026-11-26T23:00:00Z",
+      "last_success_at": "2026-11-27T11:14:36+00:00"
     },
     "entsoe_prices": {
       "state": "OK",
-      "checked_at": "2026-11-26T13:31:28+00:00",
-      "last_attempt_at": "2026-11-26T13:31:28+00:00",
+      "checked_at": "2026-11-27T11:14:51+00:00",
+      "last_attempt_at": "2026-11-27T11:14:51+00:00",
       "detail": "Complete official auction day; primary owner HUPX",
       "row_count": 96,
       "unit": "EUR/MWh",
-      "target_local_day": "2026-11-25",
+      "target_local_day": "2026-11-26",
       "source": "https://web-api.tp.entsoe.eu/api",
-      "coverage_start_utc": "2026-11-24T23:00:00Z",
-      "coverage_end_utc": "2026-11-25T23:00:00Z",
-      "last_success_at": "2026-11-26T13:31:28+00:00"
+      "coverage_start_utc": "2026-11-25T23:00:00Z",
+      "coverage_end_utc": "2026-11-26T23:00:00Z",
+      "last_success_at": "2026-11-27T11:14:51+00:00"
     }
   }
 }
